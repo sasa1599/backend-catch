@@ -1,14 +1,141 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum eventCategory {
+  FanMeeting
+  Concert
+  Musical
+  Sport
+  Exhibitions
+}
+
+enum statusOrder {
+  Pending
+  Success
+  Failed
+  Cancel
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  username     String       @unique
+  email        String       @unique
+  password     String
+  avatar       String?
+  isVerify     Boolean
+  refferalCode String       @unique
+  userCoupons  UserCoupon[]
+  userPoint    UserPoint[]
+  userOrder    Order[]
+  Review       Review[]
+}
+
+model UserCoupon {
+  id         Int      @id @default(autoincrement())
+  isRedeem   Boolean  @default(false)
+  percentage Int
+  createdAt  DateTime @default(now())
+  user_id    Int
+  user       User     @relation(fields: [user_id], references: [id])
+  Order      Order[]
+}
+
+model UserPoint {
+  id        Int      @id @default(autoincrement())
+  point     Int      @default(0)
+  createdAt DateTime @default(now())
+  expiredAt DateTime
+  isReedem  Boolean  @default(false)
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id])
+}
+
+model Promotor {
+  id             Int              @id @default(autoincrement())
+  username       String           @unique
+  email          String           @unique
+  password       String
+  avatar         String?
+  isVerify       Boolean          @default(false)
+  promotorCoupon PromotorCoupon[]
+  Event          Event[]
+}
+
+model PromotorCoupon {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  promotor_id Int
+  promotor    Promotor @relation(fields: [promotor_id], references: [id])
+  available   Boolean  @default(true)
+  count       Int      @default(0)
+}
+
+model Event {
+  id          Int           @id @default(autoincrement())
+  title       String        @unique
+  desc        String
+  category    eventCategory
+  location    String
+  venue       String
+  startDate   DateTime      @db.Date
+  endDate     DateTime      @db.Date
+  time        DateTime      @db.Time
+  ticket      Ticket[]
+  Order       Order[]
+  promotor_id Int
+  promotor    Promotor      @relation(fields: [promotor_id], references: [id])
+  Review      Review[]
+}
+
+model Ticket {
+  id          Int           @id @default(autoincrement())
+  category    String
+  desc        String
+  seats       Int
+  price       BigInt
+  event_id    Int
+  event       Event         @relation(fields: [event_id], references: [id])
+  OrderDetail OrderDetail[]
+}
+
+model Order {
+  id            Int           @id @default(autoincrement())
+  total_price   BigInt
+  final_price   BigInt
+  status        statusOrder
+  user_id       Int
+  user          User          @relation(fields: [user_id], references: [id])
+  event_id      Int
+  event         Event         @relation(fields: [event_id], references: [id])
+  payment_proof String
+  coupon_id     Int?
+  coupon        UserCoupon?   @relation(fields: [coupon_id], references: [id])
+  OrderDetail   OrderDetail[]
+}
+
+model OrderDetail {
+  id        Int    @id @default(autoincrement())
+  order_id  Int
+  order     Order  @relation(fields: [order_id], references: [id])
+  quantity  Int
+  ticket_id Int
+  ticket    Ticket @relation(fields: [ticket_id], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  desc      String?
+  rating    Int      @default(1)
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id])
+  event_id  Int
+  event     Event    @relation(fields: [event_id], references: [id])
+  createdAt DateTime @default(now())
 }
