@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Customer {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  name          String
+  email         String   @unique
+  password      String
+  avatar        String?
+  isVerify      Boolean  @default(false)
+  ref_code      String? 
+  referred_code String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime?
+
+  
+}
+
+model UserCoupon {
+  id          Int      @id @default(autoincrement())
+  is_redeem   Boolean  @default(false)
+  precentage  Int
+  created_at  DateTime @default(now())
+  expired_at  DateTime?
+  user_id     Int   
+  updated_at  DateTime? 
+
+  
+}
+
+model UserPoint {
+  id          Int      @id @default(autoincrement())
+  point       Int
+  created_at  DateTime @default(now())
+  expired_at  DateTime?
+  is_transaction   Boolean  @default(false)
+  customer_id     Int 
+  
+  
+}
+
+model OrderDetails {
+  id          Int      @id @default(autoincrement())
+  ticket_id   Int
+  quantity    Int
+  order_id    Int
+  updated_at  DateTime?
+  created_at  DateTime @default(now())
+}
+
+enum StatusOrder {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+model Order {
+  id            Int      @id @default(autoincrement())
+  total_price   Int
+  final_price   Int
+  status_order  StatusOrder
+  user_id      Int
+  event_id     Int
+  inVoice_url  String
+  updated_at   DateTime?
+  created_at   DateTime @default(now())
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  description String
+  rating     Int
+  user_id     Int
+  event_id    Int
+  updated_at  DateTime?
+  created_at  DateTime @default(now())
+}
+
+enum Category {
+  MUSIC
+  SPORTS
+  THEATER
+  FANMEET
+  SEMINAR
+}
+
+enum Location {
+  JAKARTA
+  BANDUNG
+  YOGYAKARTA
+  PADANG
+}
+
+model Promotor {
+  id        Int      @id @default(autoincrement())
+  username  String @unique
+  name      String
+  email     String   @unique
+  password  String
+  avatar    String?
+  is_verify Boolean  @default(false)
+  updated_at DateTime?
+  created_at DateTime @default(now())
+
+  events Event[]
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  category    Category
+  location    Location
+  venue      String
+  date        DateTime
+  time        String
+  promotor_id Int
+  updated_at DateTime?
+  created_at DateTime @default(now())
+
+  promotor Promotor @relation(fields: [promotor_id], references: [id])
+  tickets Ticket[]
+}
+
+model Ticket {
+  id        Int      @id @default(autoincrement())
+  category  String
+  desc      String
+  seats     Int
+  price     BigInt
+  event_id  Int
+  updated_at DateTime?
+  created_at DateTime @default(now())
+
+  event Event @relation(fields: [event_id], references: [id], onDelete: Cascade)
+}
