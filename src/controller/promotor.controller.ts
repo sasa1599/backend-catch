@@ -102,6 +102,17 @@ export class PromotorController {
       res.status(500).send(err);
     }
   }
+  async getPromotorId(req: Request, res: Response) {
+    try {
+      const user = await prisma.promotor.findUnique({
+        where: { id: req.user?.id },
+      });
+      res.status(200).send({ user });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
   // delete promotor
   async delete(req: Request, res: Response) {
     try {

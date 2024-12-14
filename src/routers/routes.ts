@@ -28,7 +28,7 @@ export class ListRouter {
 
   private initializeRoutes() {
     this.router.get("/customers", verifyToken, this.customerController.list);
-    this.router.get("/promotors", this.promotorController.list);
+    this.router.get("/promotors", verifyToken, this.promotorController.list);
 
     this.router.post("/customers", this.customerController.registeration);
     this.router.post("/promotors", this.promotorController.registerPromotor);
@@ -51,6 +51,11 @@ export class ListRouter {
       verifyToken,
       this.customerController.getUsersId
     );
+    this.router.get(
+      "/promotors/profile",
+      verifyToken,
+      this.promotorController.getPromotorId
+    );
     this.router.patch(
       "/customers/:id",
       this.customerController.update.bind(this.customerController)
@@ -62,6 +67,21 @@ export class ListRouter {
 
     //Auth
     this.router.post("/login", this.authController.Login);
+    this.router.post("/register", this.authController.registeration);
+    this.router.post(
+      "/register/promotor",
+      this.authController.registerPromotor
+    );
+    this.router.patch(
+      "/verify/customers/:token",
+      this.authController.verifyCustomer
+    );
+    this.router.patch(
+      "/verify/promotors/:token",
+      this.authController.verifyPromotor
+    );
+
+    // this.router.get("/session", this.authController.getSession)
 
     //userpoint
     this.router.post(

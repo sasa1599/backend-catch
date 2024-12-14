@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
+import { JwtPayload, verify } from "jsonwebtoken";
 
 export const verifyToken = async (
     req: Request,
@@ -13,9 +13,11 @@ export const verifyToken = async (
       console.log(token)
       if (!token) throw new Error("Unauthorized!");
   
-      const verifiedUser = verify(token, process.env.JWT_KEY!);
+      const verifiedUser = verify(token, process.env.JWT_KEY!) as JwtPayload; //added JWT payload
+      console.log(verifiedUser, "Verified User");
   
       req.user = verifiedUser as {id: number};
+      console.log(req.user, "verified user");
         
       next();
     } catch (err) {
