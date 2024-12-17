@@ -7,6 +7,7 @@ import { PromotorController } from "../controller/promotor.controller";
 import { UserPointController } from "../controller/userpoint.controller";
 import { UserCouponController } from "../controller/usercoupon.controller";
 import { verifyToken } from "../middlewares/verify";
+import { uploader } from "../services/uploader";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -27,25 +28,13 @@ export class ListRouter {
   }
 
   private initializeRoutes() {
+    //get list customer & promotor
     this.router.get("/customers", verifyToken, this.customerController.list);
     this.router.get("/promotors", verifyToken, this.promotorController.list);
-
+    //register customer & promotor
     this.router.post("/customers", this.customerController.registeration);
     this.router.post("/promotors", this.promotorController.registerPromotor);
 
-    // this.router.patch(
-    //   "/avatar",
-    //   verifyToken,
-    //   uploader("diskStorage", "avatar-", "/avatar").single("file"),
-    //   this.customerController.editAvatar
-    // );
-
-    // this.router.patch(
-    //   "/avatar-cloud",
-    //   verifyToken,
-    //   uploader("memoryStorage", "avatar-").single("file"),
-    //   this.customerController.editAvatarCloud
-    // );
     this.router.get(
       "/customers/profile",
       verifyToken,
@@ -65,7 +54,7 @@ export class ListRouter {
     this.router.delete("/promotors/:id", this.promotorController.delete);
     this.router.delete("/customers/:id", this.customerController.delete);
 
-    //Auth
+    //Auth Login & Register & Verify
     this.router.post("/login", this.authController.Login);
     this.router.post("/register", this.authController.registeration);
     this.router.post(
@@ -80,8 +69,25 @@ export class ListRouter {
       "/verify/promotors/:token",
       this.authController.verifyPromotor
     );
+    //cobain forgot
+    // this.router.post("/forgotPassword", this.authController.forgotPassword);
+    // this.router.post("/resetPassword", this.authController.resetPassword);
 
-    // this.router.get("/session", this.authController.getSession)
+    //cobain cloudinary
+    this.router.patch(
+      "/avatarcloud",
+      verifyToken,
+      uploader("memoryStorage", "avatarLogin-").single("file"),
+      this.customerController.editAvatarCloud
+    );
+
+    //cloudinary promotor
+    this.router.patch(
+      "/proavatarcloud",
+      verifyToken,
+      uploader("memoryStorage", "avatarLogin-").single("file"),
+      this.promotorController.proAvatarCloud
+    );
 
     //userpoint
     this.router.post(

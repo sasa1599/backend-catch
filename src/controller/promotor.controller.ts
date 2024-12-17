@@ -2,11 +2,18 @@ import { Request, Response } from "express";
 import prisma from "../../prisma";
 import bcrypt from "bcrypt";
 import { findPromotor } from "../services/register.service";
+import { cloudinaryUpload } from "../services/cloudinary";
 export class PromotorController {
   // Register Promotor
   async registerPromotor(req: Request, res: Response) {
     try {
-      const promotors = ["username", "email", "password", "confirmPassword", "name"];
+      const promotors = [
+        "username",
+        "email",
+        "password",
+        "confirmPassword",
+        "name",
+      ];
       promotors.map((promotor) => {
         if (!req.body[promotor]) {
           return res.status(400).send({ message: `${promotor} is required` });
@@ -125,6 +132,21 @@ export class PromotorController {
     } catch (err) {
       console.log(err);
       res.status(500).send(err);
+    }
+  }
+  async proAvatarCloud(req: Request, res: Response) {
+    try {
+      if (!req.file) throw { message: "Avatar not found !" };
+      const { secure_url } = await cloudinaryUpload(req.file, "avatarLogin");
+      await prisma.promotor.update({
+        where: { id: req.user?.id },
+        data: { avatar: secure_url },
+      });
+      console.log(req.file);
+      res.status(200).send({ message: "Avatar edited !" });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
     }
   }
 }

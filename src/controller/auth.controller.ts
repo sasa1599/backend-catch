@@ -67,9 +67,13 @@ export class AuthController {
         });
 
         if (!customer) throw { message: "Customer account not found!" };
-
         const isValidPass = await bcrypt.compare(password, customer.password);
         if (!isValidPass) throw { message: "Incorrect Password!" };
+        if (!customer.isVerify)
+          throw {
+            message:
+              "Your account is not verified. Please verify your account before logging in.",
+          };
 
         const payload = { id: customer.id, username: customer.username };
         const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "1d" });
@@ -92,6 +96,11 @@ export class AuthController {
 
         const isValidPass = await bcrypt.compare(password, promotor.password);
         if (!isValidPass) throw { message: "Incorrect Password!" };
+        if (!promotor.is_verify)
+          throw {
+            message:
+              "Your account is not verified. Please verify your account before logging in.",
+          };
 
         const payload = { id: promotor.id, username: promotor.username };
         const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "1d" });
@@ -177,11 +186,6 @@ export class AuthController {
         html,
       });
 
-      res.status(201).send({
-        message:
-          "Customer created successfully. Please check your email for verification.",
-        customer,
-      });
       // Generate the ref_code and update customer
       const updateCustomer = await prisma.customer.update({
         where: { id: customer.id },
@@ -197,12 +201,16 @@ export class AuthController {
           await addPoint(referralUser.id);
           await addCoupon(customer.id);
         } else {
-          res.status(400).send({ message: "Referral code not found!" });
-          return;
+          console.error("Invalid referral code provided.");
         }
       }
 
-      res.status(201).send({ message: "Customer created", updateCustomer });
+      res.status(201).send({
+        message:
+          "Customer created successfully. Please check your email for verification.",
+        customer,
+        updateCustomer,
+      });
     } catch (err) {
       console.error("Error during registration:", err);
       res
@@ -333,64 +341,16 @@ export class AuthController {
       });
     }
   }
-  // async getSession(req: Request, res: Response): Promise<void> {
-  //   try {
-  //     const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
-  //     if (!token) {
-  //       res.status(401).json({ success: false, message: "Unauthorized: No token provided" });
-  //       return;
-  //     }
 
-  //     const decoded = verify(token, process.env.JWT_KEY!) as { id: string; type: string };
-  //     if (!decoded || !decoded.type) {
-  //       res.status(403).json({ success: false, message: "Forbidden: Invalid token" });
-  //       return;
-  //     }
+  //cobain forgot password nanti dulu belum bisa 
+  // async forgotPassword(req: Request, res: Response, next: NextFunction) {
+  // const user = await prisma.customer.findFirst({
+  //   where: {
+  //     email: req.body.email,
+  //   },
+  // })
+  // }
+  // async resetPassword(req: Request, res: Response, next: NextFunction) {
 
-  //     let user;
-  //     if (decoded.type === "promotor") {
-  //       user = await prisma.promotor.findUnique({
-  //         where: { id: +decoded.id },
-  //         select: {
-  //           id: true,
-  //           name: true,
-  //           username: true,
-  //           is_verify: true,
-  //           email: true,
-  //           avatar: true,
-  //         },
-  //       });
-  //     } else if (decoded.type === "customer") {
-  //       user = await prisma.customer.findUnique({
-  //         where: { id: +decoded.id },
-  //         select: {
-  //           id: true,
-  //           name: true,
-  //           username: true,
-  //           isVerify: true,
-  //           email: true,
-  //           avatar: true,
-  //           ref_code: true,
-  //           referred_code: true,
-  //         },
-  //       });
-  //     }
-
-  //     if (!user) {
-  //       res.status(404).json({ success: false, message: "User not found" });
-  //       return;
-  //     }
-
-  //     res.status(200).json({
-  //       success: true,
-  //       data: {
-  //         user,
-  //         role: decoded.type,
-  //       },
-  //     });
-  //   } catch (err) {
-  //     console.error("Error in getSession:", err);
-  //     res.status(401).json({ success: false, message: "Unauthorized: Invalid or expired token" });
-  //   }
   // }
 }

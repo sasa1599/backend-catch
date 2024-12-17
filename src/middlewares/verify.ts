@@ -22,6 +22,6 @@ export const verifyToken = async (
       next();
     } catch (err) {
       console.log(err);
-      res.status(400).send(err);
+      res.status(400).send({ message: "Oops! Your account isn’t verified yet. Please verify your token by clicking the link we sent to your email."});
     }
   };
