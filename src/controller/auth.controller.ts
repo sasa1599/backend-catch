@@ -19,6 +19,7 @@ const addPoint = async (referralUserId: number) => {
       new Date().setMonth(new Date().getMonth() + 3)
     ); // 3 months from now
 
+
     await prisma.userPoint.create({
       data: {
         customer_id: referralUserId,
@@ -43,7 +44,7 @@ const addCoupon = async (user_id: number) => {
 
     await prisma.userCoupon.create({
       data: {
-        user_id: user_id,
+        customer_id: user_id,
         precentage: percentage,
         expired_at: expirationDate,
         updated_at: null,

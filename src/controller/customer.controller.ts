@@ -40,7 +40,7 @@ const addCoupon = async (user_id: number) => {
 
     await prisma.userCoupon.create({
       data: {
-        user_id: user_id,
+        customer_id: user_id,
         precentage: precentage,
         expired_at: expirationDate,
         updated_at: null,

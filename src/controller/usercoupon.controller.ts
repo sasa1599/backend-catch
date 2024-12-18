@@ -42,7 +42,7 @@ export class UserCouponController {
     try {
       const existCustomerPoint = await prisma.userCoupon.findFirst({
         where: {
-          user_id: req.body.user_id,
+          customer_id: req.body.user_id,
           expired_at: { gt: new Date() },
           is_redeem: false,
         },
