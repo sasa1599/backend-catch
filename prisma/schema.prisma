@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,134 +14,155 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum eventCategory {
-  FanMeeting
-  Concert
-  Musical
-  Sport
-  Exhibitions
+enum TicketCategory {
+  VIP
+  REGULAR
 }
 
-enum statusOrder {
-  Pending
-  Success
-  Failed
-  Cancel
+enum Category {
+  concert
+  sports
+  theater
+  fanmeet
+  seminar
 }
 
-model User {
-  id           Int          @id @default(autoincrement())
-  username     String       @unique
-  email        String       @unique
-  password     String
-  avatar       String?
-  isVerify     Boolean
-  refferalCode String       @unique
-  userCoupons  UserCoupon[]
-  userPoint    UserPoint[]
-  userOrder    Order[]
-  Review       Review[]
+enum Location {
+  jakarta
+  bandung
+  yogyakarta
+}
+
+enum StatusOrder {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+model Customer {
+  id            Int          @id @default(autoincrement())
+  username      String       @unique
+  name          String
+  email         String       @unique
+  password      String
+  avatar        String?
+  isVerify      Boolean      @default(false)
+  ref_code      String?
+  referred_code String?
+  created_at    DateTime     @default(now())
+  updated_at    DateTime?
+  UserCoupon    UserCoupon[]
+  UserPoint     UserPoint[]
+  Order         Order[]
+  Review        Review[]
 }
 
 model UserCoupon {
-  id         Int      @id @default(autoincrement())
-  isRedeem   Boolean  @default(false)
-  percentage Int
-  createdAt  DateTime @default(now())
-  user_id    Int
-  user       User     @relation(fields: [user_id], references: [id])
-  Order      Order[]
+  id          Int       @id @default(autoincrement())
+  is_redeem   Boolean   @default(false)
+  precentage  Int
+  created_at  DateTime  @default(now())
+  expired_at  DateTime?
+  customer_id Int 
+  customer    Customer  @relation(fields: [customer_id], references: [id])
+  updated_at  DateTime?
 }
 
 model UserPoint {
-  id        Int      @id @default(autoincrement())
-  point     Int      @default(0)
-  createdAt DateTime @default(now())
-  expiredAt DateTime
-  isReedem  Boolean  @default(false)
-  user_id   Int
-  user      User     @relation(fields: [user_id], references: [id])
+  id             Int       @id @default(autoincrement())
+  point          Int
+  created_at     DateTime  @default(now())
+  expired_at     DateTime?
+  is_transaction Boolean   @default(false)
+  customer_id    Int
+  customer       Customer  @relation(fields: [customer_id], references: [id])
 }
 
-model Promotor {
-  id             Int              @id @default(autoincrement())
-  username       String           @unique
-  email          String           @unique
-  password       String
-  avatar         String?
-  isVerify       Boolean          @default(false)
-  promotorCoupon PromotorCoupon[]
-  Event          Event[]
-}
-
-model PromotorCoupon {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  promotor_id Int
-  promotor    Promotor @relation(fields: [promotor_id], references: [id])
-  available   Boolean  @default(true)
-  count       Int      @default(0)
-}
-
-model Event {
-  id          Int           @id @default(autoincrement())
-  title       String        @unique
-  desc        String
-  category    eventCategory
-  location    String
-  venue       String
-  startDate   DateTime      @db.Date
-  endDate     DateTime      @db.Date
-  time        DateTime      @db.Time
-  ticket      Ticket[]
-  Order       Order[]
-  promotor_id Int
-  promotor    Promotor      @relation(fields: [promotor_id], references: [id])
-  Review      Review[]
-}
-
-model Ticket {
-  id          Int           @id @default(autoincrement())
-  category    String
-  desc        String
-  seats       Int
-  price       BigInt
-  event_id    Int
-  event       Event         @relation(fields: [event_id], references: [id])
-  OrderDetail OrderDetail[]
+model OrderDetails {
+  id         Int      @id @default(autoincrement())
+  ticket_id  Int
+  quantity   Int      @default(1)
+  order_id   Int
+  subPrice   BigInt
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+  order      Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  ticket     Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
 }
 
 model Order {
-  id            Int           @id @default(autoincrement())
-  total_price   BigInt
-  final_price   BigInt
-  status        statusOrder
-  user_id       Int
-  user          User          @relation(fields: [user_id], references: [id])
-  event_id      Int
-  event         Event         @relation(fields: [event_id], references: [id])
-  payment_proof String
-  coupon_id     Int?
-  coupon        UserCoupon?   @relation(fields: [coupon_id], references: [id])
-  OrderDetail   OrderDetail[]
-}
-
-model OrderDetail {
-  id        Int    @id @default(autoincrement())
-  order_id  Int
-  order     Order  @relation(fields: [order_id], references: [id])
-  quantity  Int
-  ticket_id Int
-  ticket    Ticket @relation(fields: [ticket_id], references: [id])
+  id           Int            @id @default(autoincrement())
+  total_price  Int
+  final_price  Int
+  status_order StatusOrder
+  user_id      Int
+  event_id     Int
+  invoice_url  String
+  updated_at   DateTime       @updatedAt
+  created_at   DateTime       @default(now())
+  OrderDetails OrderDetails[]
+  user         Customer       @relation(fields: [user_id], references: [id])
+  event        Event          @relation(fields: [event_id], references: [id])
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
-  desc      String?
-  rating    Int      @default(1)
-  user_id   Int
-  user      User     @relation(fields: [user_id], references: [id])
-  event_id  Int
-  event     Event    @relation(fields: [event_id], references: [id])
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  description String
+  rating      Int      @default(0)
+  user_id     Int
+  event_id    Int
+  user        Customer @relation(fields: [user_id], references: [id])
+  event       Event    @relation(fields: [event_id], references: [id])
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
+}
+
+model Promotor {
+  id         Int       @id @default(autoincrement())
+  username   String    @unique
+  name       String
+  email      String    @unique
+  password   String
+  avatar     String?
+  is_verify  Boolean   @default(false)
+  updated_at DateTime?
+  created_at DateTime  @default(now())
+
+  events Event[]
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @default(" ")
+  description String
+  category    Category
+  location    Location
+  venue       String
+  thumbnail   String?
+  datetime    DateTime
+  promotor_id Int
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
+
+  promotor Promotor @relation(fields: [promotor_id], references: [id])
+  tickets  Ticket[]
+  Order    Order[]
+  Review   Review[]
+}
+
+model Ticket {
+  id          Int            @id @default(autoincrement())
+  category    TicketCategory
+  description String
+  seats       Int            @default(0)
+  maxSeats    Int            @default(1)
+  price       Int            @default(0)
+  event_id    Int
+  updated_at  DateTime       @updatedAt
+  created_at  DateTime       @default(now())
+
+  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  OrderDetails OrderDetails[]
 }
