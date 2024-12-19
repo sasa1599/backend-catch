@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../../prisma";
+import prisma from "../prisma";
 
 export class TicketController {
   async createTicket(req: Request, res: Response): Promise<void> {

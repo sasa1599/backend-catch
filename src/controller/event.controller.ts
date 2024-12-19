@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
-import { Prisma, Category } from "@prisma/client";
+import { Category, Prisma } from "../../prisma/generated/client";
+
 
 export class EventController {
   async getEvent(req: Request, res: Response) {
@@ -89,6 +90,7 @@ export class EventController {
         res.status(404).send({ message: "Event not found" });
       }
 
+      
       res.status(200).send({ event });
     } catch (err) {
       console.log(err);
