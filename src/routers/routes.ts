@@ -8,6 +8,8 @@ import { UserPointController } from "../controller/userpoint.controller";
 import { UserCouponController } from "../controller/usercoupon.controller";
 import { verifyToken } from "../middlewares/verify";
 import { uploader } from "../services/uploader";
+import { EventController } from "../controller/event.controller";
+import { TicketController } from "../controller/ticket.controller";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -15,6 +17,8 @@ export class ListRouter {
   private authController: AuthController;
   private userPointController: UserPointController;
   private userCouponController: UserCouponController;
+  private eventController: EventController;
+  private ticketController: TicketController;
   private router: Router;
 
   constructor() {
@@ -23,6 +27,8 @@ export class ListRouter {
     this.authController = new AuthController();
     this.userPointController = new UserPointController();
     this.userCouponController = new UserCouponController();
+    this.eventController = new EventController();
+    this.ticketController = new TicketController();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -34,6 +40,27 @@ export class ListRouter {
     //register customer & promotor
     this.router.post("/customers", this.customerController.registeration);
     this.router.post("/promotors", this.promotorController.registerPromotor);
+
+    //promotor create event & Ticket
+    this.router.post(
+      "/promotor/create-event/",
+      verifyToken,
+      uploader("memoryStorage", "thumbnail-").single("thumbnail"),
+      this.promotorController.createEvent
+    );
+    this.router.post(
+      "/promotor/create-event/create-ticket/:id",
+      verifyToken,
+      this.ticketController.createTicket
+    );
+
+    //event router
+    this.router.get("/events", this.eventController.getEvent);
+    this.router.get("/events/:slug", this.eventController.getEventSlug);
+    this.router.get(
+      "/events/category/:category",
+      this.eventController.getEventCategory
+    );
 
     this.router.get(
       "/customers/profile",
