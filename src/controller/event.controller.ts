@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
-import { Category } from "@prisma/client";
+import { Prisma, Category } from "@prisma/client";
 
 export class EventController {
   async getEvent(req: Request, res: Response) {
     try {
+      const { search } = req.query;
+      const filter: Prisma.EventWhereInput = {};
+      if (search) {
+        filter.title = { contains: search as string, mode: "insensitive" };
+      }
       const event = await prisma.event.findMany({
+        where: filter,
         select: {
           id: true,
           title: true,
