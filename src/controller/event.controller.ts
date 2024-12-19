@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
-import { Category } from "@prisma/client";
+import { Category } from "prisma/generated/client";
+
 
 export class EventController {
   async getEvent(req: Request, res: Response) {

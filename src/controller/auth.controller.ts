@@ -172,7 +172,7 @@ export class AuthController {
       // Generate verification token
       const payload = { id: customer.id, role: "customer" };
       const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "10m" });
-      const link = `http://localhost:3000/verify/${token}?role=customer`;
+      const link = `${process.env.BASE_URL_FE}/verify/${token}?role=customer`;
 
       // Prepare and send the email
       const templatePath = path.join(__dirname, "../templates", "verify.hbs");
@@ -274,7 +274,7 @@ export class AuthController {
       // Generate verification token
       const payload = { id: promotor.id, role: "promotor" };
       const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "10m" });
-      const link = `http://localhost:3000/verify/${token}?role=promotor`;
+      const link = `${process.env.BASE_URL_FE}/verify/${token}?role=promotor`;
 
       // Prepare and send the email
       const templatePath = path.join(__dirname, "../templates", "verify.hbs");
