@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomerController = void 0;
-const prisma_1 = __importDefault(require("../../prisma"));
+const prisma_1 = __importDefault(require("../prisma"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const register_service_1 = require("../services/register.service");
 const cloudinary_1 = require("../services/cloudinary");
