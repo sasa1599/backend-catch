@@ -17,6 +17,7 @@ export const verifyToken = async (
       console.log(verifiedUser, "Verified User");
   
       req.user = verifiedUser as {id: number};
+      req.promtor = verifiedUser as {id: number}
       console.log(req.user, "verified user");
         
       next();

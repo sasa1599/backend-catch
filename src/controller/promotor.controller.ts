@@ -3,6 +3,7 @@ import prisma from "../../prisma";
 import bcrypt from "bcrypt";
 import { findPromotor } from "../services/register.service";
 import { cloudinaryUpload } from "../services/cloudinary";
+import { createSlug } from "../helpers/slug";
 export class PromotorController {
   // Register Promotor
   async registerPromotor(req: Request, res: Response) {
@@ -144,6 +145,35 @@ export class PromotorController {
       });
       console.log(req.file);
       res.status(200).send({ message: "Avatar edited !" });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
+  async createEvent(req: Request, res: Response) {
+    try {
+      if (!req.file) throw { message: "thumbnail empty" };
+      const { secure_url } = await cloudinaryUpload(req.file, "thumbnail");
+      const { title, description, category, location, venue, datetime } =
+        req.body;
+
+      const slug = createSlug(title);
+
+      const { id } = await prisma.event.create({
+        data: {
+          title,
+          description,
+          category,
+          location,
+          venue,
+          slug: slug,
+          datetime,
+          thumbnail: secure_url,
+          promotor_id: req.promtor?.id!,
+        },
+      });
+
+      res.status(200).send({ message: "event created", event_id: id });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
