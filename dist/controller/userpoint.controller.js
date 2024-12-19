@@ -13,7 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserPointController = void 0;
-const prisma_1 = __importDefault(require("../../prisma"));
+
+const prisma_1 = __importDefault(require("../prisma"));
+
 class UserPointController {
     // list point customer
     list(req, res) {

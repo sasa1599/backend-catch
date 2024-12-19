@@ -1,4 +1,4 @@
-import prisma from "../../prisma";
+import prisma from "../prisma";
 
 //customer
 export const findCust = async (username: string, email: string) => {
