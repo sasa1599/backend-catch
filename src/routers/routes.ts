@@ -41,13 +41,14 @@ export class ListRouter {
     this.router.post("/customers", this.customerController.registeration);
     this.router.post("/promotors", this.promotorController.registerPromotor);
 
-    //promotor create event & Ticket
+    //promotor create event
     this.router.post(
       "/promotor/create-event/",
       verifyToken,
       uploader("memoryStorage", "thumbnail-").single("thumbnail"),
       this.promotorController.createEvent
     );
+    // promotor create ticket
     this.router.post(
       "/promotor/create-event/create-ticket/:id",
       verifyToken,

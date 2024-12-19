@@ -162,7 +162,7 @@ model Ticket {
   event_id    Int
   updated_at  DateTime       @updatedAt
   created_at  DateTime       @default(now())
-  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
 
+  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
   OrderDetails OrderDetails[]
 }

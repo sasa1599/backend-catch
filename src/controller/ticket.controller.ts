@@ -5,7 +5,7 @@ export class TicketController {
   async createTicket(req: Request, res: Response): Promise<void> {
     try {
       const { category, description, seats, maxSeats, price } = req.body;
-
+      
       const event_id = req.params.id
 
       if (!event_id) {
