@@ -25,20 +25,12 @@ export class EventController {
           slug: true,
           tickets: {
             select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
               price: true,
             },
           },
           promotor: {
             select: {
-              id: true,
               name: true,
-              username: true,
-              avatar: true,
             },
           },
         },
@@ -75,11 +67,9 @@ export class EventController {
           },
           tickets: {
             select: {
-              id: true,
               category: true,
               description: true,
               seats: true,
-              maxSeats: true,
               price: true,
             },
           },
@@ -117,20 +107,12 @@ export class EventController {
           slug: true,
           tickets: {
             select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
               price: true,
             },
           },
           promotor: {
             select: {
-              id: true,
               name: true,
-              username: true,
-              avatar: true,
             },
           },
         },

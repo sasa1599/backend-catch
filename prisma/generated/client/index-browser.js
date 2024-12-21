@@ -151,10 +151,9 @@ exports.Prisma.UserPointScalarFieldEnum = {
 };
 
 exports.Prisma.OrderDetailsScalarFieldEnum = {
-  id: 'id',
   ticket_id: 'ticket_id',
-  quantity: 'quantity',
   order_id: 'order_id',
+  quantity: 'quantity',
   subPrice: 'subPrice',
   updated_at: 'updated_at',
   created_at: 'created_at'
@@ -162,12 +161,11 @@ exports.Prisma.OrderDetailsScalarFieldEnum = {
 
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
+  user_id: 'user_id',
   total_price: 'total_price',
   final_price: 'final_price',
   status_order: 'status_order',
-  user_id: 'user_id',
-  event_id: 'event_id',
-  invoice_url: 'invoice_url',
+  expires_at: 'expires_at',
   updated_at: 'updated_at',
   created_at: 'created_at'
 };
