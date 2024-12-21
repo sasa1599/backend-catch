@@ -1,12 +1,18 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
-import { Category } from "../../prisma/generated/client";
+import { Category, Prisma } from "../../prisma/generated/client";
 
 
 export class EventController {
   async getEvent(req: Request, res: Response) {
     try {
+      const { search } = req.query;
+      const filter: Prisma.EventWhereInput = {};
+      if (search) {
+        filter.title = { contains: search as string, mode: "insensitive" };
+      }
       const event = await prisma.event.findMany({
+        where: filter,
         select: {
           id: true,
           title: true,
@@ -19,20 +25,12 @@ export class EventController {
           slug: true,
           tickets: {
             select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
               price: true,
             },
           },
           promotor: {
             select: {
-              id: true,
               name: true,
-              username: true,
-              avatar: true,
             },
           },
         },
@@ -69,11 +67,9 @@ export class EventController {
           },
           tickets: {
             select: {
-              id: true,
               category: true,
               description: true,
               seats: true,
-              maxSeats: true,
               price: true,
             },
           },
@@ -84,6 +80,7 @@ export class EventController {
         res.status(404).send({ message: "Event not found" });
       }
 
+      
       res.status(200).send({ event });
     } catch (err) {
       console.log(err);
@@ -110,20 +107,12 @@ export class EventController {
           slug: true,
           tickets: {
             select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
               price: true,
             },
           },
           promotor: {
             select: {
-              id: true,
               name: true,
-              username: true,
-              avatar: true,
             },
           },
         },
