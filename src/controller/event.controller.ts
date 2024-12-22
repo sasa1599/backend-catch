@@ -6,7 +6,15 @@ import { Category } from "../../prisma/generated/client";
 export class EventController {
   async getEvent(req: Request, res: Response) {
     try {
+      const searchQuery = req.query.search as string | undefined;
+
       const event = await prisma.event.findMany({
+        where: {
+          title: {
+            contains: searchQuery,
+            mode: "insensitive",  
+          },
+        },
         select: {
           id: true,
           title: true,
@@ -37,12 +45,14 @@ export class EventController {
           },
         },
       });
+
       res.status(200).send({ event });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
     }
   }
+
 
   async getEventSlug(req: Request, res: Response) {
     try {
