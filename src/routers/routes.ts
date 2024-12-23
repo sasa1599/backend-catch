@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 // import { checkAdmin, verifyToken } from "../middlewares/verify";
 // import { uploader } from "../services/uploader";
 import { CustomerController } from "../controller/customer.controller";
@@ -10,6 +10,8 @@ import { verifyToken } from "../middlewares/verify";
 import { uploader } from "../services/uploader";
 import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
+import { OrderController } from "../controller/order.controller";
+import expressAsyncHandler from "express-async-handler";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -19,6 +21,7 @@ export class ListRouter {
   private userCouponController: UserCouponController;
   private eventController: EventController;
   private ticketController: TicketController;
+  private orderController: OrderController;
   private router: Router;
 
   constructor() {
@@ -29,6 +32,7 @@ export class ListRouter {
     this.userCouponController = new UserCouponController();
     this.eventController = new EventController();
     this.ticketController = new TicketController();
+    this.orderController = new OrderController();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -57,12 +61,34 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
-    this.router.get("/events/:slug", this.eventController.getEventSlug);
+    this.router.get(
+      "/events/:slug",
+      verifyToken,
+      this.eventController.getEventSlug.bind(this.eventController)
+    );
     this.router.get(
       "/events/category/:category",
       this.eventController.getEventCategory
     );
 
+    // Order
+    this.router.post(
+      "/order",
+      verifyToken,
+      expressAsyncHandler(
+        this.orderController.createOrder.bind(this.orderController)
+      )
+    );
+
+    this.router.post(
+      "/create-order",
+      verifyToken,
+      expressAsyncHandler(this.orderController.createOrder)
+    );
+    this.router.post("/order/payment", this.orderController.getSnapToken);
+    this.router.get("/order/:id", this.orderController.getOrderId);
+
+    // profile
     this.router.get(
       "/customers/profile",
       verifyToken,
@@ -119,8 +145,8 @@ export class ListRouter {
 
     //userpoint
     this.router.post(
-      "/userpoints/transaction",
-      this.userPointController.createTransaction
+      "/userpoints/reedem",
+      this.userPointController.redeemPoint
     );
     this.router.get("/userpoints", this.userPointController.list);
 

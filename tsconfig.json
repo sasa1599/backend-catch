@@ -8,8 +8,8 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "types": ["./src/custom.d.ts"]
+    "types": ["express", "./src/custom.d.ts"]
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "src/controller/order.controller.ts", "src/controller/event.controller.ts"],
   "exclude": ["node_modules"]
 }
