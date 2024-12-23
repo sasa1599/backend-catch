@@ -62,11 +62,14 @@ model Customer {
 model UserCoupon {
   id          Int       @id @default(autoincrement())
   is_redeem   Boolean   @default(false)
-  precentage  Int
+  precentage  Int // Assuming this is for the discount percentage
   created_at  DateTime  @default(now())
   expired_at  DateTime?
   customer_id Int
   updated_at  DateTime?
+
+  ref_code String? // Unique coupon code (optional)
+  discount Int? // Discount percentage (optional)
 
   customer Customer @relation(fields: [customer_id], references: [id])
 }
@@ -83,16 +86,16 @@ model UserPoint {
 }
 
 model OrderDetails {
+  id         Int      @id @default(autoincrement())
   ticket_id  Int
   order_id   Int
   quantity   Int
   subPrice   Int
   updated_at DateTime @updatedAt
   created_at DateTime @default(now())
-  order      Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  ticket     Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
 
-  @@id([ticket_id, order_id])
+  order  Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  ticket Ticket @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
 }
 
 model Order {

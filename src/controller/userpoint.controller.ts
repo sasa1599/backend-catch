@@ -39,7 +39,7 @@ export class UserPointController {
       });
     }
   }
-  async createTransaction(req: Request, res: Response): Promise<void> {
+  async redeemPoint(req: Request, res: Response): Promise<void> {
     try {
       const existCustomerPoint = await prisma.userPoint.findMany({
         where: {

@@ -138,7 +138,9 @@ exports.Prisma.UserCouponScalarFieldEnum = {
   created_at: 'created_at',
   expired_at: 'expired_at',
   customer_id: 'customer_id',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  ref_code: 'ref_code',
+  discount: 'discount'
 };
 
 exports.Prisma.UserPointScalarFieldEnum = {
@@ -151,6 +153,7 @@ exports.Prisma.UserPointScalarFieldEnum = {
 };
 
 exports.Prisma.OrderDetailsScalarFieldEnum = {
+  id: 'id',
   ticket_id: 'ticket_id',
   order_id: 'order_id',
   quantity: 'quantity',

@@ -40,26 +40,37 @@ export class UserCouponController {
   }
   async redeemCoupon(req: Request, res: Response): Promise<void> {
     try {
-      const existCustomerPoint = await prisma.userCoupon.findFirst({
+      const { user_id } = req.body;
+  
+      const userCoupon = await prisma.userCoupon.findFirst({
         where: {
-          customer_id: req.body.user_id,
-          expired_at: { gt: new Date() },
+          customer_id: user_id,
           is_redeem: false,
+          expired_at: { gt: new Date() },
         },
       });
-
-      if (!existCustomerPoint) {
-        res.status(400).send({ message: "Coupon not found!" });
-        return;
+  
+      if (!userCoupon) {
+        res.status(400).send({ message: "Coupon not found or expired!" });
+        return 
       }
-      const userCoupon = await prisma.userCoupon.update({
-        where: { id: existCustomerPoint.id },
-        data: { ...req.body, is_redeem: true, updated_at: new Date() },
+  
+      const discount = userCoupon.discount || 0;
+  
+      const redeemedCoupon = await prisma.userCoupon.update({
+        where: { id: userCoupon.id },
+        data: { is_redeem: true, updated_at: new Date() },
       });
-      res.status(200).send({ message: "Coupon is redeemed", userCoupon });
+  
+      res.status(200).send({
+        message: "Coupon redeemed successfully",
+        redeemedCoupon,
+        discount,
+      });
     } catch (err) {
       console.log(err);
-      res.status(500).send(err);
+      res.status(500).send({ message: "An error occurred", error: err });
     }
   }
+  
 }
