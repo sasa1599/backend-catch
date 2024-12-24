@@ -256,7 +256,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\JCWD0508\\backend-catch\\prisma\\generated\\client",
+      "value": "D:\\Nofal\\backEnd-Catch\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -270,7 +270,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\JCWD0508\\backend-catch\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\Nofal\\backEnd-Catch\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

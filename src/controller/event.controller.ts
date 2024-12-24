@@ -69,7 +69,7 @@ export class EventController {
           },
         },
       });
-
+  
       if (!event) {
         res.status(404).send({ message: "Event not found" });
         return;
@@ -83,6 +83,7 @@ export class EventController {
         .send({ error: "An error occurred while fetching the event" });
     }
   }
+  
 
   async getEventCategory(req: Request, res: Response) {
     try {

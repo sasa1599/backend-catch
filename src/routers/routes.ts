@@ -61,10 +61,7 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
-    this.router.get(
-      "/events/:slug",
-      this.eventController.getEventSlug.bind(this.eventController)
-    );
+    this.router.get("/events/:slug", this.eventController.getEventSlug);
     this.router.get(
       "/events/category/:category",
       this.eventController.getEventCategory
