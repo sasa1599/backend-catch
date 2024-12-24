@@ -30,4 +30,16 @@ export class TicketController {
       res.status(400).send({ message: "An error occurred", error: err });
     }
   }
+  async getTickets(req: Request, res: Response) {
+    try {
+      const tickets = await prisma.ticket.findMany({
+        where: { event_id: +req.params.event_id },
+      });
+      res.status(200).send({ result: tickets });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
 }
+

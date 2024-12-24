@@ -61,15 +61,23 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
-    this.router.get(
-      "/events/:slug",
-      verifyToken,
-      this.eventController.getEventSlug.bind(this.eventController)
-    );
+    this.router.get("/events/:slug", this.eventController.getEventSlug);
     this.router.get(
       "/events/category/:category",
       this.eventController.getEventCategory
     );
+
+    //Ticket
+    this.router.get("/tickets/:event_id", this.ticketController.getTickets);
+
+    // Order
+    this.router.post(
+      "/order",
+      // verifyToken,
+      expressAsyncHandler(this.orderController.createOrder)
+    );
+    this.router.post("/order/payment", this.orderController.getSnapToken);
+    this.router.get("/order/:id", this.orderController.getOrderId);
 
     // Order
     this.router.post(

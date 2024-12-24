@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
+import { requestBody } from "src/types/reqOrder";
 const midtransClient = require("midtrans-client");
-import { PrismaClient } from "@prisma/client";
 
 export class OrderController {
   async applyCoupon(total_price: number, coupon_id: string | null) {
@@ -25,133 +25,49 @@ export class OrderController {
     return { final_price: Math.max(0, final_price), points_used: totalPoints };
   }
 
-  async createOrder(req: Request, res: Response): Promise<void> {
+  async createOrder(req: Request<{}, {}, requestBody>, res: Response) {
     try {
-      const { total_price, ticketCart, coupon_id, points_used } = req.body;
-      const userId = req.user?.id;
-  
-      // Check for authenticated user
-      if (!userId) {
-        res.status(401).json({ error: "User not authenticated" });
-        return;
-      }
-  
+      const userId = 1;
+      const {  total_price, final_price, ticketCart } = req.body;
       const expires_at = new Date(new Date().getTime() + 10 * 60000);
-  
-      // Fetch user points
-      const userPoints = await prisma.userPoint.findMany({
-        where: { customer_id: userId, is_transaction: false },
-      });
-  
-      let { total_price: discountedPrice, discount } = { total_price, discount: 0 };
-  
-      // Apply coupon discount if a coupon ID is provided
-      if (coupon_id) {
-        const coupon = await prisma.userCoupon.findUnique({ where: { id: +coupon_id } });
-  
-        if (coupon && !coupon.is_redeem) {
-          ({ total_price: discountedPrice, discount } = await this.applyCoupon(
-            total_price,
-            coupon_id
-          ));
-        } else {
-          res.status(400).json({ error: "Coupon is already redeemed or invalid" });
-          return;
-        }
-      }
-  
-      // Apply points if provided
-      let { final_price, points_used: pointsDeducted } = {
-        final_price: discountedPrice,
-        points_used: 0,
-      };
-  
-      if (points_used > 0) {
-        ({ final_price, points_used: pointsDeducted } = await this.applyPoints(
-          userId,
-          discountedPrice,
-          points_used
-        ));
-      }
-  
-      // Create order and order details in a transaction
-      const order = await prisma.$transaction(async (prisma) => {
-        // Create the order
-        const createdOrder = await prisma.order.create({
-          data: { user_id: userId, total_price, final_price, expires_at },
+
+      const transactionId = await prisma.$transaction(async (prisma) => {
+        const { id } = await prisma.order.create({
+          data: { user_id: userId, total_price,final_price, expires_at },
         });
-  
-        // Call the createOrderDetails function
-        await this.createOrderDetails(prisma, createdOrder.id, ticketCart);
-  
-        // Mark coupon as redeemed if applicable
-        if (coupon_id) {
-          const coupon = await prisma.userCoupon.findUnique({ where: { id: +coupon_id } });
-          if (coupon && !coupon.is_redeem) {
-            await prisma.userCoupon.update({
-              where: { id: +coupon_id },
-              data: { is_redeem: true },
-            });
-          }
-        }
-  
-        // Deduct points if used
-        if (points_used > 0) {
-          let remainingPoints = points_used;
-          for (const point of userPoints) {
-            if (remainingPoints <= 0) break;
-  
-            const deduction = Math.min(point.point, remainingPoints);
-            remainingPoints -= deduction;
-  
-            await prisma.userPoint.update({
-              where: { id: point.id },
+
+        await Promise.all(
+          ticketCart.map(async (item) => {
+            if (item.quantity > item.ticket.seats) {
+              throw new Error(
+                `Seats for ticket ID: ${item.ticket.id} not available! `
+              );
+            }
+            await prisma.orderDetails.create({
               data: {
-                point: point.point - deduction,
-                is_transaction: point.point - deduction === 0,
+                order_id: id,
+                ticket_id: item.ticket.id,
+                quantity: item.quantity,
+                subPrice: item.quantity * item.ticket.price,
               },
             });
-          }
-        }
-  
-        return createdOrder;
+            await prisma.ticket.update({
+              where: { id: item.ticket.id },
+              data: { seats: { decrement: item.quantity } },
+            });
+          })
+        );
+        return id;
       });
-  
-      // Respond with success and order details
-      res.status(201).json({
-        message: "Order created successfully",
-        order: {
-          id: order.id,
-          total_price,
-          final_price,
-          points_used: pointsDeducted,
-          coupon_applied: discount > 0,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal server error", details: err });
-    }
-  }
-  
 
-  async createOrderDetails(
-    prisma: PrismaClient,
-    orderId: number,
-    ticketCart: Array<{ ticket: { id: number; price: number }; seats: number }>
-  ): Promise<void> {
-    for (const item of ticketCart) {
-      await prisma.orderDetails.create({
-        data: {
-          order_id: orderId,
-          ticket_id: item.ticket.id,
-          quantity: item.seats,
-          subPrice: item.seats * item.ticket.price,
-        },
-      });
+      res
+        .status(200)
+        .send({ message: "Transaction created", order_id: transactionId });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
     }
   }
-  
 
   async getOrderId(req: Request, res: Response) {
     try {
