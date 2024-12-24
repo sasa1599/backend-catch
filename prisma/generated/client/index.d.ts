@@ -2921,12 +2921,14 @@ export namespace Prisma {
     id: number | null
     precentage: number | null
     customer_id: number | null
+    discount: number | null
   }
 
   export type UserCouponSumAggregateOutputType = {
     id: number | null
     precentage: number | null
     customer_id: number | null
+    discount: number | null
   }
 
   export type UserCouponMinAggregateOutputType = {
@@ -2937,6 +2939,8 @@ export namespace Prisma {
     expired_at: Date | null
     customer_id: number | null
     updated_at: Date | null
+    ref_code: string | null
+    discount: number | null
   }
 
   export type UserCouponMaxAggregateOutputType = {
@@ -2947,6 +2951,8 @@ export namespace Prisma {
     expired_at: Date | null
     customer_id: number | null
     updated_at: Date | null
+    ref_code: string | null
+    discount: number | null
   }
 
   export type UserCouponCountAggregateOutputType = {
@@ -2957,6 +2963,8 @@ export namespace Prisma {
     expired_at: number
     customer_id: number
     updated_at: number
+    ref_code: number
+    discount: number
     _all: number
   }
 
@@ -2965,12 +2973,14 @@ export namespace Prisma {
     id?: true
     precentage?: true
     customer_id?: true
+    discount?: true
   }
 
   export type UserCouponSumAggregateInputType = {
     id?: true
     precentage?: true
     customer_id?: true
+    discount?: true
   }
 
   export type UserCouponMinAggregateInputType = {
@@ -2981,6 +2991,8 @@ export namespace Prisma {
     expired_at?: true
     customer_id?: true
     updated_at?: true
+    ref_code?: true
+    discount?: true
   }
 
   export type UserCouponMaxAggregateInputType = {
@@ -2991,6 +3003,8 @@ export namespace Prisma {
     expired_at?: true
     customer_id?: true
     updated_at?: true
+    ref_code?: true
+    discount?: true
   }
 
   export type UserCouponCountAggregateInputType = {
@@ -3001,6 +3015,8 @@ export namespace Prisma {
     expired_at?: true
     customer_id?: true
     updated_at?: true
+    ref_code?: true
+    discount?: true
     _all?: true
   }
 
@@ -3098,6 +3114,8 @@ export namespace Prisma {
     expired_at: Date | null
     customer_id: number
     updated_at: Date | null
+    ref_code: string | null
+    discount: number | null
     _count: UserCouponCountAggregateOutputType | null
     _avg: UserCouponAvgAggregateOutputType | null
     _sum: UserCouponSumAggregateOutputType | null
@@ -3127,6 +3145,8 @@ export namespace Prisma {
     expired_at?: boolean
     customer_id?: boolean
     updated_at?: boolean
+    ref_code?: boolean
+    discount?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userCoupon"]>
 
@@ -3138,6 +3158,8 @@ export namespace Prisma {
     expired_at?: boolean
     customer_id?: boolean
     updated_at?: boolean
+    ref_code?: boolean
+    discount?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userCoupon"]>
 
@@ -3149,6 +3171,8 @@ export namespace Prisma {
     expired_at?: boolean
     customer_id?: boolean
     updated_at?: boolean
+    ref_code?: boolean
+    discount?: boolean
   }
 
   export type UserCouponInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3171,6 +3195,8 @@ export namespace Prisma {
       expired_at: Date | null
       customer_id: number
       updated_at: Date | null
+      ref_code: string | null
+      discount: number | null
     }, ExtArgs["result"]["userCoupon"]>
     composites: {}
   }
@@ -3572,6 +3598,8 @@ export namespace Prisma {
     readonly expired_at: FieldRef<"UserCoupon", 'DateTime'>
     readonly customer_id: FieldRef<"UserCoupon", 'Int'>
     readonly updated_at: FieldRef<"UserCoupon", 'DateTime'>
+    readonly ref_code: FieldRef<"UserCoupon", 'String'>
+    readonly discount: FieldRef<"UserCoupon", 'Int'>
   }
     
 
@@ -4904,6 +4932,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsAvgAggregateOutputType = {
+    id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4911,6 +4940,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsSumAggregateOutputType = {
+    id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4918,6 +4948,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsMinAggregateOutputType = {
+    id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4927,6 +4958,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsMaxAggregateOutputType = {
+    id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4936,6 +4968,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsCountAggregateOutputType = {
+    id: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -4947,6 +4980,7 @@ export namespace Prisma {
 
 
   export type OrderDetailsAvgAggregateInputType = {
+    id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -4954,6 +4988,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsSumAggregateInputType = {
+    id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -4961,6 +4996,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsMinAggregateInputType = {
+    id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -4970,6 +5006,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsMaxAggregateInputType = {
+    id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -4979,6 +5016,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsCountAggregateInputType = {
+    id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -5075,6 +5113,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsGroupByOutputType = {
+    id: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -5103,6 +5142,7 @@ export namespace Prisma {
 
 
   export type OrderDetailsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     ticket_id?: boolean
     order_id?: boolean
     quantity?: boolean
@@ -5114,6 +5154,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["orderDetails"]>
 
   export type OrderDetailsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     ticket_id?: boolean
     order_id?: boolean
     quantity?: boolean
@@ -5125,6 +5166,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["orderDetails"]>
 
   export type OrderDetailsSelectScalar = {
+    id?: boolean
     ticket_id?: boolean
     order_id?: boolean
     quantity?: boolean
@@ -5149,6 +5191,7 @@ export namespace Prisma {
       ticket: Prisma.$TicketPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
+      id: number
       ticket_id: number
       order_id: number
       quantity: number
@@ -5238,8 +5281,8 @@ export namespace Prisma {
      * // Get first 10 OrderDetails
      * const orderDetails = await prisma.orderDetails.findMany({ take: 10 })
      * 
-     * // Only select the `ticket_id`
-     * const orderDetailsWithTicket_idOnly = await prisma.orderDetails.findMany({ select: { ticket_id: true } })
+     * // Only select the `id`
+     * const orderDetailsWithIdOnly = await prisma.orderDetails.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends OrderDetailsFindManyArgs>(args?: SelectSubset<T, OrderDetailsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderDetailsPayload<ExtArgs>, T, "findMany">>
@@ -5283,9 +5326,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many OrderDetails and only return the `ticket_id`
-     * const orderDetailsWithTicket_idOnly = await prisma.orderDetails.createManyAndReturn({ 
-     *   select: { ticket_id: true },
+     * // Create many OrderDetails and only return the `id`
+     * const orderDetailsWithIdOnly = await prisma.orderDetails.createManyAndReturn({ 
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -5550,6 +5593,7 @@ export namespace Prisma {
    * Fields of the OrderDetails model
    */ 
   interface OrderDetailsFieldRefs {
+    readonly id: FieldRef<"OrderDetails", 'Int'>
     readonly ticket_id: FieldRef<"OrderDetails", 'Int'>
     readonly order_id: FieldRef<"OrderDetails", 'Int'>
     readonly quantity: FieldRef<"OrderDetails", 'Int'>
@@ -11168,7 +11212,9 @@ export namespace Prisma {
     created_at: 'created_at',
     expired_at: 'expired_at',
     customer_id: 'customer_id',
-    updated_at: 'updated_at'
+    updated_at: 'updated_at',
+    ref_code: 'ref_code',
+    discount: 'discount'
   };
 
   export type UserCouponScalarFieldEnum = (typeof UserCouponScalarFieldEnum)[keyof typeof UserCouponScalarFieldEnum]
@@ -11187,6 +11233,7 @@ export namespace Prisma {
 
 
   export const OrderDetailsScalarFieldEnum: {
+    id: 'id',
     ticket_id: 'ticket_id',
     order_id: 'order_id',
     quantity: 'quantity',
@@ -11531,6 +11578,8 @@ export namespace Prisma {
     expired_at?: DateTimeNullableFilter<"UserCoupon"> | Date | string | null
     customer_id?: IntFilter<"UserCoupon"> | number
     updated_at?: DateTimeNullableFilter<"UserCoupon"> | Date | string | null
+    ref_code?: StringNullableFilter<"UserCoupon"> | string | null
+    discount?: IntNullableFilter<"UserCoupon"> | number | null
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
 
@@ -11542,6 +11591,8 @@ export namespace Prisma {
     expired_at?: SortOrderInput | SortOrder
     customer_id?: SortOrder
     updated_at?: SortOrderInput | SortOrder
+    ref_code?: SortOrderInput | SortOrder
+    discount?: SortOrderInput | SortOrder
     customer?: CustomerOrderByWithRelationInput
   }
 
@@ -11556,6 +11607,8 @@ export namespace Prisma {
     expired_at?: DateTimeNullableFilter<"UserCoupon"> | Date | string | null
     customer_id?: IntFilter<"UserCoupon"> | number
     updated_at?: DateTimeNullableFilter<"UserCoupon"> | Date | string | null
+    ref_code?: StringNullableFilter<"UserCoupon"> | string | null
+    discount?: IntNullableFilter<"UserCoupon"> | number | null
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }, "id">
 
@@ -11567,6 +11620,8 @@ export namespace Prisma {
     expired_at?: SortOrderInput | SortOrder
     customer_id?: SortOrder
     updated_at?: SortOrderInput | SortOrder
+    ref_code?: SortOrderInput | SortOrder
+    discount?: SortOrderInput | SortOrder
     _count?: UserCouponCountOrderByAggregateInput
     _avg?: UserCouponAvgOrderByAggregateInput
     _max?: UserCouponMaxOrderByAggregateInput
@@ -11585,6 +11640,8 @@ export namespace Prisma {
     expired_at?: DateTimeNullableWithAggregatesFilter<"UserCoupon"> | Date | string | null
     customer_id?: IntWithAggregatesFilter<"UserCoupon"> | number
     updated_at?: DateTimeNullableWithAggregatesFilter<"UserCoupon"> | Date | string | null
+    ref_code?: StringNullableWithAggregatesFilter<"UserCoupon"> | string | null
+    discount?: IntNullableWithAggregatesFilter<"UserCoupon"> | number | null
   }
 
   export type UserPointWhereInput = {
@@ -11653,6 +11710,7 @@ export namespace Prisma {
     AND?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
     OR?: OrderDetailsWhereInput[]
     NOT?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
+    id?: IntFilter<"OrderDetails"> | number
     ticket_id?: IntFilter<"OrderDetails"> | number
     order_id?: IntFilter<"OrderDetails"> | number
     quantity?: IntFilter<"OrderDetails"> | number
@@ -11664,6 +11722,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsOrderByWithRelationInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -11675,7 +11734,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsWhereUniqueInput = Prisma.AtLeast<{
-    ticket_id_order_id?: OrderDetailsTicket_idOrder_idCompoundUniqueInput
+    id?: number
     AND?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
     OR?: OrderDetailsWhereInput[]
     NOT?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
@@ -11687,9 +11746,10 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"OrderDetails"> | Date | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     ticket?: XOR<TicketScalarRelationFilter, TicketWhereInput>
-  }, "ticket_id_order_id">
+  }, "id">
 
   export type OrderDetailsOrderByWithAggregationInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -11707,6 +11767,7 @@ export namespace Prisma {
     AND?: OrderDetailsScalarWhereWithAggregatesInput | OrderDetailsScalarWhereWithAggregatesInput[]
     OR?: OrderDetailsScalarWhereWithAggregatesInput[]
     NOT?: OrderDetailsScalarWhereWithAggregatesInput | OrderDetailsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"OrderDetails"> | number
     ticket_id?: IntWithAggregatesFilter<"OrderDetails"> | number
     order_id?: IntWithAggregatesFilter<"OrderDetails"> | number
     quantity?: IntWithAggregatesFilter<"OrderDetails"> | number
@@ -12232,6 +12293,8 @@ export namespace Prisma {
     created_at?: Date | string
     expired_at?: Date | string | null
     updated_at?: Date | string | null
+    ref_code?: string | null
+    discount?: number | null
     customer: CustomerCreateNestedOneWithoutUserCouponInput
   }
 
@@ -12243,6 +12306,8 @@ export namespace Prisma {
     expired_at?: Date | string | null
     customer_id: number
     updated_at?: Date | string | null
+    ref_code?: string | null
+    discount?: number | null
   }
 
   export type UserCouponUpdateInput = {
@@ -12251,6 +12316,8 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
     customer?: CustomerUpdateOneRequiredWithoutUserCouponNestedInput
   }
 
@@ -12262,6 +12329,8 @@ export namespace Prisma {
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customer_id?: IntFieldUpdateOperationsInput | number
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserCouponCreateManyInput = {
@@ -12272,6 +12341,8 @@ export namespace Prisma {
     expired_at?: Date | string | null
     customer_id: number
     updated_at?: Date | string | null
+    ref_code?: string | null
+    discount?: number | null
   }
 
   export type UserCouponUpdateManyMutationInput = {
@@ -12280,6 +12351,8 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserCouponUncheckedUpdateManyInput = {
@@ -12290,6 +12363,8 @@ export namespace Prisma {
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customer_id?: IntFieldUpdateOperationsInput | number
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserPointCreateInput = {
@@ -12361,6 +12436,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedCreateInput = {
+    id?: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -12379,6 +12455,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -12388,6 +12465,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsCreateManyInput = {
+    id?: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -12404,6 +12482,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -13083,6 +13162,17 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type CustomerScalarRelationFilter = {
     is?: CustomerWhereInput
     isNot?: CustomerWhereInput
@@ -13096,12 +13186,15 @@ export namespace Prisma {
     expired_at?: SortOrder
     customer_id?: SortOrder
     updated_at?: SortOrder
+    ref_code?: SortOrder
+    discount?: SortOrder
   }
 
   export type UserCouponAvgOrderByAggregateInput = {
     id?: SortOrder
     precentage?: SortOrder
     customer_id?: SortOrder
+    discount?: SortOrder
   }
 
   export type UserCouponMaxOrderByAggregateInput = {
@@ -13112,6 +13205,8 @@ export namespace Prisma {
     expired_at?: SortOrder
     customer_id?: SortOrder
     updated_at?: SortOrder
+    ref_code?: SortOrder
+    discount?: SortOrder
   }
 
   export type UserCouponMinOrderByAggregateInput = {
@@ -13122,12 +13217,31 @@ export namespace Prisma {
     expired_at?: SortOrder
     customer_id?: SortOrder
     updated_at?: SortOrder
+    ref_code?: SortOrder
+    discount?: SortOrder
   }
 
   export type UserCouponSumOrderByAggregateInput = {
     id?: SortOrder
     precentage?: SortOrder
     customer_id?: SortOrder
+    discount?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type UserPointCountOrderByAggregateInput = {
@@ -13179,12 +13293,8 @@ export namespace Prisma {
     isNot?: TicketWhereInput
   }
 
-  export type OrderDetailsTicket_idOrder_idCompoundUniqueInput = {
-    ticket_id: number
-    order_id: number
-  }
-
   export type OrderDetailsCountOrderByAggregateInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13194,6 +13304,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsAvgOrderByAggregateInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13201,6 +13312,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsMaxOrderByAggregateInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13210,6 +13322,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsMinOrderByAggregateInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13219,6 +13332,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsSumOrderByAggregateInput = {
+    id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13777,6 +13891,14 @@ export namespace Prisma {
     connect?: CustomerWhereUniqueInput
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CustomerUpdateOneRequiredWithoutUserCouponNestedInput = {
     create?: XOR<CustomerCreateWithoutUserCouponInput, CustomerUncheckedCreateWithoutUserCouponInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutUserCouponInput
@@ -14297,6 +14419,33 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumStatusOrderFilter<$PrismaModel = never> = {
     equals?: $Enums.StatusOrder | EnumStatusOrderFieldRefInput<$PrismaModel>
     in?: $Enums.StatusOrder[] | ListEnumStatusOrderFieldRefInput<$PrismaModel>
@@ -14371,6 +14520,8 @@ export namespace Prisma {
     created_at?: Date | string
     expired_at?: Date | string | null
     updated_at?: Date | string | null
+    ref_code?: string | null
+    discount?: number | null
   }
 
   export type UserCouponUncheckedCreateWithoutCustomerInput = {
@@ -14380,6 +14531,8 @@ export namespace Prisma {
     created_at?: Date | string
     expired_at?: Date | string | null
     updated_at?: Date | string | null
+    ref_code?: string | null
+    discount?: number | null
   }
 
   export type UserCouponCreateOrConnectWithoutCustomerInput = {
@@ -14502,6 +14655,8 @@ export namespace Prisma {
     expired_at?: DateTimeNullableFilter<"UserCoupon"> | Date | string | null
     customer_id?: IntFilter<"UserCoupon"> | number
     updated_at?: DateTimeNullableFilter<"UserCoupon"> | Date | string | null
+    ref_code?: StringNullableFilter<"UserCoupon"> | string | null
+    discount?: IntNullableFilter<"UserCoupon"> | number | null
   }
 
   export type UserPointUpsertWithWhereUniqueWithoutCustomerInput = {
@@ -14884,6 +15039,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedCreateWithoutOrderInput = {
+    id?: number
     ticket_id: number
     quantity: number
     subPrice: number
@@ -14959,6 +15115,7 @@ export namespace Prisma {
     AND?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
     OR?: OrderDetailsScalarWhereInput[]
     NOT?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
+    id?: IntFilter<"OrderDetails"> | number
     ticket_id?: IntFilter<"OrderDetails"> | number
     order_id?: IntFilter<"OrderDetails"> | number
     quantity?: IntFilter<"OrderDetails"> | number
@@ -15424,6 +15581,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedCreateWithoutTicketInput = {
+    id?: number
     order_id: number
     quantity: number
     subPrice: number
@@ -15542,6 +15700,8 @@ export namespace Prisma {
     created_at?: Date | string
     expired_at?: Date | string | null
     updated_at?: Date | string | null
+    ref_code?: string | null
+    discount?: number | null
   }
 
   export type UserPointCreateManyCustomerInput = {
@@ -15577,6 +15737,8 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserCouponUncheckedUpdateWithoutCustomerInput = {
@@ -15586,6 +15748,8 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserCouponUncheckedUpdateManyWithoutCustomerInput = {
@@ -15595,6 +15759,8 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     expired_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserPointUpdateWithoutCustomerInput = {
@@ -15678,6 +15844,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsCreateManyOrderInput = {
+    id?: number
     ticket_id: number
     quantity: number
     subPrice: number
@@ -15694,6 +15861,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedUpdateWithoutOrderInput = {
+    id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number
@@ -15702,6 +15870,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedUpdateManyWithoutOrderInput = {
+    id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number
@@ -15849,6 +16018,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsCreateManyTicketInput = {
+    id?: number
     order_id: number
     quantity: number
     subPrice: number
@@ -15865,6 +16035,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedUpdateWithoutTicketInput = {
+    id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number
@@ -15873,6 +16044,7 @@ export namespace Prisma {
   }
 
   export type OrderDetailsUncheckedUpdateManyWithoutTicketInput = {
+    id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number

@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 import { Category, Prisma } from "../../prisma/generated/client";
 
-
 export class EventController {
   async getEvent(req: Request, res: Response) {
     try {
@@ -35,6 +34,7 @@ export class EventController {
           },
         },
       });
+
       res.status(200).send({ event });
     } catch (err) {
       console.log(err);
@@ -42,9 +42,11 @@ export class EventController {
     }
   }
 
-  async getEventSlug(req: Request, res: Response) {
+  async getEventSlug(req: Request, res: Response): Promise<void> {
     try {
       const { slug } = req.params;
+
+      // Fetch event details from database
       const event = await prisma.event.findFirst({
         where: { slug },
         select: {
@@ -65,25 +67,17 @@ export class EventController {
               avatar: true,
             },
           },
-          tickets: {
-            select: {
-              category: true,
-              description: true,
-              seats: true,
-              price: true,
-            },
-          },
         },
       });
 
       if (!event) {
         res.status(404).send({ message: "Event not found" });
+        return;
       }
 
-      
-      res.status(200).send({ event });
+      res.status(200).send(event);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res
         .status(500)
         .send({ error: "An error occurred while fetching the event" });

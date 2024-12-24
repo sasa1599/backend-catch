@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
 const midtransClient = require("midtrans-client");
+import { PrismaClient } from "@prisma/client";
 
 export class OrderController {
   async applyCoupon(total_price: number, coupon_id: string | null) {
     if (!coupon_id) return { total_price, discount: 0 };
 
-    // Hard-coded 10% discount
     const discount = coupon_id ? 0.1 * total_price : 0;
     return { total_price: total_price - discount, discount };
   }
@@ -21,7 +21,6 @@ export class OrderController {
       throw new Error("Not enough points available");
     }
 
-    // Deduct all available points if points_used is greater than 0
     const final_price = total_price - totalPoints;
     return { final_price: Math.max(0, final_price), points_used: totalPoints };
   }
@@ -29,16 +28,18 @@ export class OrderController {
   async createOrder(req: Request, res: Response): Promise<void> {
     try {
       const { total_price, ticketCart, coupon_id, points_used } = req.body;
-      const userId = req.user?.id;
+      // const userId = req.user?.id;
+      const userId = 2;
 
+      // Check for authenticated user
       if (!userId) {
         res.status(401).json({ error: "User not authenticated" });
-        return; // Ensure no further code runs
+        return;
       }
 
       const expires_at = new Date(new Date().getTime() + 10 * 60000);
 
-      // Fetch the user points
+      // Fetch user points
       const userPoints = await prisma.userPoint.findMany({
         where: { customer_id: userId, is_transaction: false },
       });
@@ -48,7 +49,7 @@ export class OrderController {
         discount: 0,
       };
 
-      // Apply coupon discount
+      // Apply coupon discount if a coupon ID is provided
       if (coupon_id) {
         const coupon = await prisma.userCoupon.findUnique({
           where: { id: +coupon_id },
@@ -67,11 +68,12 @@ export class OrderController {
         }
       }
 
-      // Apply points used and calculate the final price if points_used is provided
+      // Apply points if provided
       let { final_price, points_used: pointsDeducted } = {
         final_price: discountedPrice,
         points_used: 0,
       };
+
       if (points_used > 0) {
         ({ final_price, points_used: pointsDeducted } = await this.applyPoints(
           userId,
@@ -80,23 +82,15 @@ export class OrderController {
         ));
       }
 
-      // Create order with a transaction
+      // Create order and order details in a transaction
       const order = await prisma.$transaction(async (prisma) => {
+        // Create the order
         const createdOrder = await prisma.order.create({
           data: { user_id: userId, total_price, final_price, expires_at },
         });
 
-        // Insert order details
-        for (const item of ticketCart) {
-          await prisma.orderDetails.create({
-            data: {
-              order_id: createdOrder.id,
-              ticket_id: item.ticket.id,
-              quantity: item.seats,
-              subPrice: item.seats * item.ticket.price,
-            },
-          });
-        }
+        // Call the createOrderDetails function
+        // await this.createOrderDetails(prisma, createdOrder.id, ticketCart);
 
         // Mark coupon as redeemed if applicable
         if (coupon_id) {
@@ -105,7 +99,7 @@ export class OrderController {
           });
           if (coupon && !coupon.is_redeem) {
             await prisma.userCoupon.update({
-              where: { id: coupon_id },
+              where: { id: +coupon_id },
               data: { is_redeem: true },
             });
           }
@@ -133,6 +127,7 @@ export class OrderController {
         return createdOrder;
       });
 
+      // Respond with success and order details
       res.status(201).json({
         message: "Order created successfully",
         order: {
@@ -144,8 +139,25 @@ export class OrderController {
         },
       });
     } catch (err) {
-      console.log(err);
-      res.status(500).send(err);
+      console.error(err);
+      res.status(500).json({ error: "Internal server error", details: err });
+    }
+  }
+
+  async createOrderDetails(
+    prisma: PrismaClient,
+    orderId: number,
+    ticketCart: Array<{ ticket: { id: number; price: number }; seats: number }>
+  ): Promise<void> {
+    for (const item of ticketCart) {
+      await prisma.orderDetails.create({
+        data: {
+          order_id: orderId,
+          ticket_id: item.ticket.id,
+          quantity: item.seats,
+          subPrice: item.seats * item.ticket.price,
+        },
+      });
     }
   }
 

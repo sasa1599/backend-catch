@@ -86,6 +86,8 @@ export class AuthController {
             maxAge: 24 * 60 * 60 * 1000, // 1 day
             path: "/",
             secure: process.env.NODE_ENV === "production",
+            sameSite:"lax",
+            
           })
           .send({ message: "Login Successfully", customer });
       } else if (data.role === "promotor") {
