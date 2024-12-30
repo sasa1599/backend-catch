@@ -11,7 +11,6 @@ import { uploader } from "../services/uploader";
 import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
 import { OrderController } from "../controller/order.controller";
-import expressAsyncHandler from "express-async-handler";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -61,31 +60,53 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
-    this.router.get(
-      "/events/:slug",
-      verifyToken,
-      this.eventController.getEventSlug.bind(this.eventController)
-    );
+    this.router.get("/events/:slug", this.eventController.getEventSlug);
     this.router.get(
       "/events/category/:category",
       this.eventController.getEventCategory
     );
 
-    // Order
-    this.router.post(
-      "/order",
+    //Ticket
+    this.router.get(
+      "/tickets/:event_id",
       verifyToken,
-      expressAsyncHandler(
-        this.orderController.createOrder.bind(this.orderController)
-      )
+      this.ticketController.getTickets
     );
+
+    // Order
+    this.router.post("/order", verifyToken, this.orderController.createOrder);
+    this.router.post(
+      "/order/payment",
+      verifyToken,
+      this.orderController.getSnapToken
+    );
+    this.router.get(
+      "/order/order",
+      verifyToken,
+      this.orderController.getTicketOrder
+    );
+    this.router.post(
+      "/order/midtrans-webhook",
+      this.orderController.midtransWebHook
+    );
+    this.router.get("/order/:id", verifyToken, this.orderController.getOrderId);
 
     this.router.post(
       "/create-order",
       verifyToken,
-      expressAsyncHandler(this.orderController.createOrder)
+      this.orderController.createOrder
     );
-    this.router.post("/order/payment", this.orderController.getSnapToken);
+    this.router.post(
+      "/order/payment",
+      verifyToken,
+      this.orderController.getSnapToken
+    );
+    this.router.get(
+      "/order/user/detail",
+      verifyToken,
+      this.orderController.getOrderCustomerId
+    );
+
     this.router.get("/order/:id", this.orderController.getOrderId);
 
     // profile

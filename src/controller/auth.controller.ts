@@ -19,7 +19,6 @@ const addPoint = async (referralUserId: number) => {
       new Date().setMonth(new Date().getMonth() + 3)
     ); // 3 months from now
 
-
     await prisma.userPoint.create({
       data: {
         customer_id: referralUserId,
@@ -84,10 +83,9 @@ export class AuthController {
           .cookie("token", token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000, // 1 day
-            path: "/",
-            secure: process.env.NODE_ENV === "production",
-            sameSite:"lax",
-            
+            // path: "/",
+            // secure: process.env.NODE_ENV === "production",
+            // sameSite:"lax",
           })
           .send({ message: "Login Successfully", customer });
       } else if (data.role === "promotor") {
@@ -345,7 +343,7 @@ export class AuthController {
     }
   }
 
-  //cobain forgot password nanti dulu belum bisa 
+  //cobain forgot password nanti dulu belum bisa
   // async forgotPassword(req: Request, res: Response, next: NextFunction) {
   // const user = await prisma.customer.findFirst({
   //   where: {
