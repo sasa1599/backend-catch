@@ -154,6 +154,7 @@ exports.Prisma.UserPointScalarFieldEnum = {
 
 exports.Prisma.OrderDetailsScalarFieldEnum = {
   id: 'id',
+  user_id: 'user_id',
   ticket_id: 'ticket_id',
   order_id: 'order_id',
   quantity: 'quantity',

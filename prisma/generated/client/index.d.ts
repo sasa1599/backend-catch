@@ -1593,6 +1593,7 @@ export namespace Prisma {
     UserPoint: number
     Order: number
     Review: number
+    OrderDetails: number
   }
 
   export type CustomerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1600,6 +1601,7 @@ export namespace Prisma {
     UserPoint?: boolean | CustomerCountOutputTypeCountUserPointArgs
     Order?: boolean | CustomerCountOutputTypeCountOrderArgs
     Review?: boolean | CustomerCountOutputTypeCountReviewArgs
+    OrderDetails?: boolean | CustomerCountOutputTypeCountOrderDetailsArgs
   }
 
   // Custom InputTypes
@@ -1639,6 +1641,13 @@ export namespace Prisma {
    */
   export type CustomerCountOutputTypeCountReviewArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewWhereInput
+  }
+
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountOrderDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderDetailsWhereInput
   }
 
 
@@ -2029,6 +2038,7 @@ export namespace Prisma {
     UserPoint?: boolean | Customer$UserPointArgs<ExtArgs>
     Order?: boolean | Customer$OrderArgs<ExtArgs>
     Review?: boolean | Customer$ReviewArgs<ExtArgs>
+    OrderDetails?: boolean | Customer$OrderDetailsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customer"]>
 
@@ -2065,6 +2075,7 @@ export namespace Prisma {
     UserPoint?: boolean | Customer$UserPointArgs<ExtArgs>
     Order?: boolean | Customer$OrderArgs<ExtArgs>
     Review?: boolean | Customer$ReviewArgs<ExtArgs>
+    OrderDetails?: boolean | Customer$OrderDetailsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CustomerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2076,6 +2087,7 @@ export namespace Prisma {
       UserPoint: Prisma.$UserPointPayload<ExtArgs>[]
       Order: Prisma.$OrderPayload<ExtArgs>[]
       Review: Prisma.$ReviewPayload<ExtArgs>[]
+      OrderDetails: Prisma.$OrderDetailsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2457,6 +2469,7 @@ export namespace Prisma {
     UserPoint<T extends Customer$UserPointArgs<ExtArgs> = {}>(args?: Subset<T, Customer$UserPointArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPointPayload<ExtArgs>, T, "findMany"> | Null>
     Order<T extends Customer$OrderArgs<ExtArgs> = {}>(args?: Subset<T, Customer$OrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany"> | Null>
     Review<T extends Customer$ReviewArgs<ExtArgs> = {}>(args?: Subset<T, Customer$ReviewArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
+    OrderDetails<T extends Customer$OrderDetailsArgs<ExtArgs> = {}>(args?: Subset<T, Customer$OrderDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderDetailsPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2888,6 +2901,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Customer.OrderDetails
+   */
+  export type Customer$OrderDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderDetails
+     */
+    select?: OrderDetailsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderDetailsInclude<ExtArgs> | null
+    where?: OrderDetailsWhereInput
+    orderBy?: OrderDetailsOrderByWithRelationInput | OrderDetailsOrderByWithRelationInput[]
+    cursor?: OrderDetailsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderDetailsScalarFieldEnum | OrderDetailsScalarFieldEnum[]
   }
 
   /**
@@ -4933,6 +4966,7 @@ export namespace Prisma {
 
   export type OrderDetailsAvgAggregateOutputType = {
     id: number | null
+    user_id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4941,6 +4975,7 @@ export namespace Prisma {
 
   export type OrderDetailsSumAggregateOutputType = {
     id: number | null
+    user_id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4949,6 +4984,7 @@ export namespace Prisma {
 
   export type OrderDetailsMinAggregateOutputType = {
     id: number | null
+    user_id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4959,6 +4995,7 @@ export namespace Prisma {
 
   export type OrderDetailsMaxAggregateOutputType = {
     id: number | null
+    user_id: number | null
     ticket_id: number | null
     order_id: number | null
     quantity: number | null
@@ -4969,6 +5006,7 @@ export namespace Prisma {
 
   export type OrderDetailsCountAggregateOutputType = {
     id: number
+    user_id: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -4981,6 +5019,7 @@ export namespace Prisma {
 
   export type OrderDetailsAvgAggregateInputType = {
     id?: true
+    user_id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -4989,6 +5028,7 @@ export namespace Prisma {
 
   export type OrderDetailsSumAggregateInputType = {
     id?: true
+    user_id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -4997,6 +5037,7 @@ export namespace Prisma {
 
   export type OrderDetailsMinAggregateInputType = {
     id?: true
+    user_id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -5007,6 +5048,7 @@ export namespace Prisma {
 
   export type OrderDetailsMaxAggregateInputType = {
     id?: true
+    user_id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -5017,6 +5059,7 @@ export namespace Prisma {
 
   export type OrderDetailsCountAggregateInputType = {
     id?: true
+    user_id?: true
     ticket_id?: true
     order_id?: true
     quantity?: true
@@ -5114,6 +5157,7 @@ export namespace Prisma {
 
   export type OrderDetailsGroupByOutputType = {
     id: number
+    user_id: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -5143,6 +5187,7 @@ export namespace Prisma {
 
   export type OrderDetailsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    user_id?: boolean
     ticket_id?: boolean
     order_id?: boolean
     quantity?: boolean
@@ -5151,10 +5196,12 @@ export namespace Prisma {
     created_at?: boolean
     order?: boolean | OrderDefaultArgs<ExtArgs>
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderDetails"]>
 
   export type OrderDetailsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    user_id?: boolean
     ticket_id?: boolean
     order_id?: boolean
     quantity?: boolean
@@ -5163,10 +5210,12 @@ export namespace Prisma {
     created_at?: boolean
     order?: boolean | OrderDefaultArgs<ExtArgs>
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderDetails"]>
 
   export type OrderDetailsSelectScalar = {
     id?: boolean
+    user_id?: boolean
     ticket_id?: boolean
     order_id?: boolean
     quantity?: boolean
@@ -5178,10 +5227,12 @@ export namespace Prisma {
   export type OrderDetailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | OrderDefaultArgs<ExtArgs>
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | CustomerDefaultArgs<ExtArgs>
   }
   export type OrderDetailsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | OrderDefaultArgs<ExtArgs>
     ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | CustomerDefaultArgs<ExtArgs>
   }
 
   export type $OrderDetailsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5189,9 +5240,11 @@ export namespace Prisma {
     objects: {
       order: Prisma.$OrderPayload<ExtArgs>
       ticket: Prisma.$TicketPayload<ExtArgs>
+      user: Prisma.$CustomerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      user_id: number
       ticket_id: number
       order_id: number
       quantity: number
@@ -5564,6 +5617,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     ticket<T extends TicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketDefaultArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5594,6 +5648,7 @@ export namespace Prisma {
    */ 
   interface OrderDetailsFieldRefs {
     readonly id: FieldRef<"OrderDetails", 'Int'>
+    readonly user_id: FieldRef<"OrderDetails", 'Int'>
     readonly ticket_id: FieldRef<"OrderDetails", 'Int'>
     readonly order_id: FieldRef<"OrderDetails", 'Int'>
     readonly quantity: FieldRef<"OrderDetails", 'Int'>
@@ -11234,6 +11289,7 @@ export namespace Prisma {
 
   export const OrderDetailsScalarFieldEnum: {
     id: 'id',
+    user_id: 'user_id',
     ticket_id: 'ticket_id',
     order_id: 'order_id',
     quantity: 'quantity',
@@ -11490,6 +11546,7 @@ export namespace Prisma {
     UserPoint?: UserPointListRelationFilter
     Order?: OrderListRelationFilter
     Review?: ReviewListRelationFilter
+    OrderDetails?: OrderDetailsListRelationFilter
   }
 
   export type CustomerOrderByWithRelationInput = {
@@ -11508,6 +11565,7 @@ export namespace Prisma {
     UserPoint?: UserPointOrderByRelationAggregateInput
     Order?: OrderOrderByRelationAggregateInput
     Review?: ReviewOrderByRelationAggregateInput
+    OrderDetails?: OrderDetailsOrderByRelationAggregateInput
   }
 
   export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -11529,6 +11587,7 @@ export namespace Prisma {
     UserPoint?: UserPointListRelationFilter
     Order?: OrderListRelationFilter
     Review?: ReviewListRelationFilter
+    OrderDetails?: OrderDetailsListRelationFilter
   }, "id" | "username" | "email">
 
   export type CustomerOrderByWithAggregationInput = {
@@ -11711,6 +11770,7 @@ export namespace Prisma {
     OR?: OrderDetailsWhereInput[]
     NOT?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
     id?: IntFilter<"OrderDetails"> | number
+    user_id?: IntFilter<"OrderDetails"> | number
     ticket_id?: IntFilter<"OrderDetails"> | number
     order_id?: IntFilter<"OrderDetails"> | number
     quantity?: IntFilter<"OrderDetails"> | number
@@ -11719,10 +11779,12 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"OrderDetails"> | Date | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     ticket?: XOR<TicketScalarRelationFilter, TicketWhereInput>
+    user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
 
   export type OrderDetailsOrderByWithRelationInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -11731,6 +11793,7 @@ export namespace Prisma {
     created_at?: SortOrder
     order?: OrderOrderByWithRelationInput
     ticket?: TicketOrderByWithRelationInput
+    user?: CustomerOrderByWithRelationInput
   }
 
   export type OrderDetailsWhereUniqueInput = Prisma.AtLeast<{
@@ -11738,6 +11801,7 @@ export namespace Prisma {
     AND?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
     OR?: OrderDetailsWhereInput[]
     NOT?: OrderDetailsWhereInput | OrderDetailsWhereInput[]
+    user_id?: IntFilter<"OrderDetails"> | number
     ticket_id?: IntFilter<"OrderDetails"> | number
     order_id?: IntFilter<"OrderDetails"> | number
     quantity?: IntFilter<"OrderDetails"> | number
@@ -11746,10 +11810,12 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"OrderDetails"> | Date | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     ticket?: XOR<TicketScalarRelationFilter, TicketWhereInput>
+    user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }, "id">
 
   export type OrderDetailsOrderByWithAggregationInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -11768,6 +11834,7 @@ export namespace Prisma {
     OR?: OrderDetailsScalarWhereWithAggregatesInput[]
     NOT?: OrderDetailsScalarWhereWithAggregatesInput | OrderDetailsScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"OrderDetails"> | number
+    user_id?: IntWithAggregatesFilter<"OrderDetails"> | number
     ticket_id?: IntWithAggregatesFilter<"OrderDetails"> | number
     order_id?: IntWithAggregatesFilter<"OrderDetails"> | number
     quantity?: IntWithAggregatesFilter<"OrderDetails"> | number
@@ -12191,6 +12258,7 @@ export namespace Prisma {
     UserPoint?: UserPointCreateNestedManyWithoutCustomerInput
     Order?: OrderCreateNestedManyWithoutUserInput
     Review?: ReviewCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
   }
 
   export type CustomerUncheckedCreateInput = {
@@ -12209,6 +12277,7 @@ export namespace Prisma {
     UserPoint?: UserPointUncheckedCreateNestedManyWithoutCustomerInput
     Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Review?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type CustomerUpdateInput = {
@@ -12226,6 +12295,7 @@ export namespace Prisma {
     UserPoint?: UserPointUpdateManyWithoutCustomerNestedInput
     Order?: OrderUpdateManyWithoutUserNestedInput
     Review?: ReviewUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUncheckedUpdateInput = {
@@ -12244,6 +12314,7 @@ export namespace Prisma {
     UserPoint?: UserPointUncheckedUpdateManyWithoutCustomerNestedInput
     Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Review?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerCreateManyInput = {
@@ -12433,10 +12504,12 @@ export namespace Prisma {
     created_at?: Date | string
     order: OrderCreateNestedOneWithoutOrderDetailsInput
     ticket: TicketCreateNestedOneWithoutOrderDetailsInput
+    user?: CustomerCreateNestedOneWithoutOrderDetailsInput
   }
 
   export type OrderDetailsUncheckedCreateInput = {
     id?: number
+    user_id?: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -12452,10 +12525,12 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutOrderDetailsNestedInput
     ticket?: TicketUpdateOneRequiredWithoutOrderDetailsNestedInput
+    user?: CustomerUpdateOneRequiredWithoutOrderDetailsNestedInput
   }
 
   export type OrderDetailsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -12466,6 +12541,7 @@ export namespace Prisma {
 
   export type OrderDetailsCreateManyInput = {
     id?: number
+    user_id?: number
     ticket_id: number
     order_id: number
     quantity: number
@@ -12483,6 +12559,7 @@ export namespace Prisma {
 
   export type OrderDetailsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -13003,6 +13080,12 @@ export namespace Prisma {
     none?: ReviewWhereInput
   }
 
+  export type OrderDetailsListRelationFilter = {
+    every?: OrderDetailsWhereInput
+    some?: OrderDetailsWhereInput
+    none?: OrderDetailsWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -13021,6 +13104,10 @@ export namespace Prisma {
   }
 
   export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OrderDetailsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13295,6 +13382,7 @@ export namespace Prisma {
 
   export type OrderDetailsCountOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13305,6 +13393,7 @@ export namespace Prisma {
 
   export type OrderDetailsAvgOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13313,6 +13402,7 @@ export namespace Prisma {
 
   export type OrderDetailsMaxOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13323,6 +13413,7 @@ export namespace Prisma {
 
   export type OrderDetailsMinOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13333,6 +13424,7 @@ export namespace Prisma {
 
   export type OrderDetailsSumOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     ticket_id?: SortOrder
     order_id?: SortOrder
     quantity?: SortOrder
@@ -13344,16 +13436,6 @@ export namespace Prisma {
     in?: $Enums.StatusOrder[] | ListEnumStatusOrderFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatusOrder[] | ListEnumStatusOrderFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusOrderFilter<$PrismaModel> | $Enums.StatusOrder
-  }
-
-  export type OrderDetailsListRelationFilter = {
-    every?: OrderDetailsWhereInput
-    some?: OrderDetailsWhereInput
-    none?: OrderDetailsWhereInput
-  }
-
-  export type OrderDetailsOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type OrderCountOrderByAggregateInput = {
@@ -13717,6 +13799,13 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type OrderDetailsCreateNestedManyWithoutUserInput = {
+    create?: XOR<OrderDetailsCreateWithoutUserInput, OrderDetailsUncheckedCreateWithoutUserInput> | OrderDetailsCreateWithoutUserInput[] | OrderDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderDetailsCreateOrConnectWithoutUserInput | OrderDetailsCreateOrConnectWithoutUserInput[]
+    createMany?: OrderDetailsCreateManyUserInputEnvelope
+    connect?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+  }
+
   export type UserCouponUncheckedCreateNestedManyWithoutCustomerInput = {
     create?: XOR<UserCouponCreateWithoutCustomerInput, UserCouponUncheckedCreateWithoutCustomerInput> | UserCouponCreateWithoutCustomerInput[] | UserCouponUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: UserCouponCreateOrConnectWithoutCustomerInput | UserCouponCreateOrConnectWithoutCustomerInput[]
@@ -13743,6 +13832,13 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
     createMany?: ReviewCreateManyUserInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type OrderDetailsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<OrderDetailsCreateWithoutUserInput, OrderDetailsUncheckedCreateWithoutUserInput> | OrderDetailsCreateWithoutUserInput[] | OrderDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderDetailsCreateOrConnectWithoutUserInput | OrderDetailsCreateOrConnectWithoutUserInput[]
+    createMany?: OrderDetailsCreateManyUserInputEnvelope
+    connect?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13821,6 +13917,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type OrderDetailsUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OrderDetailsCreateWithoutUserInput, OrderDetailsUncheckedCreateWithoutUserInput> | OrderDetailsCreateWithoutUserInput[] | OrderDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderDetailsCreateOrConnectWithoutUserInput | OrderDetailsCreateOrConnectWithoutUserInput[]
+    upsert?: OrderDetailsUpsertWithWhereUniqueWithoutUserInput | OrderDetailsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OrderDetailsCreateManyUserInputEnvelope
+    set?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    disconnect?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    delete?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    connect?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    update?: OrderDetailsUpdateWithWhereUniqueWithoutUserInput | OrderDetailsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OrderDetailsUpdateManyWithWhereWithoutUserInput | OrderDetailsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -13885,6 +13995,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type OrderDetailsUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OrderDetailsCreateWithoutUserInput, OrderDetailsUncheckedCreateWithoutUserInput> | OrderDetailsCreateWithoutUserInput[] | OrderDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OrderDetailsCreateOrConnectWithoutUserInput | OrderDetailsCreateOrConnectWithoutUserInput[]
+    upsert?: OrderDetailsUpsertWithWhereUniqueWithoutUserInput | OrderDetailsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OrderDetailsCreateManyUserInputEnvelope
+    set?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    disconnect?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    delete?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    connect?: OrderDetailsWhereUniqueInput | OrderDetailsWhereUniqueInput[]
+    update?: OrderDetailsUpdateWithWhereUniqueWithoutUserInput | OrderDetailsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OrderDetailsUpdateManyWithWhereWithoutUserInput | OrderDetailsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
+  }
+
   export type CustomerCreateNestedOneWithoutUserCouponInput = {
     create?: XOR<CustomerCreateWithoutUserCouponInput, CustomerUncheckedCreateWithoutUserCouponInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutUserCouponInput
@@ -13933,6 +14057,12 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput
   }
 
+  export type CustomerCreateNestedOneWithoutOrderDetailsInput = {
+    create?: XOR<CustomerCreateWithoutOrderDetailsInput, CustomerUncheckedCreateWithoutOrderDetailsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutOrderDetailsInput
+    connect?: CustomerWhereUniqueInput
+  }
+
   export type OrderUpdateOneRequiredWithoutOrderDetailsNestedInput = {
     create?: XOR<OrderCreateWithoutOrderDetailsInput, OrderUncheckedCreateWithoutOrderDetailsInput>
     connectOrCreate?: OrderCreateOrConnectWithoutOrderDetailsInput
@@ -13947,6 +14077,14 @@ export namespace Prisma {
     upsert?: TicketUpsertWithoutOrderDetailsInput
     connect?: TicketWhereUniqueInput
     update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutOrderDetailsInput, TicketUpdateWithoutOrderDetailsInput>, TicketUncheckedUpdateWithoutOrderDetailsInput>
+  }
+
+  export type CustomerUpdateOneRequiredWithoutOrderDetailsNestedInput = {
+    create?: XOR<CustomerCreateWithoutOrderDetailsInput, CustomerUncheckedCreateWithoutOrderDetailsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutOrderDetailsInput
+    upsert?: CustomerUpsertWithoutOrderDetailsInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutOrderDetailsInput, CustomerUpdateWithoutOrderDetailsInput>, CustomerUncheckedUpdateWithoutOrderDetailsInput>
   }
 
   export type OrderDetailsCreateNestedManyWithoutOrderInput = {
@@ -14628,6 +14766,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OrderDetailsCreateWithoutUserInput = {
+    quantity: number
+    subPrice: number
+    updated_at?: Date | string
+    created_at?: Date | string
+    order: OrderCreateNestedOneWithoutOrderDetailsInput
+    ticket: TicketCreateNestedOneWithoutOrderDetailsInput
+  }
+
+  export type OrderDetailsUncheckedCreateWithoutUserInput = {
+    id?: number
+    ticket_id: number
+    order_id: number
+    quantity: number
+    subPrice: number
+    updated_at?: Date | string
+    created_at?: Date | string
+  }
+
+  export type OrderDetailsCreateOrConnectWithoutUserInput = {
+    where: OrderDetailsWhereUniqueInput
+    create: XOR<OrderDetailsCreateWithoutUserInput, OrderDetailsUncheckedCreateWithoutUserInput>
+  }
+
+  export type OrderDetailsCreateManyUserInputEnvelope = {
+    data: OrderDetailsCreateManyUserInput | OrderDetailsCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCouponUpsertWithWhereUniqueWithoutCustomerInput = {
     where: UserCouponWhereUniqueInput
     update: XOR<UserCouponUpdateWithoutCustomerInput, UserCouponUncheckedUpdateWithoutCustomerInput>
@@ -14746,6 +14913,36 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Review"> | Date | string
   }
 
+  export type OrderDetailsUpsertWithWhereUniqueWithoutUserInput = {
+    where: OrderDetailsWhereUniqueInput
+    update: XOR<OrderDetailsUpdateWithoutUserInput, OrderDetailsUncheckedUpdateWithoutUserInput>
+    create: XOR<OrderDetailsCreateWithoutUserInput, OrderDetailsUncheckedCreateWithoutUserInput>
+  }
+
+  export type OrderDetailsUpdateWithWhereUniqueWithoutUserInput = {
+    where: OrderDetailsWhereUniqueInput
+    data: XOR<OrderDetailsUpdateWithoutUserInput, OrderDetailsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type OrderDetailsUpdateManyWithWhereWithoutUserInput = {
+    where: OrderDetailsScalarWhereInput
+    data: XOR<OrderDetailsUpdateManyMutationInput, OrderDetailsUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type OrderDetailsScalarWhereInput = {
+    AND?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
+    OR?: OrderDetailsScalarWhereInput[]
+    NOT?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
+    id?: IntFilter<"OrderDetails"> | number
+    user_id?: IntFilter<"OrderDetails"> | number
+    ticket_id?: IntFilter<"OrderDetails"> | number
+    order_id?: IntFilter<"OrderDetails"> | number
+    quantity?: IntFilter<"OrderDetails"> | number
+    subPrice?: IntFilter<"OrderDetails"> | number
+    updated_at?: DateTimeFilter<"OrderDetails"> | Date | string
+    created_at?: DateTimeFilter<"OrderDetails"> | Date | string
+  }
+
   export type CustomerCreateWithoutUserCouponInput = {
     username: string
     name: string
@@ -14760,6 +14957,7 @@ export namespace Prisma {
     UserPoint?: UserPointCreateNestedManyWithoutCustomerInput
     Order?: OrderCreateNestedManyWithoutUserInput
     Review?: ReviewCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
   }
 
   export type CustomerUncheckedCreateWithoutUserCouponInput = {
@@ -14777,6 +14975,7 @@ export namespace Prisma {
     UserPoint?: UserPointUncheckedCreateNestedManyWithoutCustomerInput
     Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Review?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type CustomerCreateOrConnectWithoutUserCouponInput = {
@@ -14809,6 +15008,7 @@ export namespace Prisma {
     UserPoint?: UserPointUpdateManyWithoutCustomerNestedInput
     Order?: OrderUpdateManyWithoutUserNestedInput
     Review?: ReviewUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutUserCouponInput = {
@@ -14826,6 +15026,7 @@ export namespace Prisma {
     UserPoint?: UserPointUncheckedUpdateManyWithoutCustomerNestedInput
     Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Review?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerCreateWithoutUserPointInput = {
@@ -14842,6 +15043,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponCreateNestedManyWithoutCustomerInput
     Order?: OrderCreateNestedManyWithoutUserInput
     Review?: ReviewCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
   }
 
   export type CustomerUncheckedCreateWithoutUserPointInput = {
@@ -14859,6 +15061,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUncheckedCreateNestedManyWithoutCustomerInput
     Order?: OrderUncheckedCreateNestedManyWithoutUserInput
     Review?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type CustomerCreateOrConnectWithoutUserPointInput = {
@@ -14891,6 +15094,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUpdateManyWithoutCustomerNestedInput
     Order?: OrderUpdateManyWithoutUserNestedInput
     Review?: ReviewUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutUserPointInput = {
@@ -14908,6 +15112,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUncheckedUpdateManyWithoutCustomerNestedInput
     Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
     Review?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrderCreateWithoutOrderDetailsInput = {
@@ -14962,6 +15167,46 @@ export namespace Prisma {
   export type TicketCreateOrConnectWithoutOrderDetailsInput = {
     where: TicketWhereUniqueInput
     create: XOR<TicketCreateWithoutOrderDetailsInput, TicketUncheckedCreateWithoutOrderDetailsInput>
+  }
+
+  export type CustomerCreateWithoutOrderDetailsInput = {
+    username: string
+    name: string
+    email: string
+    password: string
+    avatar?: string | null
+    isVerify?: boolean
+    ref_code?: string | null
+    referred_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    UserCoupon?: UserCouponCreateNestedManyWithoutCustomerInput
+    UserPoint?: UserPointCreateNestedManyWithoutCustomerInput
+    Order?: OrderCreateNestedManyWithoutUserInput
+    Review?: ReviewCreateNestedManyWithoutUserInput
+  }
+
+  export type CustomerUncheckedCreateWithoutOrderDetailsInput = {
+    id?: number
+    username: string
+    name: string
+    email: string
+    password: string
+    avatar?: string | null
+    isVerify?: boolean
+    ref_code?: string | null
+    referred_code?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    UserCoupon?: UserCouponUncheckedCreateNestedManyWithoutCustomerInput
+    UserPoint?: UserPointUncheckedCreateNestedManyWithoutCustomerInput
+    Order?: OrderUncheckedCreateNestedManyWithoutUserInput
+    Review?: ReviewUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type CustomerCreateOrConnectWithoutOrderDetailsInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutOrderDetailsInput, CustomerUncheckedCreateWithoutOrderDetailsInput>
   }
 
   export type OrderUpsertWithoutOrderDetailsInput = {
@@ -15030,16 +15275,64 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomerUpsertWithoutOrderDetailsInput = {
+    update: XOR<CustomerUpdateWithoutOrderDetailsInput, CustomerUncheckedUpdateWithoutOrderDetailsInput>
+    create: XOR<CustomerCreateWithoutOrderDetailsInput, CustomerUncheckedCreateWithoutOrderDetailsInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutOrderDetailsInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutOrderDetailsInput, CustomerUncheckedUpdateWithoutOrderDetailsInput>
+  }
+
+  export type CustomerUpdateWithoutOrderDetailsInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerify?: BoolFieldUpdateOperationsInput | boolean
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    referred_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    UserCoupon?: UserCouponUpdateManyWithoutCustomerNestedInput
+    UserPoint?: UserPointUpdateManyWithoutCustomerNestedInput
+    Order?: OrderUpdateManyWithoutUserNestedInput
+    Review?: ReviewUpdateManyWithoutUserNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutOrderDetailsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerify?: BoolFieldUpdateOperationsInput | boolean
+    ref_code?: NullableStringFieldUpdateOperationsInput | string | null
+    referred_code?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    UserCoupon?: UserCouponUncheckedUpdateManyWithoutCustomerNestedInput
+    UserPoint?: UserPointUncheckedUpdateManyWithoutCustomerNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    Review?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type OrderDetailsCreateWithoutOrderInput = {
     quantity: number
     subPrice: number
     updated_at?: Date | string
     created_at?: Date | string
     ticket: TicketCreateNestedOneWithoutOrderDetailsInput
+    user?: CustomerCreateNestedOneWithoutOrderDetailsInput
   }
 
   export type OrderDetailsUncheckedCreateWithoutOrderInput = {
     id?: number
+    user_id?: number
     ticket_id: number
     quantity: number
     subPrice: number
@@ -15071,6 +15364,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponCreateNestedManyWithoutCustomerInput
     UserPoint?: UserPointCreateNestedManyWithoutCustomerInput
     Review?: ReviewCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
   }
 
   export type CustomerUncheckedCreateWithoutOrderInput = {
@@ -15088,6 +15382,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUncheckedCreateNestedManyWithoutCustomerInput
     UserPoint?: UserPointUncheckedCreateNestedManyWithoutCustomerInput
     Review?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type CustomerCreateOrConnectWithoutOrderInput = {
@@ -15109,19 +15404,6 @@ export namespace Prisma {
   export type OrderDetailsUpdateManyWithWhereWithoutOrderInput = {
     where: OrderDetailsScalarWhereInput
     data: XOR<OrderDetailsUpdateManyMutationInput, OrderDetailsUncheckedUpdateManyWithoutOrderInput>
-  }
-
-  export type OrderDetailsScalarWhereInput = {
-    AND?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
-    OR?: OrderDetailsScalarWhereInput[]
-    NOT?: OrderDetailsScalarWhereInput | OrderDetailsScalarWhereInput[]
-    id?: IntFilter<"OrderDetails"> | number
-    ticket_id?: IntFilter<"OrderDetails"> | number
-    order_id?: IntFilter<"OrderDetails"> | number
-    quantity?: IntFilter<"OrderDetails"> | number
-    subPrice?: IntFilter<"OrderDetails"> | number
-    updated_at?: DateTimeFilter<"OrderDetails"> | Date | string
-    created_at?: DateTimeFilter<"OrderDetails"> | Date | string
   }
 
   export type CustomerUpsertWithoutOrderInput = {
@@ -15149,6 +15431,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUpdateManyWithoutCustomerNestedInput
     UserPoint?: UserPointUpdateManyWithoutCustomerNestedInput
     Review?: ReviewUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutOrderInput = {
@@ -15166,6 +15449,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUncheckedUpdateManyWithoutCustomerNestedInput
     UserPoint?: UserPointUncheckedUpdateManyWithoutCustomerNestedInput
     Review?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerCreateWithoutReviewInput = {
@@ -15182,6 +15466,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponCreateNestedManyWithoutCustomerInput
     UserPoint?: UserPointCreateNestedManyWithoutCustomerInput
     Order?: OrderCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
   }
 
   export type CustomerUncheckedCreateWithoutReviewInput = {
@@ -15199,6 +15484,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUncheckedCreateNestedManyWithoutCustomerInput
     UserPoint?: UserPointUncheckedCreateNestedManyWithoutCustomerInput
     Order?: OrderUncheckedCreateNestedManyWithoutUserInput
+    OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type CustomerCreateOrConnectWithoutReviewInput = {
@@ -15267,6 +15553,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUpdateManyWithoutCustomerNestedInput
     UserPoint?: UserPointUpdateManyWithoutCustomerNestedInput
     Order?: OrderUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutReviewInput = {
@@ -15284,6 +15571,7 @@ export namespace Prisma {
     UserCoupon?: UserCouponUncheckedUpdateManyWithoutCustomerNestedInput
     UserPoint?: UserPointUncheckedUpdateManyWithoutCustomerNestedInput
     Order?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EventUpsertWithoutReviewInput = {
@@ -15578,10 +15866,12 @@ export namespace Prisma {
     updated_at?: Date | string
     created_at?: Date | string
     order: OrderCreateNestedOneWithoutOrderDetailsInput
+    user?: CustomerCreateNestedOneWithoutOrderDetailsInput
   }
 
   export type OrderDetailsUncheckedCreateWithoutTicketInput = {
     id?: number
+    user_id?: number
     order_id: number
     quantity: number
     subPrice: number
@@ -15731,6 +16021,16 @@ export namespace Prisma {
     created_at?: Date | string
   }
 
+  export type OrderDetailsCreateManyUserInput = {
+    id?: number
+    ticket_id: number
+    order_id: number
+    quantity: number
+    subPrice: number
+    updated_at?: Date | string
+    created_at?: Date | string
+  }
+
   export type UserCouponUpdateWithoutCustomerInput = {
     is_redeem?: BoolFieldUpdateOperationsInput | boolean
     precentage?: IntFieldUpdateOperationsInput | number
@@ -15843,8 +16143,38 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OrderDetailsUpdateWithoutUserInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    subPrice?: IntFieldUpdateOperationsInput | number
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneRequiredWithoutOrderDetailsNestedInput
+    ticket?: TicketUpdateOneRequiredWithoutOrderDetailsNestedInput
+  }
+
+  export type OrderDetailsUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    ticket_id?: IntFieldUpdateOperationsInput | number
+    order_id?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
+    subPrice?: IntFieldUpdateOperationsInput | number
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderDetailsUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    ticket_id?: IntFieldUpdateOperationsInput | number
+    order_id?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
+    subPrice?: IntFieldUpdateOperationsInput | number
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrderDetailsCreateManyOrderInput = {
     id?: number
+    user_id?: number
     ticket_id: number
     quantity: number
     subPrice: number
@@ -15858,10 +16188,12 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     ticket?: TicketUpdateOneRequiredWithoutOrderDetailsNestedInput
+    user?: CustomerUpdateOneRequiredWithoutOrderDetailsNestedInput
   }
 
   export type OrderDetailsUncheckedUpdateWithoutOrderInput = {
     id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number
@@ -15871,6 +16203,7 @@ export namespace Prisma {
 
   export type OrderDetailsUncheckedUpdateManyWithoutOrderInput = {
     id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
     ticket_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number
@@ -16019,6 +16352,7 @@ export namespace Prisma {
 
   export type OrderDetailsCreateManyTicketInput = {
     id?: number
+    user_id?: number
     order_id: number
     quantity: number
     subPrice: number
@@ -16032,10 +16366,12 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutOrderDetailsNestedInput
+    user?: CustomerUpdateOneRequiredWithoutOrderDetailsNestedInput
   }
 
   export type OrderDetailsUncheckedUpdateWithoutTicketInput = {
     id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number
@@ -16045,6 +16381,7 @@ export namespace Prisma {
 
   export type OrderDetailsUncheckedUpdateManyWithoutTicketInput = {
     id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
     order_id?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     subPrice?: IntFieldUpdateOperationsInput | number

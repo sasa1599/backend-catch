@@ -9,6 +9,9 @@ export type PromotorPayload = {
 export type EventPayload = {
   id: number;
 };
+export type OrderPayload = {
+  id: number;
+};
 
 declare global {
   namespace Express {
@@ -16,6 +19,7 @@ declare global {
       user?: UserPayload;
       promtor?: PromotorPayload;
       event?: EventPayload;
+      order?: OrderPayload
     }
   }
 }

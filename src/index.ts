@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { ListRouter } from "./routers/routes";
+import { verifyToken } from "./middlewares/verify";
 
 
 const PORT: number = 8001;
@@ -19,6 +20,7 @@ app.use(
 //     credentials: true
 // }));
 app.use(cookieParser());
+// app.use(verifyToken)
 
 app.get("/api", (req: Request, res: Response) => {
     res.status(200).send("Hello from server");

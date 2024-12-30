@@ -42,21 +42,22 @@ enum StatusOrder {
 }
 
 model Customer {
-  id            Int          @id @default(autoincrement())
-  username      String       @unique
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
   name          String
-  email         String       @unique
+  email         String         @unique
   password      String
   avatar        String?
-  isVerify      Boolean      @default(false)
+  isVerify      Boolean        @default(false)
   ref_code      String?
   referred_code String?
-  created_at    DateTime     @default(now())
+  created_at    DateTime       @default(now())
   updated_at    DateTime?
   UserCoupon    UserCoupon[]
   UserPoint     UserPoint[]
   Order         Order[]
   Review        Review[]
+  OrderDetails  OrderDetails[]
 }
 
 model UserCoupon {
@@ -87,6 +88,7 @@ model UserPoint {
 
 model OrderDetails {
   id         Int      @id @default(autoincrement())
+  user_id    Int      @default(1)
   ticket_id  Int
   order_id   Int
   quantity   Int
@@ -94,8 +96,9 @@ model OrderDetails {
   updated_at DateTime @updatedAt
   created_at DateTime @default(now())
 
-  order  Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  ticket Ticket @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
+  order  Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  ticket Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
+  user   Customer @relation(fields: [user_id], references: [id])
 }
 
 model Order {
