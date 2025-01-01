@@ -35,7 +35,7 @@ export class ListRouter {
 
   private initializeRoutes() {
     //get list customer & promotor
-    this.router.get("/customers", verifyToken, this.customerController.list);
+    this.router.get("/customers", this.customerController.list);
     this.router.get("/promotors", verifyToken, this.promotorController.list);
     //register customer & promotor
     this.router.post("/customers", this.customerController.registeration);
