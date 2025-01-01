@@ -57,7 +57,7 @@ class UserPointController {
             }
         });
     }
-    createTransaction(req, res) {
+    redeemPoint(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const existCustomerPoint = yield prisma_1.default.userPoint.findMany({

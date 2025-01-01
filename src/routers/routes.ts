@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 // import { checkAdmin, verifyToken } from "../middlewares/verify";
 // import { uploader } from "../services/uploader";
 import { CustomerController } from "../controller/customer.controller";
@@ -10,6 +10,7 @@ import { verifyToken } from "../middlewares/verify";
 import { uploader } from "../services/uploader";
 import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
+import { OrderController } from "../controller/order.controller";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -19,6 +20,7 @@ export class ListRouter {
   private userCouponController: UserCouponController;
   private eventController: EventController;
   private ticketController: TicketController;
+  private orderController: OrderController;
   private router: Router;
 
   constructor() {
@@ -29,6 +31,7 @@ export class ListRouter {
     this.userCouponController = new UserCouponController();
     this.eventController = new EventController();
     this.ticketController = new TicketController();
+    this.orderController = new OrderController();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -63,6 +66,50 @@ export class ListRouter {
       this.eventController.getEventCategory
     );
 
+    //Ticket
+    this.router.get(
+      "/tickets/:event_id",
+      verifyToken,
+      this.ticketController.getTickets
+    );
+
+    // Order
+    this.router.post("/order", verifyToken, this.orderController.createOrder);
+    this.router.post(
+      "/order/payment",
+      verifyToken,
+      this.orderController.getSnapToken
+    );
+    this.router.get(
+      "/order/order",
+      verifyToken,
+      this.orderController.getTicketOrder
+    );
+    this.router.post(
+      "/order/midtrans-webhook",
+      this.orderController.midtransWebHook
+    );
+    this.router.get("/order/:id", verifyToken, this.orderController.getOrderId);
+
+    this.router.post(
+      "/create-order",
+      verifyToken,
+      this.orderController.createOrder
+    );
+    this.router.post(
+      "/order/payment",
+      verifyToken,
+      this.orderController.getSnapToken
+    );
+    this.router.get(
+      "/order/user/detail",
+      verifyToken,
+      this.orderController.getOrderCustomerId
+    );
+
+    this.router.get("/order/:id", this.orderController.getOrderId);
+
+    // profile
     this.router.get(
       "/customers/profile",
       verifyToken,
@@ -119,8 +166,8 @@ export class ListRouter {
 
     //userpoint
     this.router.post(
-      "/userpoints/transaction",
-      this.userPointController.createTransaction
+      "/userpoints/reedem",
+      this.userPointController.redeemPoint
     );
     this.router.get("/userpoints", this.userPointController.list);
 

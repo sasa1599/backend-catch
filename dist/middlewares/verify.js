@@ -16,10 +16,11 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         // const token = req.header("Authorization")?.replace("Bearer ", ""); //gadipake soalnya udh pake cookie
         const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.token;
-        console.log(req.cookies, "cookies");
-        console.log(token);
-        if (!token)
-            throw new Error("Unauthorized!");
+        console.log("Cookies:", req.cookies);
+        if (!token) {
+            res.status(401).send({ message: "Unauthorized! Token not found." });
+            return;
+        }
         const verifiedUser = (0, jsonwebtoken_1.verify)(token, process.env.JWT_KEY); //added JWT payload
         console.log(verifiedUser, "Verified User");
         req.user = verifiedUser;
@@ -29,7 +30,9 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     catch (err) {
         console.log(err);
-        res.status(400).send({ message: "Oops! Your account isn’t verified yet. Please verify your token by clicking the link we sent to your email." });
+        res.status(400).send({
+            message: "Oops! Your account isn’t verified yet. Please verify your token by clicking the link we sent to your email.",
+        });
     }
 });
 exports.verifyToken = verifyToken;

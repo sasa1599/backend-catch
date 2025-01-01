@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { findPromotor } from "../services/register.service";
 import { cloudinaryUpload } from "../services/cloudinary";
 import { createSlug } from "../helpers/slug";
+
 export class PromotorController {
   // Register Promotor
   async registerPromotor(req: Request, res: Response) {
@@ -150,6 +151,8 @@ export class PromotorController {
       res.status(400).send(err);
     }
   }
+
+  // createEvent
   async createEvent(req: Request, res: Response) {
     try {
       if (!req.file) throw { message: "thumbnail empty" };

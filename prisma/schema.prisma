@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./generated/client"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -42,32 +42,37 @@ enum StatusOrder {
 }
 
 model Customer {
-  id            Int          @id @default(autoincrement())
-  username      String       @unique
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
   name          String
-  email         String       @unique
+  email         String         @unique
   password      String
   avatar        String?
-  isVerify      Boolean      @default(false)
+  isVerify      Boolean        @default(false)
   ref_code      String?
   referred_code String?
-  created_at    DateTime     @default(now())
+  created_at    DateTime       @default(now())
   updated_at    DateTime?
   UserCoupon    UserCoupon[]
   UserPoint     UserPoint[]
   Order         Order[]
   Review        Review[]
+  OrderDetails  OrderDetails[]
 }
 
 model UserCoupon {
   id          Int       @id @default(autoincrement())
   is_redeem   Boolean   @default(false)
-  precentage  Int
+  precentage  Int 
   created_at  DateTime  @default(now())
   expired_at  DateTime?
-  customer_id Int 
-  customer    Customer  @relation(fields: [customer_id], references: [id])
+  customer_id Int
   updated_at  DateTime?
+
+  ref_code String? 
+  discount Int?
+
+  customer Customer @relation(fields: [customer_id], references: [id])
 }
 
 model UserPoint {
@@ -77,34 +82,37 @@ model UserPoint {
   expired_at     DateTime?
   is_transaction Boolean   @default(false)
   customer_id    Int
-  customer       Customer  @relation(fields: [customer_id], references: [id])
+
+  customer Customer @relation(fields: [customer_id], references: [id])
 }
 
 model OrderDetails {
   id         Int      @id @default(autoincrement())
+  user_id    Int      @default(1)
   ticket_id  Int
-  quantity   Int      @default(1)
   order_id   Int
-  subPrice   BigInt
+  quantity   Int
+  subPrice   Int
   updated_at DateTime @updatedAt
   created_at DateTime @default(now())
-  order      Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  ticket     Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
+
+  order  Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  ticket Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
+  user   Customer @relation(fields: [user_id], references: [id])
 }
 
 model Order {
-  id           Int            @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
+  user_id      Int
   total_price  Int
   final_price  Int
-  status_order StatusOrder
-  user_id      Int
-  event_id     Int
-  invoice_url  String
-  updated_at   DateTime       @updatedAt
-  created_at   DateTime       @default(now())
+  status_order StatusOrder @default(PENDING)
+  expires_at   DateTime
+  updated_at   DateTime    @updatedAt
+  created_at   DateTime    @default(now())
+
   OrderDetails OrderDetails[]
   user         Customer       @relation(fields: [user_id], references: [id])
-  event        Event          @relation(fields: [event_id], references: [id])
 }
 
 model Review {
@@ -113,10 +121,11 @@ model Review {
   rating      Int      @default(0)
   user_id     Int
   event_id    Int
-  user        Customer @relation(fields: [user_id], references: [id])
-  event       Event    @relation(fields: [event_id], references: [id])
   updated_at  DateTime @updatedAt
   created_at  DateTime @default(now())
+
+  user  Customer @relation(fields: [user_id], references: [id])
+  event Event    @relation(fields: [event_id], references: [id])
 }
 
 model Promotor {
@@ -147,10 +156,9 @@ model Event {
   updated_at  DateTime @updatedAt
   created_at  DateTime @default(now())
 
-  promotor Promotor @relation(fields: [promotor_id], references: [id])
   tickets  Ticket[]
-  Order    Order[]
   Review   Review[]
+  promotor Promotor @relation(fields: [promotor_id], references: [id])
 }
 
 model Ticket {
@@ -164,6 +172,6 @@ model Ticket {
   updated_at  DateTime       @updatedAt
   created_at  DateTime       @default(now())
 
-  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
   OrderDetails OrderDetails[]
+  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
 }

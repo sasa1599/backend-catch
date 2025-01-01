@@ -59,26 +59,32 @@ class UserCouponController {
     redeemCoupon(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const existCustomerPoint = yield prisma_1.default.userCoupon.findFirst({
+                const { user_id } = req.body;
+                const userCoupon = yield prisma_1.default.userCoupon.findFirst({
                     where: {
-                        customer_id: req.body.user_id,
-                        expired_at: { gt: new Date() },
+                        customer_id: user_id,
                         is_redeem: false,
+                        expired_at: { gt: new Date() },
                     },
                 });
-                if (!existCustomerPoint) {
-                    res.status(400).send({ message: "Coupon not found!" });
+                if (!userCoupon) {
+                    res.status(400).send({ message: "Coupon not found or expired!" });
                     return;
                 }
-                const userCoupon = yield prisma_1.default.userCoupon.update({
-                    where: { id: existCustomerPoint.id },
-                    data: Object.assign(Object.assign({}, req.body), { is_redeem: true, updated_at: new Date() }),
+                const discount = userCoupon.discount || 0;
+                const redeemedCoupon = yield prisma_1.default.userCoupon.update({
+                    where: { id: userCoupon.id },
+                    data: { is_redeem: true, updated_at: new Date() },
                 });
-                res.status(200).send({ message: "Coupon is redeemed", userCoupon });
+                res.status(200).send({
+                    message: "Coupon redeemed successfully",
+                    redeemedCoupon,
+                    discount,
+                });
             }
             catch (err) {
                 console.log(err);
-                res.status(500).send(err);
+                res.status(500).send({ message: "An error occurred", error: err });
             }
         });
     }

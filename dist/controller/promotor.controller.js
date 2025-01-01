@@ -184,6 +184,7 @@ class PromotorController {
             }
         });
     }
+    // createEvent
     createEvent(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;

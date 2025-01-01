@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
-import { Category } from "../../prisma/generated/client";
-
+import { Category, Prisma } from "../../prisma/generated/client";
 
 export class EventController {
   async getEvent(req: Request, res: Response) {
     try {
+      const { search } = req.query;
+      const filter: Prisma.EventWhereInput = {};
+      if (search) {
+        filter.title = { contains: search as string, mode: "insensitive" };
+      }
       const event = await prisma.event.findMany({
+        where: filter,
         select: {
           id: true,
           title: true,
@@ -19,24 +24,17 @@ export class EventController {
           slug: true,
           tickets: {
             select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
               price: true,
             },
           },
           promotor: {
             select: {
-              id: true,
               name: true,
-              username: true,
-              avatar: true,
             },
           },
         },
       });
+
       res.status(200).send({ event });
     } catch (err) {
       console.log(err);
@@ -44,9 +42,11 @@ export class EventController {
     }
   }
 
-  async getEventSlug(req: Request, res: Response) {
+  async getEventSlug(req: Request, res: Response): Promise<void> {
     try {
       const { slug } = req.params;
+
+      // Fetch event details from database
       const event = await prisma.event.findFirst({
         where: { slug },
         select: {
@@ -67,26 +67,17 @@ export class EventController {
               avatar: true,
             },
           },
-          tickets: {
-            select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
-              price: true,
-            },
-          },
         },
       });
 
       if (!event) {
         res.status(404).send({ message: "Event not found" });
+        return;
       }
 
-      res.status(200).send({ event });
+      res.status(200).send(event);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res
         .status(500)
         .send({ error: "An error occurred while fetching the event" });
@@ -110,20 +101,12 @@ export class EventController {
           slug: true,
           tickets: {
             select: {
-              id: true,
-              category: true,
-              description: true,
-              seats: true,
-              maxSeats: true,
               price: true,
             },
           },
           promotor: {
             select: {
-              id: true,
               name: true,
-              username: true,
-              avatar: true,
             },
           },
         },

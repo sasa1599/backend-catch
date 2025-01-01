@@ -42,5 +42,19 @@ class TicketController {
             }
         });
     }
+    getTickets(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const tickets = yield prisma_1.default.ticket.findMany({
+                    where: { event_id: +req.params.event_id },
+                });
+                res.status(200).send({ result: tickets });
+            }
+            catch (err) {
+                console.log(err);
+                res.status(400).send(err);
+            }
+        });
+    }
 }
 exports.TicketController = TicketController;
