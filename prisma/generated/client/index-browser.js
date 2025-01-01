@@ -175,13 +175,10 @@ exports.Prisma.OrderScalarFieldEnum = {
 };
 
 exports.Prisma.ReviewScalarFieldEnum = {
-  id: 'id',
-  description: 'description',
-  rating: 'rating',
   user_id: 'user_id',
   event_id: 'event_id',
-  updated_at: 'updated_at',
-  created_at: 'created_at'
+  rating: 'rating',
+  comment: 'comment'
 };
 
 exports.Prisma.PromotorScalarFieldEnum = {
@@ -208,7 +205,8 @@ exports.Prisma.EventScalarFieldEnum = {
   datetime: 'datetime',
   promotor_id: 'promotor_id',
   updated_at: 'updated_at',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  coupon_promotor: 'coupon_promotor'
 };
 
 exports.Prisma.TicketScalarFieldEnum = {
@@ -242,6 +240,14 @@ exports.StatusOrder = exports.$Enums.StatusOrder = {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
   CANCELLED: 'CANCELLED'
+};
+
+exports.RatingRange = exports.$Enums.RatingRange = {
+  one: 'one',
+  two: 'two',
+  three: 'three',
+  four: 'four',
+  five: 'five'
 };
 
 exports.Category = exports.$Enums.Category = {

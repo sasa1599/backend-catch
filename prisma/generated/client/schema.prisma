@@ -15,6 +15,14 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum RatingRange {
+  one   @map("1")
+  two   @map("2")
+  three @map("3")
+  four  @map("4")
+  five  @map("5")
+}
+
 enum TicketCategory {
   VIP
   REGULAR
@@ -63,14 +71,14 @@ model Customer {
 model UserCoupon {
   id          Int       @id @default(autoincrement())
   is_redeem   Boolean   @default(false)
-  precentage  Int // Assuming this is for the discount percentage
+  precentage  Int
   created_at  DateTime  @default(now())
   expired_at  DateTime?
   customer_id Int
   updated_at  DateTime?
 
-  ref_code String? // Unique coupon code (optional)
-  discount Int? // Discount percentage (optional)
+  ref_code String?
+  discount Int?
 
   customer Customer @relation(fields: [customer_id], references: [id])
 }
@@ -116,16 +124,15 @@ model Order {
 }
 
 model Review {
-  id          Int      @id @default(autoincrement())
-  description String
-  rating      Int      @default(0)
-  user_id     Int
-  event_id    Int
-  updated_at  DateTime @updatedAt
-  created_at  DateTime @default(now())
+  user_id  Int
+  event_id Int
+  rating   RatingRange
+  comment  String
 
   user  Customer @relation(fields: [user_id], references: [id])
   event Event    @relation(fields: [event_id], references: [id])
+
+  @@id([user_id, event_id])
 }
 
 model Promotor {
@@ -143,18 +150,19 @@ model Promotor {
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
-  title       String
-  slug        String   @default(" ")
-  description String
-  category    Category
-  location    Location
-  venue       String
-  thumbnail   String?
-  datetime    DateTime
-  promotor_id Int
-  updated_at  DateTime @updatedAt
-  created_at  DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  title           String
+  slug            String   @default(" ")
+  description     String
+  category        Category
+  location        Location
+  venue           String
+  thumbnail       String?
+  datetime        DateTime
+  promotor_id     Int
+  updated_at      DateTime @updatedAt
+  created_at      DateTime @default(now())
+  coupon_promotor Int?
 
   tickets  Ticket[]
   Review   Review[]
