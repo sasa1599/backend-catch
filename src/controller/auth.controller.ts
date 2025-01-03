@@ -87,7 +87,7 @@ export class AuthController {
             // secure: process.env.NODE_ENV === "production",
             // sameSite:"lax",
           })
-          .send({ message: "Login Successfully", customer });
+          .send({ message: "Login Successfully", customer, token });
       } else if (data.role === "promotor") {
         const promotor = await prisma.promotor.findUnique({
           where: { username: data.username },
@@ -114,7 +114,7 @@ export class AuthController {
             path: "/",
             secure: process.env.NODE_ENV === "production",
           })
-          .send({ message: "Login Successfully", promotor });
+          .send({ message: "Login Successfully", promotor, token });
       }
     } catch (err) {
       console.error("Error during login:", err);

@@ -24,7 +24,7 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const verifiedUser = (0, jsonwebtoken_1.verify)(token, process.env.JWT_KEY); //added JWT payload
         console.log(verifiedUser, "Verified User");
         req.user = verifiedUser;
-        req.promtor = verifiedUser;
+        req.promotor = verifiedUser;
         console.log(req.user, "verified user");
         next();
     }

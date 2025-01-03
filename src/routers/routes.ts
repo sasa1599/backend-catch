@@ -60,6 +60,11 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
+    this.router.get(
+      "/events/promotor",
+      verifyToken,
+      this.eventController.getEventsByPromotor
+    );
     this.router.get("/events/:slug", this.eventController.getEventSlug);
     this.router.get(
       "/events/category/:category",
@@ -95,6 +100,11 @@ export class ListRouter {
       "/create-order",
       verifyToken,
       this.orderController.createOrder
+    );
+    this.router.post(
+      "/order-payment",
+      verifyToken,
+      this.orderController.processPayment
     );
     this.router.post(
       "/order/payment",
