@@ -104,11 +104,14 @@ export class ListRouter {
       verifyToken,
       this.orderController.createOrder
     );
+    // update order_status
+    this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
+    
     // this.router.post(
     //   "/order-payment",
     //   verifyToken,
     //   this.orderController.processPayment
-    // ); 
+    // );
     this.router.post(
       "/order/payment",
       verifyToken,
