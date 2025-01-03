@@ -13,9 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserPointController = void 0;
-
 const prisma_1 = __importDefault(require("../prisma"));
-
 class UserPointController {
     // list point customer
     list(req, res) {
@@ -59,7 +57,7 @@ class UserPointController {
             }
         });
     }
-    createTransaction(req, res) {
+    redeemPoint(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const existCustomerPoint = yield prisma_1.default.userPoint.findMany({

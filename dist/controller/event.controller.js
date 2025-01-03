@@ -18,7 +18,13 @@ class EventController {
     getEvent(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const { search } = req.query;
+                const filter = {};
+                if (search) {
+                    filter.title = { contains: search, mode: "insensitive" };
+                }
                 const event = yield prisma_1.default.event.findMany({
+                    where: filter,
                     select: {
                         id: true,
                         title: true,
@@ -31,20 +37,12 @@ class EventController {
                         slug: true,
                         tickets: {
                             select: {
-                                id: true,
-                                category: true,
-                                description: true,
-                                seats: true,
-                                maxSeats: true,
                                 price: true,
                             },
                         },
                         promotor: {
                             select: {
-                                id: true,
                                 name: true,
-                                username: true,
-                                avatar: true,
                             },
                         },
                     },
@@ -61,6 +59,7 @@ class EventController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { slug } = req.params;
+                // Fetch event details from database
                 const event = yield prisma_1.default.event.findFirst({
                     where: { slug },
                     select: {
@@ -81,25 +80,16 @@ class EventController {
                                 avatar: true,
                             },
                         },
-                        tickets: {
-                            select: {
-                                id: true,
-                                category: true,
-                                description: true,
-                                seats: true,
-                                maxSeats: true,
-                                price: true,
-                            },
-                        },
                     },
                 });
                 if (!event) {
                     res.status(404).send({ message: "Event not found" });
+                    return;
                 }
-                res.status(200).send({ event });
+                res.status(200).send(event);
             }
             catch (err) {
-                console.log(err);
+                console.error(err);
                 res
                     .status(500)
                     .send({ error: "An error occurred while fetching the event" });
@@ -124,20 +114,12 @@ class EventController {
                         slug: true,
                         tickets: {
                             select: {
-                                id: true,
-                                category: true,
-                                description: true,
-                                seats: true,
-                                maxSeats: true,
                                 price: true,
                             },
                         },
                         promotor: {
                             select: {
-                                id: true,
                                 name: true,
-                                username: true,
-                                avatar: true,
                             },
                         },
                     },

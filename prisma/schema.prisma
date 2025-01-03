@@ -15,6 +15,14 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum RatingRange {
+  one   @map("1")
+  two   @map("2")
+  three @map("3")
+  four  @map("4")
+  five  @map("5")
+}
+
 enum TicketCategory {
   VIP
   REGULAR
@@ -73,6 +81,7 @@ model UserCoupon {
   discount Int?
 
   customer Customer @relation(fields: [customer_id], references: [id])
+  
 }
 
 model UserPoint {
@@ -84,6 +93,7 @@ model UserPoint {
   customer_id    Int
 
   customer Customer @relation(fields: [customer_id], references: [id])
+  
 }
 
 model OrderDetails {
@@ -99,10 +109,12 @@ model OrderDetails {
   order  Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
   ticket Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
   user   Customer @relation(fields: [user_id], references: [id])
+  
 }
 
 model Order {
   id           Int         @id @default(autoincrement())
+
   user_id      Int
   total_price  Int
   final_price  Int
@@ -110,22 +122,26 @@ model Order {
   expires_at   DateTime
   updated_at   DateTime    @updatedAt
   created_at   DateTime    @default(now())
+  mid_transaction_time DateTime?
+mid_transaction_status String?
+mid_transaction_id Int?
+mid_payment_type String?
+mid_payment_detail Json?
 
   OrderDetails OrderDetails[]
   user         Customer       @relation(fields: [user_id], references: [id])
 }
 
 model Review {
-  id          Int      @id @default(autoincrement())
-  description String
-  rating      Int      @default(0)
-  user_id     Int
-  event_id    Int
-  updated_at  DateTime @updatedAt
-  created_at  DateTime @default(now())
+  user_id  Int
+  event_id Int
+  rating   RatingRange
+  comment  String
 
   user  Customer @relation(fields: [user_id], references: [id])
   event Event    @relation(fields: [event_id], references: [id])
+
+  @@id([user_id, event_id])
 }
 
 model Promotor {
@@ -143,18 +159,19 @@ model Promotor {
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
-  title       String
-  slug        String   @default(" ")
-  description String
-  category    Category
-  location    Location
-  venue       String
-  thumbnail   String?
-  datetime    DateTime
-  promotor_id Int
-  updated_at  DateTime @updatedAt
-  created_at  DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  title           String
+  slug            String   @default(" ")
+  description     String
+  category        Category
+  location        Location
+  venue           String
+  thumbnail       String?
+  datetime        DateTime
+  promotor_id     Int
+  updated_at      DateTime @updatedAt
+  created_at      DateTime @default(now())
+  coupon_promotor Int?
 
   tickets  Ticket[]
   Review   Review[]
