@@ -11,6 +11,7 @@ import { uploader } from "../services/uploader";
 import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
 import { OrderController } from "../controller/order.controller";
+import { ReviewController } from "../controller/review.controller";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -21,6 +22,7 @@ export class ListRouter {
   private eventController: EventController;
   private ticketController: TicketController;
   private orderController: OrderController;
+  private reviewController: ReviewController;
   private router: Router;
 
   constructor() {
@@ -32,6 +34,7 @@ export class ListRouter {
     this.eventController = new EventController();
     this.ticketController = new TicketController();
     this.orderController = new OrderController();
+    this.reviewController = new ReviewController();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -108,6 +111,14 @@ export class ListRouter {
     );
 
     this.router.get("/order/:id", this.orderController.getOrderId);
+
+    // Review
+    this.router.get("/review/:id", this.reviewController.getReviews);
+    this.router.post(
+      "/review:id",
+      verifyToken,
+      this.reviewController.createReview
+    );
 
     // profile
     this.router.get(
