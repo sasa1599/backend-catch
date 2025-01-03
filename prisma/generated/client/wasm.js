@@ -171,7 +171,12 @@ exports.Prisma.OrderScalarFieldEnum = {
   status_order: 'status_order',
   expires_at: 'expires_at',
   updated_at: 'updated_at',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  mid_transaction_time: 'mid_transaction_time',
+  mid_transaction_status: 'mid_transaction_status',
+  mid_transaction_id: 'mid_transaction_id',
+  mid_payment_type: 'mid_payment_type',
+  mid_payment_detail: 'mid_payment_detail'
 };
 
 exports.Prisma.ReviewScalarFieldEnum = {
@@ -226,6 +231,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -234,6 +244,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.StatusOrder = exports.$Enums.StatusOrder = {
   PENDING: 'PENDING',

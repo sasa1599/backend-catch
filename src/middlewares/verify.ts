@@ -7,9 +7,9 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    // const token = req.header("Authorization")?.replace("Bearer ", ""); //gadipake soalnya udh pake cookie
-    const token = req.cookies?.token;
-    console.log("Cookies:", req.cookies);
+    const token = req.header("Authorization")?.replace("Bearer ", ""); //gadipake soalnya udh pake cookie
+    // const token = req.cookies?.token;
+    // console.log("Cookies:", req.cookies);
 
     if (!token) {
       res.status(401).send({ message: "Unauthorized! Token not found." });
@@ -20,7 +20,7 @@ export const verifyToken = async (
     console.log(verifiedUser, "Verified User");
 
     req.user = verifiedUser as { id: number };
-    req.promtor = verifiedUser as { id: number };
+    req.promotor = verifiedUser as { id: number };
     console.log(req.user, "verified user");
 
     next();

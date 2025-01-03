@@ -69,7 +69,7 @@ export class EventController {
           },
         },
       });
-  
+
       if (!event) {
         res.status(404).send({ message: "Event not found" });
         return;
@@ -83,7 +83,6 @@ export class EventController {
         .send({ error: "An error occurred while fetching the event" });
     }
   }
-  
 
   async getEventCategory(req: Request, res: Response) {
     try {
@@ -116,6 +115,56 @@ export class EventController {
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
+    }
+  }
+  async getEventsByPromotor(req: Request, res: Response): Promise<void> {
+    try {
+      // Check if req.user?.id is defined
+      if (!req.user?.id) {
+        res.status(400).send({ error: "User ID is missing. Please log in." });
+        return; // Ensure the function exits after sending the response
+      }
+  
+      // Fetch events associated with the promotor's ID
+      const events = await prisma.event.findMany({
+        where: {
+          promotor_id: req.user?.id,  // Fetch events where the promotor_id matches the logged-in user's ID
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          category: true,
+          location: true,
+          thumbnail: true,
+          datetime: true,
+          venue: true,
+          slug: true,
+          tickets: {
+            select: {
+              price: true,
+            },
+          },
+          promotor: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+  
+      if (events.length === 0) {
+        res.status(404).send({ error: "No events found for this promotor." });
+        return; // Ensure the function exits after sending the response
+      }
+  
+      // Return the fetched events
+      res.status(200).send({ events });
+  
+    } catch (err) {
+      // Log more details for debugging
+      console.error("Error fetching events by promotor:", err);
+      res.status(500).send({ error: "Something went wrong. Please try again later." });
     }
   }
 }

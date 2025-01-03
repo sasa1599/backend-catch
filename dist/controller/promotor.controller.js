@@ -184,6 +184,7 @@ class PromotorController {
             }
         });
     }
+    // createEvent
     createEvent(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
@@ -203,7 +204,7 @@ class PromotorController {
                         slug: slug,
                         datetime,
                         thumbnail: secure_url,
-                        promotor_id: (_a = req.promtor) === null || _a === void 0 ? void 0 : _a.id,
+                        promotor_id: (_a = req.promotor) === null || _a === void 0 ? void 0 : _a.id,
                     },
                 });
                 res.status(200).send({ message: "event created", event_id: id });

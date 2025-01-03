@@ -41,7 +41,7 @@ export class ListRouter {
 
   private initializeRoutes() {
     //get list customer & promotor
-    this.router.get("/customers", verifyToken, this.customerController.list);
+    this.router.get("/customers", this.customerController.list);
     this.router.get("/promotors", verifyToken, this.promotorController.list);
     //register customer & promotor
     this.router.post("/customers", this.customerController.registeration);
@@ -63,6 +63,11 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
+    this.router.get(
+      "/events/promotor",
+      verifyToken,
+      this.eventController.getEventsByPromotor
+    );
     this.router.get("/events/:slug", this.eventController.getEventSlug);
     this.router.get(
       "/events/category/:category",
@@ -72,7 +77,7 @@ export class ListRouter {
     //Ticket
     this.router.get(
       "/tickets/:event_id",
-      verifyToken,
+      // verifyToken,
       this.ticketController.getTickets
     );
 
@@ -90,7 +95,7 @@ export class ListRouter {
     );
     this.router.post(
       "/order/midtrans-webhook",
-      this.orderController.midtransWebHook
+      this.orderController.updateOrderHook
     );
     this.router.get("/order/:id", verifyToken, this.orderController.getOrderId);
 
@@ -99,6 +104,11 @@ export class ListRouter {
       verifyToken,
       this.orderController.createOrder
     );
+    // this.router.post(
+    //   "/order-payment",
+    //   verifyToken,
+    //   this.orderController.processPayment
+    // ); 
     this.router.post(
       "/order/payment",
       verifyToken,

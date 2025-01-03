@@ -13,9 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findPromotor = exports.findReferralCode = exports.findCust = void 0;
-
 const prisma_1 = __importDefault(require("../prisma"));
-
 //customer
 const findCust = (username, email) => __awaiter(void 0, void 0, void 0, function* () {
     const userCust = yield prisma_1.default.customer.findFirst({

@@ -171,7 +171,7 @@ export class PromotorController {
           slug: slug,
           datetime,
           thumbnail: secure_url,
-          promotor_id: req.promtor?.id!,
+          promotor_id: req.promotor?.id!,
           coupon_promotor,
         },
       });

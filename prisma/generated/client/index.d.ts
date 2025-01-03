@@ -6019,6 +6019,7 @@ export namespace Prisma {
     user_id: number | null
     total_price: number | null
     final_price: number | null
+    mid_transaction_id: number | null
   }
 
   export type OrderSumAggregateOutputType = {
@@ -6026,6 +6027,7 @@ export namespace Prisma {
     user_id: number | null
     total_price: number | null
     final_price: number | null
+    mid_transaction_id: number | null
   }
 
   export type OrderMinAggregateOutputType = {
@@ -6037,6 +6039,10 @@ export namespace Prisma {
     expires_at: Date | null
     updated_at: Date | null
     created_at: Date | null
+    mid_transaction_time: Date | null
+    mid_transaction_status: string | null
+    mid_transaction_id: number | null
+    mid_payment_type: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -6048,6 +6054,10 @@ export namespace Prisma {
     expires_at: Date | null
     updated_at: Date | null
     created_at: Date | null
+    mid_transaction_time: Date | null
+    mid_transaction_status: string | null
+    mid_transaction_id: number | null
+    mid_payment_type: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -6059,6 +6069,11 @@ export namespace Prisma {
     expires_at: number
     updated_at: number
     created_at: number
+    mid_transaction_time: number
+    mid_transaction_status: number
+    mid_transaction_id: number
+    mid_payment_type: number
+    mid_payment_detail: number
     _all: number
   }
 
@@ -6068,6 +6083,7 @@ export namespace Prisma {
     user_id?: true
     total_price?: true
     final_price?: true
+    mid_transaction_id?: true
   }
 
   export type OrderSumAggregateInputType = {
@@ -6075,6 +6091,7 @@ export namespace Prisma {
     user_id?: true
     total_price?: true
     final_price?: true
+    mid_transaction_id?: true
   }
 
   export type OrderMinAggregateInputType = {
@@ -6086,6 +6103,10 @@ export namespace Prisma {
     expires_at?: true
     updated_at?: true
     created_at?: true
+    mid_transaction_time?: true
+    mid_transaction_status?: true
+    mid_transaction_id?: true
+    mid_payment_type?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -6097,6 +6118,10 @@ export namespace Prisma {
     expires_at?: true
     updated_at?: true
     created_at?: true
+    mid_transaction_time?: true
+    mid_transaction_status?: true
+    mid_transaction_id?: true
+    mid_payment_type?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -6108,6 +6133,11 @@ export namespace Prisma {
     expires_at?: true
     updated_at?: true
     created_at?: true
+    mid_transaction_time?: true
+    mid_transaction_status?: true
+    mid_transaction_id?: true
+    mid_payment_type?: true
+    mid_payment_detail?: true
     _all?: true
   }
 
@@ -6206,6 +6236,11 @@ export namespace Prisma {
     expires_at: Date
     updated_at: Date
     created_at: Date
+    mid_transaction_time: Date | null
+    mid_transaction_status: string | null
+    mid_transaction_id: number | null
+    mid_payment_type: string | null
+    mid_payment_detail: JsonValue | null
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -6236,6 +6271,11 @@ export namespace Prisma {
     expires_at?: boolean
     updated_at?: boolean
     created_at?: boolean
+    mid_transaction_time?: boolean
+    mid_transaction_status?: boolean
+    mid_transaction_id?: boolean
+    mid_payment_type?: boolean
+    mid_payment_detail?: boolean
     OrderDetails?: boolean | Order$OrderDetailsArgs<ExtArgs>
     user?: boolean | CustomerDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -6250,6 +6290,11 @@ export namespace Prisma {
     expires_at?: boolean
     updated_at?: boolean
     created_at?: boolean
+    mid_transaction_time?: boolean
+    mid_transaction_status?: boolean
+    mid_transaction_id?: boolean
+    mid_payment_type?: boolean
+    mid_payment_detail?: boolean
     user?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -6262,6 +6307,11 @@ export namespace Prisma {
     expires_at?: boolean
     updated_at?: boolean
     created_at?: boolean
+    mid_transaction_time?: boolean
+    mid_transaction_status?: boolean
+    mid_transaction_id?: boolean
+    mid_payment_type?: boolean
+    mid_payment_detail?: boolean
   }
 
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6288,6 +6338,11 @@ export namespace Prisma {
       expires_at: Date
       updated_at: Date
       created_at: Date
+      mid_transaction_time: Date | null
+      mid_transaction_status: string | null
+      mid_transaction_id: number | null
+      mid_payment_type: string | null
+      mid_payment_detail: Prisma.JsonValue | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -6691,6 +6746,11 @@ export namespace Prisma {
     readonly expires_at: FieldRef<"Order", 'DateTime'>
     readonly updated_at: FieldRef<"Order", 'DateTime'>
     readonly created_at: FieldRef<"Order", 'DateTime'>
+    readonly mid_transaction_time: FieldRef<"Order", 'DateTime'>
+    readonly mid_transaction_status: FieldRef<"Order", 'String'>
+    readonly mid_transaction_id: FieldRef<"Order", 'Int'>
+    readonly mid_payment_type: FieldRef<"Order", 'String'>
+    readonly mid_payment_detail: FieldRef<"Order", 'Json'>
   }
     
 
@@ -11296,7 +11356,12 @@ export namespace Prisma {
     status_order: 'status_order',
     expires_at: 'expires_at',
     updated_at: 'updated_at',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    mid_transaction_time: 'mid_transaction_time',
+    mid_transaction_status: 'mid_transaction_status',
+    mid_transaction_id: 'mid_transaction_id',
+    mid_payment_type: 'mid_payment_type',
+    mid_payment_detail: 'mid_payment_detail'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -11369,6 +11434,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -11383,6 +11456,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -11450,20 +11532,6 @@ export namespace Prisma {
    * Reference to a field of type 'StatusOrder[]'
    */
   export type ListEnumStatusOrderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusOrder[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'RatingRange'
-   */
-  export type EnumRatingRangeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RatingRange'>
-    
-
-
-  /**
-   * Reference to a field of type 'RatingRange[]'
-   */
-  export type ListEnumRatingRangeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RatingRange[]'>
     
 
 
@@ -11854,6 +11922,11 @@ export namespace Prisma {
     expires_at?: DateTimeFilter<"Order"> | Date | string
     updated_at?: DateTimeFilter<"Order"> | Date | string
     created_at?: DateTimeFilter<"Order"> | Date | string
+    mid_transaction_time?: DateTimeNullableFilter<"Order"> | Date | string | null
+    mid_transaction_status?: StringNullableFilter<"Order"> | string | null
+    mid_transaction_id?: IntNullableFilter<"Order"> | number | null
+    mid_payment_type?: StringNullableFilter<"Order"> | string | null
+    mid_payment_detail?: JsonNullableFilter<"Order">
     OrderDetails?: OrderDetailsListRelationFilter
     user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
@@ -11867,6 +11940,11 @@ export namespace Prisma {
     expires_at?: SortOrder
     updated_at?: SortOrder
     created_at?: SortOrder
+    mid_transaction_time?: SortOrderInput | SortOrder
+    mid_transaction_status?: SortOrderInput | SortOrder
+    mid_transaction_id?: SortOrderInput | SortOrder
+    mid_payment_type?: SortOrderInput | SortOrder
+    mid_payment_detail?: SortOrderInput | SortOrder
     OrderDetails?: OrderDetailsOrderByRelationAggregateInput
     user?: CustomerOrderByWithRelationInput
   }
@@ -11883,6 +11961,11 @@ export namespace Prisma {
     expires_at?: DateTimeFilter<"Order"> | Date | string
     updated_at?: DateTimeFilter<"Order"> | Date | string
     created_at?: DateTimeFilter<"Order"> | Date | string
+    mid_transaction_time?: DateTimeNullableFilter<"Order"> | Date | string | null
+    mid_transaction_status?: StringNullableFilter<"Order"> | string | null
+    mid_transaction_id?: IntNullableFilter<"Order"> | number | null
+    mid_payment_type?: StringNullableFilter<"Order"> | string | null
+    mid_payment_detail?: JsonNullableFilter<"Order">
     OrderDetails?: OrderDetailsListRelationFilter
     user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }, "id">
@@ -11896,6 +11979,11 @@ export namespace Prisma {
     expires_at?: SortOrder
     updated_at?: SortOrder
     created_at?: SortOrder
+    mid_transaction_time?: SortOrderInput | SortOrder
+    mid_transaction_status?: SortOrderInput | SortOrder
+    mid_transaction_id?: SortOrderInput | SortOrder
+    mid_payment_type?: SortOrderInput | SortOrder
+    mid_payment_detail?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -11915,6 +12003,11 @@ export namespace Prisma {
     expires_at?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     created_at?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    mid_transaction_time?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+    mid_transaction_status?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    mid_transaction_id?: IntNullableWithAggregatesFilter<"Order"> | number | null
+    mid_payment_type?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    mid_payment_detail?: JsonNullableWithAggregatesFilter<"Order">
   }
 
   export type ReviewWhereInput = {
@@ -12565,6 +12658,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
     user: CustomerCreateNestedOneWithoutOrderInput
   }
@@ -12578,6 +12676,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -12588,6 +12691,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
     user?: CustomerUpdateOneRequiredWithoutOrderNestedInput
   }
@@ -12601,6 +12709,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -12613,6 +12726,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -12622,6 +12740,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -12633,6 +12756,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ReviewCreateInput = {
@@ -13417,6 +13545,16 @@ export namespace Prisma {
     not?: NestedEnumStatusOrderFilter<$PrismaModel> | $Enums.StatusOrder
   }
 
+  export type OrderDetailsListRelationFilter = {
+    every?: OrderDetailsWhereInput
+    some?: OrderDetailsWhereInput
+    none?: OrderDetailsWhereInput
+  }
+
+  export type OrderDetailsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
@@ -13426,6 +13564,11 @@ export namespace Prisma {
     expires_at?: SortOrder
     updated_at?: SortOrder
     created_at?: SortOrder
+    mid_transaction_time?: SortOrder
+    mid_transaction_status?: SortOrder
+    mid_transaction_id?: SortOrder
+    mid_payment_type?: SortOrder
+    mid_payment_detail?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -13433,6 +13576,7 @@ export namespace Prisma {
     user_id?: SortOrder
     total_price?: SortOrder
     final_price?: SortOrder
+    mid_transaction_id?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
@@ -13444,6 +13588,10 @@ export namespace Prisma {
     expires_at?: SortOrder
     updated_at?: SortOrder
     created_at?: SortOrder
+    mid_transaction_time?: SortOrder
+    mid_transaction_status?: SortOrder
+    mid_transaction_id?: SortOrder
+    mid_payment_type?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -13455,6 +13603,10 @@ export namespace Prisma {
     expires_at?: SortOrder
     updated_at?: SortOrder
     created_at?: SortOrder
+    mid_transaction_time?: SortOrder
+    mid_transaction_status?: SortOrder
+    mid_transaction_id?: SortOrder
+    mid_payment_type?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
@@ -13462,6 +13614,7 @@ export namespace Prisma {
     user_id?: SortOrder
     total_price?: SortOrder
     final_price?: SortOrder
+    mid_transaction_id?: SortOrder
   }
 
   export type EnumStatusOrderWithAggregatesFilter<$PrismaModel = never> = {
@@ -13472,13 +13625,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusOrderFilter<$PrismaModel>
     _max?: NestedEnumStatusOrderFilter<$PrismaModel>
-  }
-
-  export type EnumRatingRangeFilter<$PrismaModel = never> = {
-    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
-    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    not?: NestedEnumRatingRangeFilter<$PrismaModel> | $Enums.RatingRange
   }
 
   export type EventScalarRelationFilter = {
@@ -14598,23 +14744,6 @@ export namespace Prisma {
     _max?: NestedEnumStatusOrderFilter<$PrismaModel>
   }
 
-  export type NestedEnumRatingRangeFilter<$PrismaModel = never> = {
-    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
-    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    not?: NestedEnumRatingRangeFilter<$PrismaModel> | $Enums.RatingRange
-  }
-
-  export type NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
-    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    not?: NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel> | $Enums.RatingRange
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRatingRangeFilter<$PrismaModel>
-    _max?: NestedEnumRatingRangeFilter<$PrismaModel>
-  }
-
   export type NestedEnumCategoryFilter<$PrismaModel = never> = {
     equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
     in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
@@ -14729,6 +14858,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
   }
 
@@ -14740,6 +14874,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -14891,6 +15030,11 @@ export namespace Prisma {
     expires_at?: DateTimeFilter<"Order"> | Date | string
     updated_at?: DateTimeFilter<"Order"> | Date | string
     created_at?: DateTimeFilter<"Order"> | Date | string
+    mid_transaction_time?: DateTimeNullableFilter<"Order"> | Date | string | null
+    mid_transaction_status?: StringNullableFilter<"Order"> | string | null
+    mid_transaction_id?: IntNullableFilter<"Order"> | number | null
+    mid_payment_type?: StringNullableFilter<"Order"> | string | null
+    mid_payment_detail?: JsonNullableFilter<"Order">
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutUserInput = {
@@ -15128,6 +15272,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     user: CustomerCreateNestedOneWithoutOrderInput
   }
 
@@ -15140,6 +15289,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type OrderCreateOrConnectWithoutOrderDetailsInput = {
@@ -15233,6 +15387,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     user?: CustomerUpdateOneRequiredWithoutOrderNestedInput
   }
 
@@ -15245,6 +15404,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TicketUpsertWithoutOrderDetailsInput = {
@@ -16022,6 +16186,11 @@ export namespace Prisma {
     expires_at: Date | string
     updated_at?: Date | string
     created_at?: Date | string
+    mid_transaction_time?: Date | string | null
+    mid_transaction_status?: string | null
+    mid_transaction_id?: number | null
+    mid_payment_type?: string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ReviewCreateManyUserInput = {
@@ -16102,6 +16271,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
   }
 
@@ -16113,6 +16287,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
     OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -16124,6 +16303,11 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mid_transaction_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mid_transaction_status?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ReviewUpdateWithoutUserInput = {

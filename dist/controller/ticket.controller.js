@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TicketController = void 0;
-
 const prisma_1 = __importDefault(require("../prisma"));
 class TicketController {
     createTicket(req, res) {
@@ -40,6 +39,20 @@ class TicketController {
             catch (err) {
                 console.log(err);
                 res.status(400).send({ message: "An error occurred", error: err });
+            }
+        });
+    }
+    getTickets(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const tickets = yield prisma_1.default.ticket.findMany({
+                    where: { event_id: +req.params.event_id },
+                });
+                res.status(200).send({ result: tickets });
+            }
+            catch (err) {
+                console.log(err);
+                res.status(400).send(err);
             }
         });
     }
