@@ -8,7 +8,7 @@ const midtransClient = require("midtrans-client");
 export class OrderController {
   async applyCoupon(total_price: number, coupon_id: string | null) {
     if (!coupon_id) return { total_price, discount: 0 };
-
+  
     const discount = coupon_id ? 0.1 * total_price : 0;
     return { total_price: total_price - discount, discount };
   }
