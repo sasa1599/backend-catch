@@ -60,67 +60,99 @@ const addCoupon = async (user_id: number) => {
 export class AuthController {
   async Login(req: Request, res: Response): Promise<void> {
     try {
-      const { data, password } = req.body;
-      if (data.role === "customer") {
-        const customer = await prisma.customer.findUnique({
-          where: { username: data.username },
-        });
+        const { data, password } = req.body;
+        
+        if (data.role === "customer") {
+            const customer = await prisma.customer.findUnique({
+                where: { username: data.username },
+            });
 
-        if (!customer) throw { message: "Customer account not found!" };
-        const isValidPass = await bcrypt.compare(password, customer.password);
-        if (!isValidPass) throw { message: "Incorrect Password!" };
-        if (!customer.isVerify)
-          throw {
-            message:
-              "Your account is not verified. Please verify your account before logging in.",
-          };
+            if (!customer) throw { message: "Customer account not found!" };
+            const isValidPass = await bcrypt.compare(password, customer.password);
+            if (!isValidPass) throw { message: "Incorrect Password!" };
+            if (!customer.isVerify)
+                throw {
+                    message:
+                        "Your account is not verified. Please verify your account before logging in.",
+                };
 
-        const payload = { id: customer.id, username: customer.username };
-        const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "1d" });
+            // Check if points or coupon are already assigned to the customer
+            const existingPoints = await prisma.userPoint.findFirst({
+                where: { customer_id: customer.id },
+            });
+            const existingCoupon = await prisma.userCoupon.findFirst({
+                where: { customer_id: customer.id },
+            });
 
-        res
-          .status(200)
-          .cookie("token", token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            // path: "/",
-            // secure: process.env.NODE_ENV === "production",
-            // sameSite:"lax",
-          })
-          .send({ message: "Login Successfully", customer, token });
-      } else if (data.role === "promotor") {
-        const promotor = await prisma.promotor.findUnique({
-          where: { username: data.username },
-        });
+            // Check if the customer used a referral code
+            if (customer.referred_code && !existingPoints && !existingCoupon) {
+                // Find the referring customer
+                const referralUser = await findReferralCode(customer.referred_code);
 
-        if (!promotor) throw { message: "Promotor account not found!" };
+                if (referralUser) {
+                    // Check if the referral user has already received points (ensure this is done only once)
+                    const existingReferralPoints = await prisma.userPoint.findFirst({
+                        where: { customer_id: referralUser.id },
+                    });
 
-        const isValidPass = await bcrypt.compare(password, promotor.password);
-        if (!isValidPass) throw { message: "Incorrect Password!" };
-        if (!promotor.is_verify)
-          throw {
-            message:
-              "Your account is not verified. Please verify your account before logging in.",
-          };
+                    // If the referral user hasn't received points yet, add them
+                    if (!existingReferralPoints) {
+                        await addPoint(referralUser.id);  // Add points to referrer
+                    }
 
-        const payload = { id: promotor.id, username: promotor.username };
-        const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "1d" });
+                    // If the new customer hasn't received a coupon yet, add it
+                    if (!existingCoupon) {
+                        await addCoupon(customer.id);     // Add coupon to customer
+                    }
+                }
+            }
 
-        res
-          .status(200)
-          .cookie("token", token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            path: "/",
-            secure: process.env.NODE_ENV === "production",
-          })
-          .send({ message: "Login Successfully", promotor, token });
-      }
+            // Create JWT token for the customer
+            const payload = { id: customer.id, username: customer.username };
+            const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "1d" });
+
+            res
+                .status(200)
+                .cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60 * 1000, // 1 day
+                })
+                .send({ message: "Login Successfully", customer, token });
+        } else if (data.role === "promotor") {
+            const promotor = await prisma.promotor.findUnique({
+                where: { username: data.username },
+            });
+
+            if (!promotor) throw { message: "Promotor account not found!" };
+
+            const isValidPass = await bcrypt.compare(password, promotor.password);
+            if (!isValidPass) throw { message: "Incorrect Password!" };
+            if (!promotor.is_verify)
+                throw {
+                    message:
+                        "Your account is not verified. Please verify your account before logging in.",
+                };
+
+            const payload = { id: promotor.id, username: promotor.username };
+            const token = sign(payload, process.env.JWT_KEY!, { expiresIn: "1d" });
+
+            res
+                .status(200)
+                .cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60 * 1000, // 1 day
+                    path: "/",
+                    secure: process.env.NODE_ENV === "production",
+                })
+                .send({ message: "Login Successfully", promotor, token });
+        }
     } catch (err) {
-      console.error("Error during login:", err);
-      res.status(400).send(err);
+        console.error("Error during login:", err);
+        res.status(400).send(err);
     }
-  }
+}
+
+  
 
   async registeration(
     req: Request,
@@ -196,15 +228,15 @@ export class AuthController {
       });
 
       // If referred_code is provided, add points to the referrer
-      if (referred_code) {
-        const referralUser = await findReferralCode(referred_code);
-        if (referralUser) {
-          await addPoint(referralUser.id);
-          await addCoupon(customer.id);
-        } else {
-          console.error("Invalid referral code provided.");
-        }
-      }
+      // if (referred_code) {
+      //   const referralUser = await findReferralCode(referred_code);
+      //   if (referralUser) {
+      //     await addPoint(referralUser.id);
+      //     await addCoupon(customer.id);
+      //   } else {
+      //     console.error("Invalid referral code provided.");
+      //   }
+      // }
 
       res.status(201).send({
         message:
@@ -343,15 +375,89 @@ export class AuthController {
     }
   }
 
-  //cobain forgot password nanti dulu belum bisa
-  // async forgotPassword(req: Request, res: Response, next: NextFunction) {
-  // const user = await prisma.customer.findFirst({
-  //   where: {
-  //     email: req.body.email,
-  //   },
-  // })
-  // }
-  // async resetPassword(req: Request, res: Response, next: NextFunction) {
+  //reset password 
+  async resetPasswordUser(req: Request, res: Response) {
+    try {
+      const { username, newPassword, confirmPassword } = req.body;
+  
+      // Check if all required fields are provided
+      if (!username || !newPassword || !confirmPassword) {
+        res.status(400).send({ message: 'All fields are required!' });
+        return;
+      }
+  
+      // Check if the new passwords match
+      if (newPassword !== confirmPassword) {
+        res.status(400).send({ message: 'Passwords do not match!' });
+        return;
+      }
+  
+      // Find the user by username
+      const user = await prisma.customer.findUnique({
+        where: { username },
+      });
+  
+      if (!user) {
+        res.status(404).send({ message: 'User not found!' });
+        return;
+      }
+  
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update the user's password
+      await prisma.customer.update({
+        where: { username },
+        data: { password: hashedPassword },
+      });
+  
+      res.status(200).send({ message: 'Password has been reset successfully!' });
+    } catch (err) {
+      console.error('Error resetting password:', err);
+      res.status(500).send({ message: 'An internal server error occurred!' });
+    }
+  }
+  async resetPasswordPromotor(req: Request, res: Response) {
+    try {
+      const { username, newPassword, confirmPassword } = req.body;
+  
+      // Check if all required fields are provided
+      if (!username || !newPassword || !confirmPassword) {
+        res.status(400).send({ message: 'All fields are required!' });
+        return;
+      }
+  
+      // Check if the new passwords match
+      if (newPassword !== confirmPassword) {
+        res.status(400).send({ message: 'Passwords do not match!' });
+        return;
+      }
+  
+      // Find the promotor by username
+      const promotor = await prisma.promotor.findUnique({
+        where: { username },
+      });
+  
+      if (!promotor) {
+        res.status(404).send({ message: 'promotor not found!' });
+        return;
+      }
+  
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update the promotor's password
+      await prisma.promotor.update({
+        where: { username },
+        data: { password: hashedPassword },
+      });
+  
+      res.status(200).send({ message: 'Password has been reset successfully!' });
+    } catch (err) {
+      console.error('Error resetting password:', err);
+      res.status(500).send({ message: 'An internal server error occurred!' });
+    }
+  }
+  
 
-  // }
 }

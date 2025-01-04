@@ -154,10 +154,12 @@ export class ListRouter {
       "/verify/promotors/:token",
       this.authController.verifyPromotor
     );
-    //cobain forgot
-    // this.router.post("/forgotPassword", this.authController.forgotPassword);
-    // this.router.post("/resetPassword", this.authController.resetPassword);
 
+    //cobain reset & forgot password ==================================================================================================
+    this.router.post("/resetpassword",this.authController.resetPasswordUser)
+    this.router.post("/resetpassword/promotor",this.authController.resetPasswordPromotor)
+    // ================================================================================================================
+   
     //cobain cloudinary
     this.router.patch(
       "/avatarcloud",
