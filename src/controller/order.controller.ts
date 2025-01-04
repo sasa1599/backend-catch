@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 import { requestBody } from "src/types/reqOrder";
 import { StatusOrder } from "../../prisma/generated/client";
-import axios from "axios";
 
 const midtransClient = require("midtrans-client");
 
@@ -31,6 +30,8 @@ export class OrderController {
   async createOrder(req: Request<{}, {}, requestBody>, res: Response) {
     try {
       const { total_price, final_price, ticketCart } = req.body;
+      console.log(req.body);
+      
       const expires_at = new Date(new Date().getTime() + 10 * 60000);
 
       const transactionId = await prisma.$transaction(async (prisma) => {
@@ -53,7 +54,7 @@ export class OrderController {
             await prisma.orderDetails.create({
               data: {
                 order_id: id,
-                user_id: req.user?.id,
+                // user_id: req.user?.id,
                 ticket_id: item.ticket.id,
                 quantity: item.quantity,
                 subPrice: item.quantity * item.ticket.price,
@@ -218,7 +219,7 @@ export class OrderController {
           status_order: true,
           expires_at: true,
           total_price: true,
-          final_price: true,
+          final_price:true,
           OrderDetails: {
             select: {
               quantity: true,
@@ -289,6 +290,7 @@ export class OrderController {
     }
   }
 
+  // Midtrans payment
   async getSnapToken(req: Request, res: Response) {
     try {
       const { order_id } = req.body;
@@ -370,9 +372,9 @@ export class OrderController {
           ? "SUCCESS"
           : transaction_status === "pending"
           ? "PENDING"
-          : "canceled";
+          : "CANCELLED";
 
-      if (statusTransaction === "canceled") {
+      if (statusTransaction === "CANCELLED") {
         const tickets = await prisma.orderDetails.findMany({
           where: { order_id: +order_id },
           select: {
