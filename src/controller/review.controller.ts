@@ -5,7 +5,7 @@ export class ReviewController {
   async createReview(req: Request, res: Response) {
     try {
       await prisma.review.create({
-        data: { ...req.body, user_id: req.user?.id, event_id: req.params.id },
+        data: { ...req.body, user_id: req.user?.id, event_id: +req.params.id },
       });
       res.status(200).send({ message: "Review Created" });
     } catch (err) {
@@ -17,17 +17,24 @@ export class ReviewController {
   async getReviews(req: Request, res: Response) {
     try {
       const reviews = await prisma.review.findMany({
-        where: { event_id: +req.params.id }, // pastikan id valid
+        where: { event_id: +req.params.id },
+        select: {
+          rating: true,
+          comment: true,
+          createdAt: true,
+          user: {
+            select: {
+              avatar: true,
+              name: true,
+            },
+          },
+        },
       });
-
-      console.log("Reviews:", reviews); // Debugging: pastikan reviews berisi data
-
       if (reviews.length === 0) {
-        res.status(200).send({ result: [] }); // Kembalikan array kosong jika tidak ada review
+        res.status(200).send({ result: [] });
       } else {
         res.status(200).send({ result: reviews });
       }
-      
     } catch (err) {
       console.log("Error fetching reviews:", err);
       res.status(400).send(err);

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Review" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+-- DropEnum
+DROP TYPE "RatingRange";

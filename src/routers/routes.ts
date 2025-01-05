@@ -196,6 +196,11 @@ export class ListRouter {
       this.userPointController.redeemPoint
     );
     this.router.get("/userpoints", this.userPointController.list);
+    this.router.get(
+      "/user/point",
+      verifyToken,
+      this.userPointController.getPointsUser
+    );
 
     //usercoupon
     this.router.post(
@@ -203,6 +208,11 @@ export class ListRouter {
       this.userCouponController.redeemCoupon
     );
     this.router.get("/usercoupons", this.userCouponController.list);
+    this.router.get(
+      "/user/coupon",
+      verifyToken,
+      this.userCouponController.getUserCoupon
+    );
   }
 
   getRouter(): Router {
