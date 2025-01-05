@@ -29,16 +29,26 @@ export class OrderController {
 
   async createOrder(req: Request<{}, {}, requestBody>, res: Response) {
     try {
-      const { total_price, final_price, ticketCart } = req.body;
+      const user_id = req.user?.id
+      const { total_price, coupon ,final_price, ticketCart } = req.body;
       console.log(req.body);
 
       const expires_at = new Date(new Date().getTime() + 10 * 60000);
-
       const transactionId = await prisma.$transaction(async (prisma) => {
+        if (coupon) {
+          const coupon = await prisma.userCoupon.findFirst({
+            where: { customer_id: user_id },
+          });
+          await prisma.userCoupon.update({
+            where: { id: coupon?.id },
+            data: { is_redeem: true },
+          });
+        }
         const { id } = await prisma.order.create({
           data: {
             user_id: +req.user?.id!,
             total_price,
+            coupon,
             final_price,
             expires_at,
           },
@@ -88,7 +98,7 @@ export class OrderController {
           status_order: true,
           expires_at: true,
           total_price: true,
-          final_price:true,
+          final_price: true,
           OrderDetails: {
             select: {
               quantity: true,
@@ -99,6 +109,7 @@ export class OrderController {
                   price: true,
                   event: {
                     select: {
+                      id: true,
                       title: true,
                       thumbnail: true,
                       datetime: true,
