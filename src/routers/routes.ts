@@ -12,6 +12,8 @@ import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
 import { OrderController } from "../controller/order.controller";
 import { ReviewController } from "../controller/review.controller";
+import { AdminController } from "../controller/admin.controller";
+
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -23,6 +25,7 @@ export class ListRouter {
   private ticketController: TicketController;
   private orderController: OrderController;
   private reviewController: ReviewController;
+  private adminController: AdminController;
   private router: Router;
 
   constructor() {
@@ -35,6 +38,7 @@ export class ListRouter {
     this.ticketController = new TicketController();
     this.orderController = new OrderController();
     this.reviewController = new ReviewController();
+    this.adminController = new AdminController();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -63,6 +67,7 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
+    this.router.get("/events/detail/:id", this.eventController.getEventDetail);
     this.router.get(
       "/events/promotor",
       verifyToken,
@@ -106,7 +111,7 @@ export class ListRouter {
     );
     // update order_status
     this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
-    
+
     // this.router.post(
     //   "/order-payment",
     //   verifyToken,
@@ -128,10 +133,11 @@ export class ListRouter {
     // Review
     this.router.get("/review/:id", this.reviewController.getReviews);
     this.router.post(
-      "/review:id",
+      "/review/:id",
       verifyToken,
       this.reviewController.createReview
     );
+    this.router.get("/review/avg/:id", this.reviewController.getAvg);
 
     // profile
     this.router.get(
@@ -176,6 +182,25 @@ export class ListRouter {
     this.router.post("/forgot-password/promotor", this.authController.forgotPasswordPromotor);
     // ================================================================================================================
    
+    // ==========================================================ADMIN COBAIN==================================================
+    // Dashboard statistics routes
+   // Route untuk mendapatkan jumlah order berdasarkan promotor_id
+this.router.get("/admin/orders/promotor/:promotor_id/count", this.adminController.getOrderCountByPromotor);
+
+// Route untuk mendapatkan total pendapatan berdasarkan promotor_id
+// this.router.get("/admin/revenue/promotor/:promotor_id", this.adminController.getTotalRevenueByPromotor);
+
+// this.router.get('/events/active', this.adminController.getActiveEvents);
+// this.router.get('/events/inactive', this.adminController.getInactiveEvents);
+// this.router.get('/events/total', this.adminController.getTotalEvents);
+// this.router.get('/revenue/total', this.adminController.getTotalRevenue);
+
+// Detailed event statistics
+// this.router.get('/events/:eventId/statistics', this.adminController.getEventStatistics);
+
+// Promotor overview
+// this.router.get('/promotor/:promotorId/events', this.adminController.getPromotorEventOverview)
+// ============================================================================================================================
     //cobain cloudinary
     this.router.patch(
       "/avatarcloud",

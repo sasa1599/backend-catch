@@ -16,10 +16,31 @@ export class ReviewController {
 
   async getReviews(req: Request, res: Response) {
     try {
-      const reviews = prisma.review.findMany({
-        where: { event_id: +req.params.id },
+      const reviews = await prisma.review.findMany({
+        where: { event_id: +req.params.id }, // pastikan id valid
       });
-      res.status(200).send({ result: reviews });
+
+      console.log("Reviews:", reviews); // Debugging: pastikan reviews berisi data
+
+      if (reviews.length === 0) {
+        res.status(200).send({ result: [] }); // Kembalikan array kosong jika tidak ada review
+      } else {
+        res.status(200).send({ result: reviews });
+      }
+      
+    } catch (err) {
+      console.log("Error fetching reviews:", err);
+      res.status(400).send(err);
+    }
+  }
+
+  async getAvg(req: Request, res: Response) {
+    try {
+      const avgRating = await prisma.review.aggregate({
+        where: { event: { promotor_id: +req.params.id } },
+        _avg: { rating: true },
+      });
+      res.status(200).send({ result: avgRating._avg.rating });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);

@@ -97,6 +97,7 @@ model UserPoint {
 model OrderDetails {
   id         Int      @id @default(autoincrement())
   user_id    Int      @default(1)
+   promotor_id Int
   ticket_id  Int
   order_id   Int
   quantity   Int
@@ -107,11 +108,11 @@ model OrderDetails {
   order  Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
   ticket Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
   user   Customer @relation(fields: [user_id], references: [id])
+  promotor Promotor @relation(fields: [promotor_id], references: [id])
 }
 
 model Order {
-  id Int @id @default(autoincrement())
-
+  id                     Int       @id @default(autoincrement())
   user_id                Int
   total_price            Int
   final_price            Int
@@ -125,14 +126,20 @@ model Order {
   mid_payment_type       String?
   mid_payment_detail     Json?
 
-  OrderDetails OrderDetails[]
-  user         Customer       @relation(fields: [user_id], references: [id])
+  coupon_id              String?   // Menyimpan coupon ID jika digunakan
+  points_used            Int?      // Menyimpan poin yang digunakan
+  discount               Int?      // Menyimpan jumlah diskon dari coupon
+
+  OrderDetails           OrderDetails[]
+  user                   Customer   @relation(fields: [user_id], references: [id])
+  
 }
+
 
 model Review {
   user_id  Int
   event_id Int
-  rating   RatingRange
+  rating   Int
   comment  String
 
   user  Customer @relation(fields: [user_id], references: [id])
@@ -151,6 +158,8 @@ model Promotor {
   is_verify  Boolean   @default(false)
   updated_at DateTime?
   created_at DateTime  @default(now())
+  
+  OrderDetails  OrderDetails[]
 
   events Event[]
 }
