@@ -6020,6 +6020,8 @@ export namespace Prisma {
     total_price: number | null
     final_price: number | null
     mid_transaction_id: number | null
+    points_used: number | null
+    discount: number | null
   }
 
   export type OrderSumAggregateOutputType = {
@@ -6028,6 +6030,8 @@ export namespace Prisma {
     total_price: number | null
     final_price: number | null
     mid_transaction_id: number | null
+    points_used: number | null
+    discount: number | null
   }
 
   export type OrderMinAggregateOutputType = {
@@ -6043,6 +6047,9 @@ export namespace Prisma {
     mid_transaction_status: string | null
     mid_transaction_id: number | null
     mid_payment_type: string | null
+    coupon_id: string | null
+    points_used: number | null
+    discount: number | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -6058,6 +6065,9 @@ export namespace Prisma {
     mid_transaction_status: string | null
     mid_transaction_id: number | null
     mid_payment_type: string | null
+    coupon_id: string | null
+    points_used: number | null
+    discount: number | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -6074,6 +6084,9 @@ export namespace Prisma {
     mid_transaction_id: number
     mid_payment_type: number
     mid_payment_detail: number
+    coupon_id: number
+    points_used: number
+    discount: number
     _all: number
   }
 
@@ -6084,6 +6097,8 @@ export namespace Prisma {
     total_price?: true
     final_price?: true
     mid_transaction_id?: true
+    points_used?: true
+    discount?: true
   }
 
   export type OrderSumAggregateInputType = {
@@ -6092,6 +6107,8 @@ export namespace Prisma {
     total_price?: true
     final_price?: true
     mid_transaction_id?: true
+    points_used?: true
+    discount?: true
   }
 
   export type OrderMinAggregateInputType = {
@@ -6107,6 +6124,9 @@ export namespace Prisma {
     mid_transaction_status?: true
     mid_transaction_id?: true
     mid_payment_type?: true
+    coupon_id?: true
+    points_used?: true
+    discount?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -6122,6 +6142,9 @@ export namespace Prisma {
     mid_transaction_status?: true
     mid_transaction_id?: true
     mid_payment_type?: true
+    coupon_id?: true
+    points_used?: true
+    discount?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -6138,6 +6161,9 @@ export namespace Prisma {
     mid_transaction_id?: true
     mid_payment_type?: true
     mid_payment_detail?: true
+    coupon_id?: true
+    points_used?: true
+    discount?: true
     _all?: true
   }
 
@@ -6241,6 +6267,9 @@ export namespace Prisma {
     mid_transaction_id: number | null
     mid_payment_type: string | null
     mid_payment_detail: JsonValue | null
+    coupon_id: string | null
+    points_used: number | null
+    discount: number | null
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -6276,6 +6305,9 @@ export namespace Prisma {
     mid_transaction_id?: boolean
     mid_payment_type?: boolean
     mid_payment_detail?: boolean
+    coupon_id?: boolean
+    points_used?: boolean
+    discount?: boolean
     OrderDetails?: boolean | Order$OrderDetailsArgs<ExtArgs>
     user?: boolean | CustomerDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -6295,6 +6327,9 @@ export namespace Prisma {
     mid_transaction_id?: boolean
     mid_payment_type?: boolean
     mid_payment_detail?: boolean
+    coupon_id?: boolean
+    points_used?: boolean
+    discount?: boolean
     user?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -6312,6 +6347,9 @@ export namespace Prisma {
     mid_transaction_id?: boolean
     mid_payment_type?: boolean
     mid_payment_detail?: boolean
+    coupon_id?: boolean
+    points_used?: boolean
+    discount?: boolean
   }
 
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6343,6 +6381,9 @@ export namespace Prisma {
       mid_transaction_id: number | null
       mid_payment_type: string | null
       mid_payment_detail: Prisma.JsonValue | null
+      coupon_id: string | null
+      points_used: number | null
+      discount: number | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -6751,6 +6792,9 @@ export namespace Prisma {
     readonly mid_transaction_id: FieldRef<"Order", 'Int'>
     readonly mid_payment_type: FieldRef<"Order", 'String'>
     readonly mid_payment_detail: FieldRef<"Order", 'Json'>
+    readonly coupon_id: FieldRef<"Order", 'String'>
+    readonly points_used: FieldRef<"Order", 'Int'>
+    readonly discount: FieldRef<"Order", 'Int'>
   }
     
 
@@ -7118,24 +7162,26 @@ export namespace Prisma {
   export type ReviewAvgAggregateOutputType = {
     user_id: number | null
     event_id: number | null
+    rating: number | null
   }
 
   export type ReviewSumAggregateOutputType = {
     user_id: number | null
     event_id: number | null
+    rating: number | null
   }
 
   export type ReviewMinAggregateOutputType = {
     user_id: number | null
     event_id: number | null
-    rating: $Enums.RatingRange | null
+    rating: number | null
     comment: string | null
   }
 
   export type ReviewMaxAggregateOutputType = {
     user_id: number | null
     event_id: number | null
-    rating: $Enums.RatingRange | null
+    rating: number | null
     comment: string | null
   }
 
@@ -7151,11 +7197,13 @@ export namespace Prisma {
   export type ReviewAvgAggregateInputType = {
     user_id?: true
     event_id?: true
+    rating?: true
   }
 
   export type ReviewSumAggregateInputType = {
     user_id?: true
     event_id?: true
+    rating?: true
   }
 
   export type ReviewMinAggregateInputType = {
@@ -7269,7 +7317,7 @@ export namespace Prisma {
   export type ReviewGroupByOutputType = {
     user_id: number
     event_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
     _count: ReviewCountAggregateOutputType | null
     _avg: ReviewAvgAggregateOutputType | null
@@ -7335,7 +7383,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       user_id: number
       event_id: number
-      rating: $Enums.RatingRange
+      rating: number
       comment: string
     }, ExtArgs["result"]["review"]>
     composites: {}
@@ -7734,7 +7782,7 @@ export namespace Prisma {
   interface ReviewFieldRefs {
     readonly user_id: FieldRef<"Review", 'Int'>
     readonly event_id: FieldRef<"Review", 'Int'>
-    readonly rating: FieldRef<"Review", 'RatingRange'>
+    readonly rating: FieldRef<"Review", 'Int'>
     readonly comment: FieldRef<"Review", 'String'>
   }
     
@@ -11361,7 +11409,10 @@ export namespace Prisma {
     mid_transaction_status: 'mid_transaction_status',
     mid_transaction_id: 'mid_transaction_id',
     mid_payment_type: 'mid_payment_type',
-    mid_payment_detail: 'mid_payment_detail'
+    mid_payment_detail: 'mid_payment_detail',
+    coupon_id: 'coupon_id',
+    points_used: 'points_used',
+    discount: 'discount'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -11532,6 +11583,27 @@ export namespace Prisma {
    * Reference to a field of type 'StatusOrder[]'
    */
   export type ListEnumStatusOrderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusOrder[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'RatingRange'
+   */
+  export type EnumRatingRangeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RatingRange'>
+    
+
+
+  /**
+   * Reference to a field of type 'RatingRange[]'
+   */
+  export type ListEnumRatingRangeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RatingRange[]'>
     
 
 
@@ -11927,6 +11999,9 @@ export namespace Prisma {
     mid_transaction_id?: IntNullableFilter<"Order"> | number | null
     mid_payment_type?: StringNullableFilter<"Order"> | string | null
     mid_payment_detail?: JsonNullableFilter<"Order">
+    coupon_id?: StringNullableFilter<"Order"> | string | null
+    points_used?: IntNullableFilter<"Order"> | number | null
+    discount?: IntNullableFilter<"Order"> | number | null
     OrderDetails?: OrderDetailsListRelationFilter
     user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
@@ -11945,6 +12020,9 @@ export namespace Prisma {
     mid_transaction_id?: SortOrderInput | SortOrder
     mid_payment_type?: SortOrderInput | SortOrder
     mid_payment_detail?: SortOrderInput | SortOrder
+    coupon_id?: SortOrderInput | SortOrder
+    points_used?: SortOrderInput | SortOrder
+    discount?: SortOrderInput | SortOrder
     OrderDetails?: OrderDetailsOrderByRelationAggregateInput
     user?: CustomerOrderByWithRelationInput
   }
@@ -11966,6 +12044,9 @@ export namespace Prisma {
     mid_transaction_id?: IntNullableFilter<"Order"> | number | null
     mid_payment_type?: StringNullableFilter<"Order"> | string | null
     mid_payment_detail?: JsonNullableFilter<"Order">
+    coupon_id?: StringNullableFilter<"Order"> | string | null
+    points_used?: IntNullableFilter<"Order"> | number | null
+    discount?: IntNullableFilter<"Order"> | number | null
     OrderDetails?: OrderDetailsListRelationFilter
     user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }, "id">
@@ -11984,6 +12065,9 @@ export namespace Prisma {
     mid_transaction_id?: SortOrderInput | SortOrder
     mid_payment_type?: SortOrderInput | SortOrder
     mid_payment_detail?: SortOrderInput | SortOrder
+    coupon_id?: SortOrderInput | SortOrder
+    points_used?: SortOrderInput | SortOrder
+    discount?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -12008,6 +12092,9 @@ export namespace Prisma {
     mid_transaction_id?: IntNullableWithAggregatesFilter<"Order"> | number | null
     mid_payment_type?: StringNullableWithAggregatesFilter<"Order"> | string | null
     mid_payment_detail?: JsonNullableWithAggregatesFilter<"Order">
+    coupon_id?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    points_used?: IntNullableWithAggregatesFilter<"Order"> | number | null
+    discount?: IntNullableWithAggregatesFilter<"Order"> | number | null
   }
 
   export type ReviewWhereInput = {
@@ -12016,7 +12103,7 @@ export namespace Prisma {
     NOT?: ReviewWhereInput | ReviewWhereInput[]
     user_id?: IntFilter<"Review"> | number
     event_id?: IntFilter<"Review"> | number
-    rating?: EnumRatingRangeFilter<"Review"> | $Enums.RatingRange
+    rating?: IntFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
@@ -12038,7 +12125,7 @@ export namespace Prisma {
     NOT?: ReviewWhereInput | ReviewWhereInput[]
     user_id?: IntFilter<"Review"> | number
     event_id?: IntFilter<"Review"> | number
-    rating?: EnumRatingRangeFilter<"Review"> | $Enums.RatingRange
+    rating?: IntFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     user?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
@@ -12062,7 +12149,7 @@ export namespace Prisma {
     NOT?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
     user_id?: IntWithAggregatesFilter<"Review"> | number
     event_id?: IntWithAggregatesFilter<"Review"> | number
-    rating?: EnumRatingRangeWithAggregatesFilter<"Review"> | $Enums.RatingRange
+    rating?: IntWithAggregatesFilter<"Review"> | number
     comment?: StringWithAggregatesFilter<"Review"> | string
   }
 
@@ -12663,6 +12750,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
     OrderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
     user: CustomerCreateNestedOneWithoutOrderInput
   }
@@ -12681,6 +12771,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
     OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -12696,6 +12789,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
     OrderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
     user?: CustomerUpdateOneRequiredWithoutOrderNestedInput
   }
@@ -12714,6 +12810,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
     OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -12731,6 +12830,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -12745,6 +12847,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -12761,10 +12866,13 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ReviewCreateInput = {
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
     user: CustomerCreateNestedOneWithoutReviewInput
     event: EventCreateNestedOneWithoutReviewInput
@@ -12773,12 +12881,12 @@ export namespace Prisma {
   export type ReviewUncheckedCreateInput = {
     user_id: number
     event_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
   }
 
   export type ReviewUpdateInput = {
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     user?: CustomerUpdateOneRequiredWithoutReviewNestedInput
     event?: EventUpdateOneRequiredWithoutReviewNestedInput
@@ -12787,26 +12895,26 @@ export namespace Prisma {
   export type ReviewUncheckedUpdateInput = {
     user_id?: IntFieldUpdateOperationsInput | number
     event_id?: IntFieldUpdateOperationsInput | number
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReviewCreateManyInput = {
     user_id: number
     event_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
   }
 
   export type ReviewUpdateManyMutationInput = {
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReviewUncheckedUpdateManyInput = {
     user_id?: IntFieldUpdateOperationsInput | number
     event_id?: IntFieldUpdateOperationsInput | number
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13569,6 +13677,9 @@ export namespace Prisma {
     mid_transaction_id?: SortOrder
     mid_payment_type?: SortOrder
     mid_payment_detail?: SortOrder
+    coupon_id?: SortOrder
+    points_used?: SortOrder
+    discount?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -13577,6 +13688,8 @@ export namespace Prisma {
     total_price?: SortOrder
     final_price?: SortOrder
     mid_transaction_id?: SortOrder
+    points_used?: SortOrder
+    discount?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
@@ -13592,6 +13705,9 @@ export namespace Prisma {
     mid_transaction_status?: SortOrder
     mid_transaction_id?: SortOrder
     mid_payment_type?: SortOrder
+    coupon_id?: SortOrder
+    points_used?: SortOrder
+    discount?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -13607,6 +13723,9 @@ export namespace Prisma {
     mid_transaction_status?: SortOrder
     mid_transaction_id?: SortOrder
     mid_payment_type?: SortOrder
+    coupon_id?: SortOrder
+    points_used?: SortOrder
+    discount?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
@@ -13615,6 +13734,8 @@ export namespace Prisma {
     total_price?: SortOrder
     final_price?: SortOrder
     mid_transaction_id?: SortOrder
+    points_used?: SortOrder
+    discount?: SortOrder
   }
 
   export type EnumStatusOrderWithAggregatesFilter<$PrismaModel = never> = {
@@ -13625,6 +13746,38 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusOrderFilter<$PrismaModel>
     _max?: NestedEnumStatusOrderFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type EnumRatingRangeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
+    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRatingRangeFilter<$PrismaModel> | $Enums.RatingRange
   }
 
   export type EventScalarRelationFilter = {
@@ -13647,6 +13800,7 @@ export namespace Prisma {
   export type ReviewAvgOrderByAggregateInput = {
     user_id?: SortOrder
     event_id?: SortOrder
+    rating?: SortOrder
   }
 
   export type ReviewMaxOrderByAggregateInput = {
@@ -13666,16 +13820,7 @@ export namespace Prisma {
   export type ReviewSumOrderByAggregateInput = {
     user_id?: SortOrder
     event_id?: SortOrder
-  }
-
-  export type EnumRatingRangeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
-    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
-    not?: NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel> | $Enums.RatingRange
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRatingRangeFilter<$PrismaModel>
-    _max?: NestedEnumRatingRangeFilter<$PrismaModel>
+    rating?: SortOrder
   }
 
   export type EventListRelationFilter = {
@@ -14298,10 +14443,6 @@ export namespace Prisma {
     connect?: EventWhereUniqueInput
   }
 
-  export type EnumRatingRangeFieldUpdateOperationsInput = {
-    set?: $Enums.RatingRange
-  }
-
   export type CustomerUpdateOneRequiredWithoutReviewNestedInput = {
     create?: XOR<CustomerCreateWithoutReviewInput, CustomerUncheckedCreateWithoutReviewInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutReviewInput
@@ -14743,6 +14884,45 @@ export namespace Prisma {
     _min?: NestedEnumStatusOrderFilter<$PrismaModel>
     _max?: NestedEnumStatusOrderFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumRatingRangeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
+    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRatingRangeFilter<$PrismaModel> | $Enums.RatingRange
+  }
+
+  export type NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
+    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel> | $Enums.RatingRange
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRatingRangeFilter<$PrismaModel>
+    _max?: NestedEnumRatingRangeFilter<$PrismaModel>
+  }
 
   export type NestedEnumCategoryFilter<$PrismaModel = never> = {
     equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
@@ -14863,6 +15043,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
     OrderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
   }
 
@@ -14879,6 +15062,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
     OrderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -14893,14 +15079,14 @@ export namespace Prisma {
   }
 
   export type ReviewCreateWithoutUserInput = {
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
     event: EventCreateNestedOneWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateWithoutUserInput = {
     event_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
   }
 
@@ -15035,6 +15221,9 @@ export namespace Prisma {
     mid_transaction_id?: IntNullableFilter<"Order"> | number | null
     mid_payment_type?: StringNullableFilter<"Order"> | string | null
     mid_payment_detail?: JsonNullableFilter<"Order">
+    coupon_id?: StringNullableFilter<"Order"> | string | null
+    points_used?: IntNullableFilter<"Order"> | number | null
+    discount?: IntNullableFilter<"Order"> | number | null
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutUserInput = {
@@ -15059,7 +15248,7 @@ export namespace Prisma {
     NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
     user_id?: IntFilter<"Review"> | number
     event_id?: IntFilter<"Review"> | number
-    rating?: EnumRatingRangeFilter<"Review"> | $Enums.RatingRange
+    rating?: IntFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
   }
 
@@ -15277,6 +15466,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
     user: CustomerCreateNestedOneWithoutOrderInput
   }
 
@@ -15294,6 +15486,9 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
   }
 
   export type OrderCreateOrConnectWithoutOrderDetailsInput = {
@@ -15392,6 +15587,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
     user?: CustomerUpdateOneRequiredWithoutOrderNestedInput
   }
 
@@ -15409,6 +15607,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TicketUpsertWithoutOrderDetailsInput = {
@@ -15902,14 +16103,14 @@ export namespace Prisma {
   }
 
   export type ReviewCreateWithoutEventInput = {
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
     user: CustomerCreateNestedOneWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateWithoutEventInput = {
     user_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
   }
 
@@ -16191,11 +16392,14 @@ export namespace Prisma {
     mid_transaction_id?: number | null
     mid_payment_type?: string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: string | null
+    points_used?: number | null
+    discount?: number | null
   }
 
   export type ReviewCreateManyUserInput = {
     event_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
   }
 
@@ -16276,6 +16480,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
     OrderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
   }
 
@@ -16292,6 +16499,9 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
     OrderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -16308,23 +16518,26 @@ export namespace Prisma {
     mid_transaction_id?: NullableIntFieldUpdateOperationsInput | number | null
     mid_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     mid_payment_detail?: NullableJsonNullValueInput | InputJsonValue
+    coupon_id?: NullableStringFieldUpdateOperationsInput | string | null
+    points_used?: NullableIntFieldUpdateOperationsInput | number | null
+    discount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ReviewUpdateWithoutUserInput = {
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     event?: EventUpdateOneRequiredWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutUserInput = {
     event_id?: IntFieldUpdateOperationsInput | number
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReviewUncheckedUpdateManyWithoutUserInput = {
     event_id?: IntFieldUpdateOperationsInput | number
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
@@ -16472,7 +16685,7 @@ export namespace Prisma {
 
   export type ReviewCreateManyEventInput = {
     user_id: number
-    rating: $Enums.RatingRange
+    rating: number
     comment: string
   }
 
@@ -16511,20 +16724,20 @@ export namespace Prisma {
   }
 
   export type ReviewUpdateWithoutEventInput = {
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     user?: CustomerUpdateOneRequiredWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutEventInput = {
     user_id?: IntFieldUpdateOperationsInput | number
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReviewUncheckedUpdateManyWithoutEventInput = {
     user_id?: IntFieldUpdateOperationsInput | number
-    rating?: EnumRatingRangeFieldUpdateOperationsInput | $Enums.RatingRange
+    rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
   }
 
