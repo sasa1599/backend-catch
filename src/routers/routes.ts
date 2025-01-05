@@ -11,7 +11,7 @@ import { uploader } from "../services/uploader";
 import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
 import { OrderController } from "../controller/order.controller";
-import expressAsyncHandler from "express-async-handler";
+import { ReviewController } from "../controller/review.controller";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -22,6 +22,7 @@ export class ListRouter {
   private eventController: EventController;
   private ticketController: TicketController;
   private orderController: OrderController;
+  private reviewController: ReviewController;
   private router: Router;
 
   constructor() {
@@ -33,13 +34,14 @@ export class ListRouter {
     this.eventController = new EventController();
     this.ticketController = new TicketController();
     this.orderController = new OrderController();
+    this.reviewController = new ReviewController();
     this.router = Router();
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
     //get list customer & promotor
-    this.router.get("/customers", verifyToken, this.customerController.list);
+    this.router.get("/customers", this.customerController.list);
     this.router.get("/promotors", verifyToken, this.promotorController.list);
     //register customer & promotor
     this.router.post("/customers", this.customerController.registeration);
@@ -61,6 +63,12 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
+    this.router.get("/events/detail/:id", this.eventController.getEventDetail);
+    this.router.get(
+      "/events/promotor",
+      verifyToken,
+      this.eventController.getEventsByPromotor
+    );
     this.router.get("/events/:slug", this.eventController.getEventSlug);
     this.router.get(
       "/events/category/:category",
@@ -68,33 +76,64 @@ export class ListRouter {
     );
 
     //Ticket
-    this.router.get("/tickets/:event_id", this.ticketController.getTickets);
-
-    // Order
-    this.router.post(
-      "/order",
-      // verifyToken,
-      expressAsyncHandler(this.orderController.createOrder)
-    );
-    this.router.post("/order/payment", this.orderController.getSnapToken);
-    this.router.get("/order/:id", this.orderController.getOrderId);
-
-    // Order
-    this.router.post(
-      "/order",
+    this.router.get(
+      "/tickets/:event_id",
       verifyToken,
-      expressAsyncHandler(
-        this.orderController.createOrder.bind(this.orderController)
-      )
+      this.ticketController.getTickets
     );
+
+    // Order
+    this.router.post("/order", verifyToken, this.orderController.createOrder);
+    this.router.post(
+      "/order/payment",
+      verifyToken,
+      this.orderController.getSnapToken
+    );
+    this.router.get(
+      "/order/order",
+      verifyToken,
+      this.orderController.getTicketOrder
+    );
+    this.router.post(
+      "/order/midtrans-webhook",
+      this.orderController.updateOrderHook
+    );
+    this.router.get("/order/:id", verifyToken, this.orderController.getOrderId);
 
     this.router.post(
       "/create-order",
       verifyToken,
-      expressAsyncHandler(this.orderController.createOrder)
+      this.orderController.createOrder
     );
-    this.router.post("/order/payment", this.orderController.getSnapToken);
+    // update order_status
+    this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
+
+    // this.router.post(
+    //   "/order-payment",
+    //   verifyToken,
+    //   this.orderController.processPayment
+    // );
+    this.router.post(
+      "/order/payment",
+      verifyToken,
+      this.orderController.getSnapToken
+    );
+    this.router.get(
+      "/order/user/detail",
+      verifyToken,
+      this.orderController.getOrderCustomerId
+    );
+
     this.router.get("/order/:id", this.orderController.getOrderId);
+
+    // Review
+    this.router.get("/review/:id", this.reviewController.getReviews);
+    this.router.post(
+      "/review/:id",
+      verifyToken,
+      this.reviewController.createReview
+    );
+    this.router.get("/review/avg/:id", this.reviewController.getAvg);
 
     // profile
     this.router.get(

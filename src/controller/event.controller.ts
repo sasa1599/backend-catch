@@ -41,7 +41,6 @@ export class EventController {
       res.status(400).send(err);
     }
   }
-
   async getEventSlug(req: Request, res: Response): Promise<void> {
     try {
       const { slug } = req.params;
@@ -69,7 +68,7 @@ export class EventController {
           },
         },
       });
-  
+
       if (!event) {
         res.status(404).send({ message: "Event not found" });
         return;
@@ -83,8 +82,6 @@ export class EventController {
         .send({ error: "An error occurred while fetching the event" });
     }
   }
-  
-
   async getEventCategory(req: Request, res: Response) {
     try {
       const { category } = req.params;
@@ -116,6 +113,91 @@ export class EventController {
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
+    }
+  }
+  async getEventsByPromotor(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user?.id) {
+        res.status(400).send({ error: "User ID is missing. Please log in." });
+        return;
+      }
+
+      const events = await prisma.event.findMany({
+        where: {
+          promotor_id: req.user?.id,
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          category: true,
+          location: true,
+          thumbnail: true,
+          datetime: true,
+          venue: true,
+          slug: true,
+          tickets: {
+            select: {
+              price: true,
+            },
+          },
+          promotor: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+
+      if (events.length === 0) {
+        res.status(404).send({ error: "No events found for this promotor." });
+        return; // Ensure the function exits after sending the response
+      }
+
+      // Return the fetched events
+      res.status(200).send({ events });
+    } catch (err) {
+      // Log more details for debugging
+      console.error("Error fetching events by promotor:", err);
+      res
+        .status(500)
+        .send({ error: "Something went wrong. Please try again later." });
+    }
+  }
+  async getEventDetail(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const event = await prisma.event.findUnique({
+        where: { id: +id },
+        select: {
+          id: true,
+          title: true,
+          thumbnail: true,
+          category: true,
+          description: true,
+          location: true,
+          venue: true,
+          datetime: true,
+          tickets: {
+            select: {
+              category: true,
+              price: true,
+              description: true,
+            },
+          },
+          promotor: {
+            select: {
+              username: true,
+              avatar: true,
+            },
+          },
+        },
+      });
+      res.status(200).send({ event });
+    } catch (error) {
+      console.log("Error get event detail:", error);
+      res.status(400).send(error);
     }
   }
 }

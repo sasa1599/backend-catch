@@ -154,6 +154,7 @@ exports.Prisma.UserPointScalarFieldEnum = {
 
 exports.Prisma.OrderDetailsScalarFieldEnum = {
   id: 'id',
+  user_id: 'user_id',
   ticket_id: 'ticket_id',
   order_id: 'order_id',
   quantity: 'quantity',
@@ -170,17 +171,22 @@ exports.Prisma.OrderScalarFieldEnum = {
   status_order: 'status_order',
   expires_at: 'expires_at',
   updated_at: 'updated_at',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  mid_transaction_time: 'mid_transaction_time',
+  mid_transaction_status: 'mid_transaction_status',
+  mid_transaction_id: 'mid_transaction_id',
+  mid_payment_type: 'mid_payment_type',
+  mid_payment_detail: 'mid_payment_detail',
+  coupon_id: 'coupon_id',
+  points_used: 'points_used',
+  discount: 'discount'
 };
 
 exports.Prisma.ReviewScalarFieldEnum = {
-  id: 'id',
-  description: 'description',
-  rating: 'rating',
   user_id: 'user_id',
   event_id: 'event_id',
-  updated_at: 'updated_at',
-  created_at: 'created_at'
+  rating: 'rating',
+  comment: 'comment'
 };
 
 exports.Prisma.PromotorScalarFieldEnum = {
@@ -207,7 +213,8 @@ exports.Prisma.EventScalarFieldEnum = {
   datetime: 'datetime',
   promotor_id: 'promotor_id',
   updated_at: 'updated_at',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  coupon_promotor: 'coupon_promotor'
 };
 
 exports.Prisma.TicketScalarFieldEnum = {
@@ -227,6 +234,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -235,6 +247,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.StatusOrder = exports.$Enums.StatusOrder = {
   PENDING: 'PENDING',

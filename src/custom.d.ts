@@ -9,13 +9,17 @@ export type PromotorPayload = {
 export type EventPayload = {
   id: number;
 };
+export type OrderPayload = {
+  id: number;
+};
 
 declare global {
   namespace Express {
     export interface Request {
       user?: UserPayload;
-      promtor?: PromotorPayload;
+      promotor?: PromotorPayload;
       event?: EventPayload;
+      order?: OrderPayload
     }
   }
 }

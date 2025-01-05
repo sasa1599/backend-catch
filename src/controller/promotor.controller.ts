@@ -151,14 +151,20 @@ export class PromotorController {
       res.status(400).send(err);
     }
   }
-
   // createEvent
   async createEvent(req: Request, res: Response) {
     try {
       if (!req.file) throw { message: "thumbnail empty" };
       const { secure_url } = await cloudinaryUpload(req.file, "thumbnail");
-      const { title, description, category, location, venue, datetime } =
-        req.body;
+      const {
+        title,
+        description,
+        category,
+        location,
+        venue,
+        datetime,
+        coupon_promotor,
+      } = req.body;
 
       const slug = createSlug(title);
 
@@ -172,7 +178,8 @@ export class PromotorController {
           slug: slug,
           datetime,
           thumbnail: secure_url,
-          promotor_id: req.promtor?.id!,
+          promotor_id: req.promotor?.id!,
+          coupon_promotor: +coupon_promotor,
         },
       });
 
