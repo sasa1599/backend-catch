@@ -458,6 +458,107 @@ export class AuthController {
       res.status(500).send({ message: 'An internal server error occurred!' });
     }
   }
+  // Forgot Password 
+  async forgotPasswordCustomer(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
   
-
+      const customer = await prisma.customer.findUnique({
+        where: { email },
+      });
+  
+      if (!customer) {
+        res.status(404).send({ message: "Email not found!" });
+        return;
+      }
+  
+      const payload = { 
+        id: customer.id, 
+        email: customer.email,
+        role: 'customer'
+      };
+      
+      const resetToken = sign(payload, process.env.JWT_KEY!, {
+        expiresIn: "1h",
+      });
+  
+      const resetLink = `${process.env.BASE_URL_FE}/reset-password/${resetToken}`;
+  
+      const templatePath = path.join(__dirname, "../templates", "forgotPassword.hbs");
+      const templateSource = fs.readFileSync(templatePath, "utf-8");
+      const compiledTemplate = Handlebars.compile(templateSource);
+      const html = compiledTemplate({ 
+        username: customer.username, 
+        resetLink,
+        year: new Date().getFullYear()
+      });
+  
+      await transporter.sendMail({
+        from: "shnazzhr@gmail.com",
+        to: email,
+        subject: "Password Reset Request",
+        html,
+      });
+  
+      res.status(200).send({ 
+        message: "Password reset link sent to your email!" 
+      });
+    } catch (err) {
+      console.error("Forgot password error:", err);
+      res.status(500).send({ 
+        message: "An error occurred while sending the reset link." 
+      });
+    }
+  }
+  async forgotPasswordPromotor(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+  
+      const promotor = await prisma.promotor.findUnique({
+        where: { email },
+      });
+  
+      if (!promotor) {
+        res.status(404).send({ message: "Email not found!" });
+        return;
+      }
+  
+      const payload = { 
+        id: promotor.id, 
+        email: promotor.email,
+        role: 'promotor'
+      };
+      
+      const resetToken = sign(payload, process.env.JWT_KEY!, {
+        expiresIn: "1h",
+      });
+  
+      const resetLink = `${process.env.BASE_URL_FE}/reset-password/${resetToken}`;
+  
+      const templatePath = path.join(__dirname, "../templates", "forgotPassword.hbs");
+      const templateSource = fs.readFileSync(templatePath, "utf-8");
+      const compiledTemplate = Handlebars.compile(templateSource);
+      const html = compiledTemplate({ 
+        username: promotor.name, 
+        resetLink,
+        year: new Date().getFullYear()
+      });
+  
+      await transporter.sendMail({
+        from: "shnazzhr@gmail.com",
+        to: email,
+        subject: "Password Reset Request",
+        html,
+      });
+  
+      res.status(200).send({ 
+        message: "Password reset link sent to your email!" 
+      });
+    } catch (err) {
+      console.error("Forgot password error:", err);
+      res.status(500).send({ 
+        message: "An error occurred while sending the reset link." 
+      });
+    }
+  }
 }

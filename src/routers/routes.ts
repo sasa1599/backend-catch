@@ -11,6 +11,7 @@ import { uploader } from "../services/uploader";
 import { EventController } from "../controller/event.controller";
 import { TicketController } from "../controller/ticket.controller";
 import { OrderController } from "../controller/order.controller";
+import { ReviewController } from "../controller/review.controller";
 
 export class ListRouter {
   private customerController: CustomerController;
@@ -21,6 +22,7 @@ export class ListRouter {
   private eventController: EventController;
   private ticketController: TicketController;
   private orderController: OrderController;
+  private reviewController: ReviewController;
   private router: Router;
 
   constructor() {
@@ -32,6 +34,7 @@ export class ListRouter {
     this.eventController = new EventController();
     this.ticketController = new TicketController();
     this.orderController = new OrderController();
+    this.reviewController = new ReviewController();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -74,7 +77,7 @@ export class ListRouter {
     //Ticket
     this.router.get(
       "/tickets/:event_id",
-      verifyToken,
+      // verifyToken,
       this.ticketController.getTickets
     );
 
@@ -92,7 +95,7 @@ export class ListRouter {
     );
     this.router.post(
       "/order/midtrans-webhook",
-      this.orderController.midtransWebHook
+      this.orderController.updateOrderHook
     );
     this.router.get("/order/:id", verifyToken, this.orderController.getOrderId);
 
@@ -101,11 +104,14 @@ export class ListRouter {
       verifyToken,
       this.orderController.createOrder
     );
-    this.router.post(
-      "/order-payment",
-      verifyToken,
-      this.orderController.processPayment
-    );
+    // update order_status
+    this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
+    
+    // this.router.post(
+    //   "/order-payment",
+    //   verifyToken,
+    //   this.orderController.processPayment
+    // );
     this.router.post(
       "/order/payment",
       verifyToken,
@@ -118,6 +124,14 @@ export class ListRouter {
     );
 
     this.router.get("/order/:id", this.orderController.getOrderId);
+
+    // Review
+    this.router.get("/review/:id", this.reviewController.getReviews);
+    this.router.post(
+      "/review:id",
+      verifyToken,
+      this.reviewController.createReview
+    );
 
     // profile
     this.router.get(
@@ -157,7 +171,9 @@ export class ListRouter {
 
     //cobain reset & forgot password ==================================================================================================
     this.router.post("/resetpassword",this.authController.resetPasswordUser)
+    this.router.post("/forgot-password/customer", this.authController.forgotPasswordCustomer);
     this.router.post("/resetpassword/promotor",this.authController.resetPasswordPromotor)
+    this.router.post("/forgot-password/promotor", this.authController.forgotPasswordPromotor);
     // ================================================================================================================
    
     //cobain cloudinary
