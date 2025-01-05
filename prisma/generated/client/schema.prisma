@@ -15,14 +15,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum RatingRange {
-  one   @map("1")
-  two   @map("2")
-  three @map("3")
-  four  @map("4")
-  five  @map("5")
-}
-
 enum TicketCategory {
   VIP
   REGULAR
@@ -124,7 +116,7 @@ model Order {
   mid_payment_type       String?
   mid_payment_detail     Json?
 
-  coupon_id   String? // Menyimpan coupon ID jika digunakan
+  coupon      Boolean @default(false)
   points_used Int? // Menyimpan poin yang digunakan
   discount    Int? // Menyimpan jumlah diskon dari coupon
 
@@ -133,10 +125,11 @@ model Order {
 }
 
 model Review {
-  user_id  Int
-  event_id Int
-  rating   RatingRange
-  comment  String
+  user_id   Int
+  event_id  Int
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
 
   user  Customer @relation(fields: [user_id], references: [id])
   event Event    @relation(fields: [event_id], references: [id])
