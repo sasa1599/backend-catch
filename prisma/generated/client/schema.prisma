@@ -15,6 +15,14 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum RatingRange {
+  one   @map("1")
+  two   @map("2")
+  three @map("3")
+  four  @map("4")
+  five  @map("5")
+}
+
 enum TicketCategory {
   VIP
   REGULAR
@@ -116,9 +124,9 @@ model Order {
   mid_payment_type       String?
   mid_payment_detail     Json?
 
-  coupon      Boolean @default(false)
-  points_used Int? // Menyimpan poin yang digunakan
-  discount    Int? // Menyimpan jumlah diskon dari coupon
+  coupon   Boolean @default(false)
+  point    Int?
+  discount Int?
 
   OrderDetails OrderDetails[]
   user         Customer       @relation(fields: [user_id], references: [id])

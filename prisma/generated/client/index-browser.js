@@ -178,7 +178,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   mid_payment_type: 'mid_payment_type',
   mid_payment_detail: 'mid_payment_detail',
   coupon: 'coupon',
-  points_used: 'points_used',
+  point: 'point',
   discount: 'discount'
 };
 
