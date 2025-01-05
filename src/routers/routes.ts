@@ -78,7 +78,7 @@ export class ListRouter {
     //Ticket
     this.router.get(
       "/tickets/:event_id",
-      verifyToken,
+      // verifyToken,
       this.ticketController.getTickets
     );
 

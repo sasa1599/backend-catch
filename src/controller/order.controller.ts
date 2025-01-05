@@ -88,7 +88,7 @@ export class OrderController {
           status_order: true,
           expires_at: true,
           total_price: true,
-          final_price: true,
+          final_price:true,
           OrderDetails: {
             select: {
               quantity: true,

@@ -11594,6 +11594,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RatingRange'
+   */
+  export type EnumRatingRangeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RatingRange'>
+    
+
+
+  /**
+   * Reference to a field of type 'RatingRange[]'
+   */
+  export type ListEnumRatingRangeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RatingRange[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Category'
    */
   export type EnumCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Category'>
@@ -13638,27 +13652,15 @@ export namespace Prisma {
     notIn?: $Enums.StatusOrder[] | ListEnumStatusOrderFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusOrderFilter<$PrismaModel> | $Enums.StatusOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type OrderDetailsListRelationFilter = {
+    every?: OrderDetailsWhereInput
+    some?: OrderDetailsWhereInput
+    none?: OrderDetailsWhereInput
+  }
+
+  export type OrderDetailsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type OrderCountOrderByAggregateInput = {
@@ -13769,6 +13771,13 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type EnumRatingRangeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
+    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRatingRangeFilter<$PrismaModel> | $Enums.RatingRange
   }
 
   export type EventScalarRelationFilter = {
@@ -14896,6 +14905,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumRatingRangeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
+    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRatingRangeFilter<$PrismaModel> | $Enums.RatingRange
+  }
+
+  export type NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RatingRange | EnumRatingRangeFieldRefInput<$PrismaModel>
+    in?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RatingRange[] | ListEnumRatingRangeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRatingRangeWithAggregatesFilter<$PrismaModel> | $Enums.RatingRange
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRatingRangeFilter<$PrismaModel>
+    _max?: NestedEnumRatingRangeFilter<$PrismaModel>
   }
 
   export type NestedEnumCategoryFilter<$PrismaModel = never> = {
