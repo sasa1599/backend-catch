@@ -15,14 +15,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum RatingRange {
-  one   @map("1")
-  two   @map("2")
-  three @map("3")
-  four  @map("4")
-  five  @map("5")
-}
-
 enum TicketCategory {
   VIP
   REGULAR
