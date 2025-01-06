@@ -95,8 +95,9 @@ model UserPoint {
 }
 
 model OrderDetails {
-  id         Int      @id @default(autoincrement())
-  user_id    Int      @default(1)
+  id      Int @id @default(autoincrement())
+  user_id Int @default(1)
+
   ticket_id  Int
   order_id   Int
   quantity   Int
