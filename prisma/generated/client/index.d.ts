@@ -63,18 +63,7 @@ export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
  * Enums
  */
 export namespace $Enums {
-  export const RatingRange: {
-  one: 'one',
-  two: 'two',
-  three: 'three',
-  four: 'four',
-  five: 'five'
-};
-
-export type RatingRange = (typeof RatingRange)[keyof typeof RatingRange]
-
-
-export const TicketCategory: {
+  export const TicketCategory: {
   VIP: 'VIP',
   REGULAR: 'REGULAR'
 };
@@ -112,10 +101,6 @@ export const StatusOrder: {
 export type StatusOrder = (typeof StatusOrder)[keyof typeof StatusOrder]
 
 }
-
-export type RatingRange = $Enums.RatingRange
-
-export const RatingRange: typeof $Enums.RatingRange
 
 export type TicketCategory = $Enums.TicketCategory
 

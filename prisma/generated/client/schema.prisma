@@ -15,14 +15,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum RatingRange {
-  one   @map("1")
-  two   @map("2")
-  three @map("3")
-  four  @map("4")
-  five  @map("5")
-}
-
 enum TicketCategory {
   VIP
   REGULAR
@@ -95,8 +87,9 @@ model UserPoint {
 }
 
 model OrderDetails {
-  id         Int      @id @default(autoincrement())
-  user_id    Int      @default(1)
+  id      Int @id @default(autoincrement())
+  user_id Int @default(1)
+
   ticket_id  Int
   order_id   Int
   quantity   Int

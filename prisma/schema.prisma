@@ -15,14 +15,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum RatingRange {
-  one   @map("1")
-  two   @map("2")
-  three @map("3")
-  four  @map("4")
-  five  @map("5")
-}
-
 enum TicketCategory {
   VIP
   REGULAR
@@ -95,14 +87,15 @@ model UserPoint {
 }
 
 model OrderDetails {
-  id         Int      @id @default(autoincrement())
-  user_id    Int      @default(1)
-  ticket_id  Int
-  order_id   Int
-  quantity   Int
-  subPrice   Int
-  updated_at DateTime @updatedAt
-  created_at DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  user_id     Int      @default(1)
+ 
+  ticket_id   Int
+  order_id    Int
+  quantity    Int
+  subPrice    Int
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
 
   order  Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
   ticket Ticket   @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
@@ -157,6 +150,8 @@ model Promotor {
   updated_at DateTime?
   created_at DateTime  @default(now())
 
+
+
   events Event[]
 }
 
@@ -192,5 +187,5 @@ model Ticket {
   created_at  DateTime       @default(now())
 
   OrderDetails OrderDetails[]
-  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event        Event          @relation(fields: [event_id], references: [id], onDelete: Cascade)
 }
