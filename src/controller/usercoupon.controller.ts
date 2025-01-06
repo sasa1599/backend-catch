@@ -72,5 +72,22 @@ export class UserCouponController {
       res.status(500).send({ message: "An error occurred", error: err });
     }
   }
-  
+  async getUserCoupon(req: Request, res: Response) {
+    try {
+      const coupon = await prisma.userCoupon.findFirst({
+        where: {
+          AND: [
+            { customer_id: req.user?.id },
+            { is_redeem: false },
+            { expired_at: { gt: new Date() } },
+          ],
+        },
+        select: { is_redeem: true },
+      });
+      res.status(200).send({ result: coupon });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
 }

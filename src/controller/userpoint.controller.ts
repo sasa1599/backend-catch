@@ -62,4 +62,22 @@ export class UserPointController {
       res.status(500).send(err);
     }
   }
+  async getPointsUser(req: Request, res: Response) {
+    try {
+      const points = await prisma.userPoint.aggregate({
+        where: {
+          AND: [
+            { customer_id: req.user?.id },
+            { is_transaction: false },
+            { expired_at: { gt: new Date() } },
+          ],
+        },
+        _sum: { point: true },
+      });
+      res.status(200).send({ result: points._sum.point });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
 }

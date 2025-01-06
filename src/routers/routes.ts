@@ -63,6 +63,7 @@ export class ListRouter {
 
     //event router
     this.router.get("/events", this.eventController.getEvent);
+    this.router.get("/events/detail/:id", this.eventController.getEventDetail);
     this.router.get(
       "/events/promotor",
       verifyToken,
@@ -106,17 +107,12 @@ export class ListRouter {
     );
     // update order_status
     this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
-    
+
     // this.router.post(
     //   "/order-payment",
     //   verifyToken,
     //   this.orderController.processPayment
     // );
-    this.router.post(
-      "/order/payment",
-      verifyToken,
-      this.orderController.getSnapToken
-    );
     this.router.get(
       "/order/user/detail",
       verifyToken,
@@ -128,10 +124,11 @@ export class ListRouter {
     // Review
     this.router.get("/review/:id", this.reviewController.getReviews);
     this.router.post(
-      "/review:id",
+      "/review/:id",
       verifyToken,
       this.reviewController.createReview
     );
+    this.router.get("/review/avg/:id", this.reviewController.getAvg);
 
     // profile
     this.router.get(
@@ -194,6 +191,11 @@ export class ListRouter {
       this.userPointController.redeemPoint
     );
     this.router.get("/userpoints", this.userPointController.list);
+    this.router.get(
+      "/user/point",
+      verifyToken,
+      this.userPointController.getPointsUser
+    );
 
     //usercoupon
     this.router.post(
@@ -201,6 +203,11 @@ export class ListRouter {
       this.userCouponController.redeemCoupon
     );
     this.router.get("/usercoupons", this.userCouponController.list);
+    this.router.get(
+      "/user/coupon",
+      verifyToken,
+      this.userCouponController.getUserCoupon
+    );
   }
 
   getRouter(): Router {

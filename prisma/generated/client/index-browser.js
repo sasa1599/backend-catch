@@ -177,8 +177,8 @@ exports.Prisma.OrderScalarFieldEnum = {
   mid_transaction_id: 'mid_transaction_id',
   mid_payment_type: 'mid_payment_type',
   mid_payment_detail: 'mid_payment_detail',
-  coupon_id: 'coupon_id',
-  points_used: 'points_used',
+  coupon: 'coupon',
+  point: 'point',
   discount: 'discount'
 };
 
@@ -186,7 +186,8 @@ exports.Prisma.ReviewScalarFieldEnum = {
   user_id: 'user_id',
   event_id: 'event_id',
   rating: 'rating',
-  comment: 'comment'
+  comment: 'comment',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PromotorScalarFieldEnum = {
@@ -259,14 +260,6 @@ exports.StatusOrder = exports.$Enums.StatusOrder = {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
   CANCELLED: 'CANCELLED'
-};
-
-exports.RatingRange = exports.$Enums.RatingRange = {
-  one: 'one',
-  two: 'two',
-  three: 'three',
-  four: 'four',
-  five: 'five'
 };
 
 exports.Category = exports.$Enums.Category = {
