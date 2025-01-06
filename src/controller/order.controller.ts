@@ -19,7 +19,7 @@ export class OrderController {
           });
           await prisma.userCoupon.update({
             where: { id: coupon?.id },
-            data: { is_redeem: true },
+            data: { is_redeem: false },
           });
         }
         if (point) {
@@ -224,8 +224,8 @@ export class OrderController {
   async getSnapToken(req: Request, res: Response) {
     try {
       const { order_id } = req.body;
-      console.log("order", order_id);
-
+      console.log("order",req.body);
+      
       const item_details = [];
 
       const checkTransaction = await prisma.order.findUnique({
@@ -238,7 +238,7 @@ export class OrderController {
         },
       });
       if (checkTransaction?.status_order === StatusOrder.CANCELLED)
-        throw "You cannot continue transaction, as your delaying transaction";
+        throw "You cannot continue transaction";
 
       const ticketTransaction = await prisma.orderDetails.findMany({
         where: { order_id: order_id },
@@ -270,10 +270,12 @@ export class OrderController {
         });
         item_details.push({
           id: coupon?.id,
-          price: -(req.body.base_price - checkTransaction.point!) / 10,
+          price: -(req.body.total_price - checkTransaction.point!) / 10,
           quantity: 1,
           name: "Coupon",
         });
+        console.log("coupon",coupon);
+        
       }
 
       if (checkTransaction && checkTransaction?.point! > 0) {
