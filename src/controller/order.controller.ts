@@ -53,6 +53,7 @@ export class OrderController {
                 ticket_id: item.ticket.id,
                 quantity: item.quantity,
                 subPrice: item.quantity * item.ticket.price,
+                
               },
             });
             await prisma.ticket.update({
@@ -198,6 +199,7 @@ export class OrderController {
                   price: true,
                   event: {
                     select: {
+                      promotor_id: true,
                       title: true,
                       thumbnail: true,
                       datetime: true,
@@ -222,6 +224,8 @@ export class OrderController {
   async getSnapToken(req: Request, res: Response) {
     try {
       const { order_id } = req.body;
+      console.log("order", order_id);
+
       const item_details = [];
 
       const checkTransaction = await prisma.order.findUnique({

@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { findPromotor } from "../services/register.service";
 import { cloudinaryUpload } from "../services/cloudinary";
 import { createSlug } from "../helpers/slug";
+import { getWeekRange } from "src/helpers/statistic";
 
 export class PromotorController {
   // Register Promotor
@@ -189,4 +190,71 @@ export class PromotorController {
       res.status(400).send(err);
     }
   }
+//   async getStatisticPromotor(req: Request, res: Response) {
+//     try {
+//       // respone untuk harian :
+//       // keluarin response senin-minggu + revenue senin-minggu
+
+//       // response untuk bulanan :
+//       // keluarin response januari - desember + revenue januari - desember
+
+//       // response untuk tahunan :
+//       // keluarin response tahunan 2024 - 2025 (dinamis)  + revenue tahunan
+//       if (req.query.filter_by !== "monthly" && req.query.filter_by !== "yearly" && req.query.filter_by !== "daily") {
+//         res.status(400).send({
+//           message: "filter_by must be daily, monthly, or yearly",
+//         });
+//       }
+      
+//       if (req.query.filter_by === "daily") {
+//         const { startOfWeek, endOfWeek } = getWeekRange();
+      
+//         // Query promotor with associated orders for the given week range
+//         const promoters = await prisma.promotor.findMany({
+//           where: {
+//             created_at: {
+//               gte: startOfWeek,
+//               lte: endOfWeek,
+//             },
+//           },
+//           include: {
+//             Order: {
+//               where: {
+//                 created_at: {
+//                   gte: startOfWeek,
+//                   lte: endOfWeek,
+//                 },
+//               },
+//             },
+//           },
+//         });
+      
+//         const weeklyData: any = { Monday: 0, Tuesday: 0, Wednesday: 0, Thursday: 0, Friday: 0, Saturday: 0, Sunday: 0 };
+      
+//         // Loop through each promotor
+//         promoters.forEach((promotor) => {
+//           // Loop through each order for the promotor
+//           promotor.Order.forEach((order) => {
+//             const dayOfWeek = order.created_at.getDay(); // Get the day of the week (0 = Sunday, 6 = Saturday)
+//             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+//             const dayName = days[dayOfWeek];
+      
+//             // Add the value of interest (e.g., total_price) to the corresponding day
+//             weeklyData[dayName] += order.total_price; // Change `order.total_price` to whatever you want to aggregate
+//           });
+//         });
+      
+//         // Send the weekly data in the response
+//         res.status(200).send(weeklyData);
+//       }
+      
+
+    
+//     return res.json({
+//       success: true,
+//     });
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
 }
