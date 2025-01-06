@@ -78,13 +78,13 @@ export class UserCouponController {
         where: {
           AND: [
             { customer_id: req.user?.id },
-            { expired_at: { gt: new Date() } },
             { is_redeem: false },
+            { expired_at: { gt: new Date() } },
           ],
         },
         select: { is_redeem: true },
       });
-      res.status(200).send({ result: coupon?.is_redeem });
+      res.status(200).send({ result: coupon });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);

@@ -117,11 +117,6 @@ export class ListRouter {
     //   verifyToken,
     //   this.orderController.processPayment
     // );
-    this.router.post(
-      "/order/payment",
-      verifyToken,
-      this.orderController.getSnapToken
-    );
     this.router.get(
       "/order/user/detail",
       verifyToken,
