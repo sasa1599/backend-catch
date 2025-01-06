@@ -155,7 +155,6 @@ exports.Prisma.UserPointScalarFieldEnum = {
 exports.Prisma.OrderDetailsScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
-  promotor_id: 'promotor_id',
   ticket_id: 'ticket_id',
   order_id: 'order_id',
   quantity: 'quantity',
@@ -178,8 +177,8 @@ exports.Prisma.OrderScalarFieldEnum = {
   mid_transaction_id: 'mid_transaction_id',
   mid_payment_type: 'mid_payment_type',
   mid_payment_detail: 'mid_payment_detail',
-  coupon_id: 'coupon_id',
-  points_used: 'points_used',
+  coupon: 'coupon',
+  point: 'point',
   discount: 'discount'
 };
 
@@ -187,7 +186,8 @@ exports.Prisma.ReviewScalarFieldEnum = {
   user_id: 'user_id',
   event_id: 'event_id',
   rating: 'rating',
-  comment: 'comment'
+  comment: 'comment',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PromotorScalarFieldEnum = {

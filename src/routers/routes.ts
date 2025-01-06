@@ -14,7 +14,6 @@ import { OrderController } from "../controller/order.controller";
 import { ReviewController } from "../controller/review.controller";
 import { AdminController } from "../controller/admin.controller";
 
-
 export class ListRouter {
   private customerController: CustomerController;
   private promotorController: PromotorController;
@@ -25,6 +24,7 @@ export class ListRouter {
   private ticketController: TicketController;
   private orderController: OrderController;
   private reviewController: ReviewController;
+
   private adminController: AdminController;
   private router: Router;
 
@@ -176,31 +176,53 @@ export class ListRouter {
     );
 
     //cobain reset & forgot password ==================================================================================================
-    this.router.post("/resetpassword",this.authController.resetPasswordUser)
-    this.router.post("/forgot-password/customer", this.authController.forgotPasswordCustomer);
-    this.router.post("/resetpassword/promotor",this.authController.resetPasswordPromotor)
-    this.router.post("/forgot-password/promotor", this.authController.forgotPasswordPromotor);
+    this.router.post("/resetpassword", this.authController.resetPasswordUser);
+    this.router.post(
+      "/forgot-password/customer",
+      this.authController.forgotPasswordCustomer
+    );
+    this.router.post(
+      "/resetpassword/promotor",
+      this.authController.resetPasswordPromotor
+    );
+    this.router.post(
+      "/forgot-password/promotor",
+      this.authController.forgotPasswordPromotor
+    );
     // ================================================================================================================
-   
+
     // ==========================================================ADMIN COBAIN==================================================
     // Dashboard statistics routes
-   // Route untuk mendapatkan jumlah order berdasarkan promotor_id
-this.router.get("/admin/orders/promotor/:promotor_id/count", this.adminController.getOrderCountByPromotor);
+    // Route untuk mendapatkan jumlah order berdasarkan promotor_id
+    this.router.get(
+      "/admin/orders/promotor/:id/count",
+      this.adminController.getOrderCountByPromotor
+    );
+    this.router.get(
+      "/admin/orders/:id",
+      verifyToken,
+      this.adminController.getOrderPromotor
+    );
+    this.router.get(
+      "/admin/revenue/:id",
+      verifyToken,
+      this.adminController.getTotalRevenueByPromotor
+    );
 
-// Route untuk mendapatkan total pendapatan berdasarkan promotor_id
-// this.router.get("/admin/revenue/promotor/:promotor_id", this.adminController.getTotalRevenueByPromotor);
+    // Route untuk mendapatkan total pendapatan berdasarkan promotor_id
+    // this.router.get("/admin/revenue/promotor/:promotor_id", this.adminController.getTotalRevenueByPromotor);
 
-// this.router.get('/events/active', this.adminController.getActiveEvents);
-// this.router.get('/events/inactive', this.adminController.getInactiveEvents);
-// this.router.get('/events/total', this.adminController.getTotalEvents);
-// this.router.get('/revenue/total', this.adminController.getTotalRevenue);
+    // this.router.get('/events/active', this.adminController.getActiveEvents);
+    // this.router.get('/events/inactive', this.adminController.getInactiveEvents);
+    // this.router.get('/events/total', this.adminController.getTotalEvents);
+    // this.router.get('/revenue/total', this.adminController.getTotalRevenue);
 
-// Detailed event statistics
-// this.router.get('/events/:eventId/statistics', this.adminController.getEventStatistics);
+    // Detailed event statistics
+    // this.router.get('/events/:eventId/statistics', this.adminController.getEventStatistics);
 
-// Promotor overview
-// this.router.get('/promotor/:promotorId/events', this.adminController.getPromotorEventOverview)
-// ============================================================================================================================
+    // Promotor overview
+    // this.router.get('/promotor/:promotorId/events', this.adminController.getPromotorEventOverview)
+    // ============================================================================================================================
     //cobain cloudinary
     this.router.patch(
       "/avatarcloud",
@@ -223,6 +245,11 @@ this.router.get("/admin/orders/promotor/:promotor_id/count", this.adminControlle
       this.userPointController.redeemPoint
     );
     this.router.get("/userpoints", this.userPointController.list);
+    this.router.get(
+      "/user/point",
+      verifyToken,
+      this.userPointController.getPointsUser
+    );
 
     //usercoupon
     this.router.post(
@@ -230,6 +257,11 @@ this.router.get("/admin/orders/promotor/:promotor_id/count", this.adminControlle
       this.userCouponController.redeemCoupon
     );
     this.router.get("/usercoupons", this.userCouponController.list);
+    this.router.get(
+      "/user/coupon",
+      verifyToken,
+      this.userCouponController.getUserCoupon
+    );
   }
 
   getRouter(): Router {

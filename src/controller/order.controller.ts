@@ -6,42 +6,36 @@ import { StatusOrder } from "../../prisma/generated/client";
 const midtransClient = require("midtrans-client");
 
 export class OrderController {
-  async applyCoupon(total_price: number, coupon_id: string | null) {
-    if (!coupon_id) return { total_price, discount: 0 };
-
-    const discount = coupon_id ? 0.1 * total_price : 0;
-    return { total_price: total_price - discount, discount };
-  }
-
-  async applyPoints(userId: number, total_price: number, points_used: number) {
-    const userPoints = await prisma.userPoint.findMany({
-      where: { customer_id: userId, is_transaction: false },
-    });
-    const totalPoints = userPoints.reduce((sum, point) => sum + point.point, 0);
-
-    if (points_used > totalPoints) {
-      throw new Error("Not enough points available");
-    }
-
-    const final_price = total_price - totalPoints;
-    return { final_price: Math.max(0, final_price), points_used: totalPoints };
-  }
-
   async createOrder(req: Request<{}, {}, requestBody>, res: Response) {
     try {
-      const { total_price, final_price, ticketCart } = req.body;
+      const userId = req.user?.id;
+      const { total_price, coupon, point, final_price, ticketCart } = req.body;
       console.log(req.body);
 
-      const expires_at = new Date(new Date().getTime() + 10 * 60000);
-
       const transactionId = await prisma.$transaction(async (prisma) => {
+        if (coupon) {
+          const coupon = await prisma.userCoupon.findFirst({
+            where: { customer_id: userId },
+          });
+          await prisma.userCoupon.update({
+            where: { id: coupon?.id },
+            data: { is_redeem: true },
+          });
+        }
+        if (point) {
+          await prisma.userPoint.updateMany({
+            where: { customer_id: userId },
+            data: { is_transaction: true },
+          });
+        }
         const { id } = await prisma.order.create({
           data: {
-            user_id: +req.user?.id!,
+            user_id: userId!,
             total_price,
+            coupon,
+            point,
             final_price,
-            expires_at,
-            
+            expires_at: new Date(new Date().getTime() + 30 * 60000),
           },
         });
 
@@ -59,7 +53,7 @@ export class OrderController {
                 ticket_id: item.ticket.id,
                 quantity: item.quantity,
                 subPrice: item.quantity * item.ticket.price,
-                promotor_id: req.body.promotor_id,
+                
               },
             });
             await prisma.ticket.update({
@@ -80,6 +74,67 @@ export class OrderController {
     }
   }
 
+  // async createOrder(req: Request<{}, {}, requestBody>, res: Response) {
+  //   try {
+  //     const user_id = req.user?.id
+  //     const { total_price, coupon ,final_price, ticketCart } = req.body;
+  //     console.log(req.body);
+
+  //     const expires_at = new Date(new Date().getTime() + 10 * 60000);
+  //     const transactionId = await prisma.$transaction(async (prisma) => {
+  //       if (coupon) {
+  //         const coupon = await prisma.userCoupon.findFirst({
+  //           where: { customer_id: user_id },
+  //         });
+  //         await prisma.userCoupon.update({
+  //           where: { id: coupon?.id },
+  //           data: { is_redeem: true },
+  //         });
+  //       }
+  //       const { id } = await prisma.order.create({
+  //         data: {
+  //           user_id: +req.user?.id!,
+  //           total_price,
+  //           coupon,
+  //           final_price,
+  //           expires_at,
+  //         },
+  //       });
+
+  //       await Promise.all(
+  //         ticketCart.map(async (item) => {
+  //           if (item.quantity > item.ticket.seats) {
+  //             throw new Error(
+  //               `Seats for ticket ID: ${item.ticket.id} not available! `
+  //             );
+  //           }
+  //           await prisma.orderDetails.create({
+  //             data: {
+  //               order_id: id,
+  //               // user_id: req.user?.id,
+  //               ticket_id: item.ticket.id,
+  //               quantity: item.quantity,
+  //               subPrice: item.quantity * item.ticket.price,
+  //             },
+  //           });
+  //           await prisma.ticket.update({
+  //             where: { id: item.ticket.id },
+  //             data: { seats: { decrement: item.quantity } },
+  //           });
+  //         })
+  //       );
+  //       return id;
+  //     });
+
+  //     res
+  //       .status(200)
+  //       .send({ message: "Transaction created", order_id: transactionId });
+  //   } catch (err) {
+  //     console.log(err);
+  //     res.status(400).send(err);
+  //   }
+  // }
+
   async getOrderCustomerId(req: Request, res: Response) {
     try {
       const order = await prisma.order.findMany({
@@ -90,7 +145,9 @@ export class OrderController {
           status_order: true,
           expires_at: true,
           total_price: true,
-          final_price:true,
+          final_price: true,
+          point: true,
+          coupon: true,
           OrderDetails: {
             select: {
               quantity: true,
@@ -101,6 +158,7 @@ export class OrderController {
                   price: true,
                   event: {
                     select: {
+                      id: true,
                       title: true,
                       thumbnail: true,
                       datetime: true,
@@ -141,6 +199,7 @@ export class OrderController {
                   price: true,
                   event: {
                     select: {
+                      promotor_id: true,
                       title: true,
                       thumbnail: true,
                       datetime: true,
@@ -171,16 +230,17 @@ export class OrderController {
 
       const checkTransaction = await prisma.order.findUnique({
         where: { id: order_id },
-        select: { status_order: true, expires_at: true },
+        select: {
+          status_order: true,
+          expires_at: true,
+          coupon: true,
+          point: true,
+        },
       });
       if (checkTransaction?.status_order === StatusOrder.CANCELLED)
-        throw "You cannot continue the transaction, book another ticket now.";
+        throw "You cannot continue transaction, as your delaying transaction";
 
-      const resMinutes =
-        new Date(`${checkTransaction?.expires_at}`).getTime() -
-        new Date().getTime();
-
-      const ticketOrder = await prisma.orderDetails.findMany({
+      const ticketTransaction = await prisma.orderDetails.findMany({
         where: { order_id: order_id },
         include: {
           ticket: {
@@ -195,7 +255,7 @@ export class OrderController {
         where: { id: req.user?.id },
       });
 
-      for (const item of ticketOrder) {
+      for (const item of ticketTransaction) {
         item_details.push({
           id: item.ticket_id,
           price: item.subPrice / item.quantity,
@@ -203,6 +263,37 @@ export class OrderController {
           name: item.ticket.category,
         });
       }
+
+      if (checkTransaction?.coupon) {
+        const coupon = await prisma.userCoupon.findFirst({
+          where: { customer_id: user?.id },
+        });
+        item_details.push({
+          id: coupon?.id,
+          price: -(req.body.base_price - checkTransaction.point!) / 10,
+          quantity: 1,
+          name: "Coupon",
+        });
+      }
+
+      if (checkTransaction && checkTransaction?.point! > 0) {
+        const points = await prisma.userPoint.findMany({
+          where: { customer_id: req.user?.id },
+          select: { point: true },
+          orderBy: { created_at: "asc" },
+        });
+
+        item_details.push({
+          id: points[0].point,
+          price: -checkTransaction.point!,
+          quantity: 1,
+          name: "Points",
+        });
+      }
+
+      const resMinutes =
+        new Date(`${checkTransaction?.expires_at}`).getTime() -
+        new Date().getTime();
 
       const snap = new midtransClient.Snap({
         isProduction: false,
@@ -225,15 +316,86 @@ export class OrderController {
           duration: new Date(resMinutes).getMinutes(),
         },
       };
-      console.log("parameters", parameters);
-      const transaction = await snap.createTransaction(parameters);
 
+      const transaction = await snap.createTransaction(parameters);
       res.status(200).send({ result: transaction.token });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
     }
   }
+  // async getSnapToken(req: Request, res: Response) {
+  //   try {
+  //     const { order_id } = req.body;
+  //     console.log("order", order_id);
+
+  //     const item_details = [];
+
+  //     const checkTransaction = await prisma.order.findUnique({
+  //       where: { id: order_id },
+  //       select: { status_order: true, expires_at: true },
+  //     });
+  //     if (checkTransaction?.status_order === StatusOrder.CANCELLED)
+  //       throw "You cannot continue the transaction, book another ticket now.";
+
+  //     const resMinutes =
+  //       new Date(`${checkTransaction?.expires_at}`).getTime() -
+  //       new Date().getTime();
+
+  //     const ticketOrder = await prisma.orderDetails.findMany({
+  //       where: { order_id: order_id },
+  //       include: {
+  //         ticket: {
+  //           select: {
+  //             category: true,
+  //           },
+  //         },
+  //       },
+  //     });
+
+  //     const user = await prisma.customer.findUnique({
+  //       where: { id: req.user?.id },
+  //     });
+
+  //     for (const item of ticketOrder) {
+  //       item_details.push({
+  //         id: item.ticket_id,
+  //         price: item.subPrice / item.quantity,
+  //         quantity: item.quantity,
+  //         name: item.ticket.category,
+  //       });
+  //     }
+
+  //     const snap = new midtransClient.Snap({
+  //       isProduction: false,
+  //       serverKey: `${process.env.MID_SERVER_KEY}`,
+  //     });
+
+  //     const parameters = {
+  //       transaction_details: req.body,
+  //       customer_details: {
+  //         name: user?.name,
+  //         email: user?.email,
+  //       },
+  //       item_details,
+  //       page_expiry: {
+  //         duration: new Date(resMinutes).getMinutes(),
+  //         unit: "minutes",
+  //       },
+  //       expiry: {
+  //         unit: "minutes",
+  //         duration: new Date(resMinutes).getMinutes(),
+  //       },
+  //     };
+  //     console.log("parameters", parameters);
+  //     const transaction = await snap.createTransaction(parameters);
+
+  //     res.status(200).send({ result: transaction.token });
+  //   } catch (err) {
+  //     console.log(err);
+  //     res.status(400).send(err);
+  //   }
+  // }
 
   async updateOrderHook(req: Request, res: Response) {
     try {
