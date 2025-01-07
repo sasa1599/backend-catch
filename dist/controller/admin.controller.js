@@ -91,15 +91,15 @@ class AdminController {
                         },
                     },
                     orderBy: {
-                        created_at: "asc"
-                    }
+                        created_at: "asc",
+                    },
                 });
-                const formattedRevenue = revenue.map(order => {
+                const formattedRevenue = revenue.map((order) => {
                     var _a;
                     return ({
                         final_price: order.final_price,
                         created_at: order.created_at,
-                        event_title: ((_a = order.OrderDetails[0]) === null || _a === void 0 ? void 0 : _a.ticket.event.title) || '',
+                        event_title: ((_a = order.OrderDetails[0]) === null || _a === void 0 ? void 0 : _a.ticket.event.title) || "",
                     });
                 });
                 // Send the result in the response
@@ -117,35 +117,6 @@ class AdminController {
             }
         });
     }
-    //     async getTotalRevenue(req: Request, res: Response): Promise<void> {
-    //       try {
-    //         const promotorId = req.promotor?.id;
-    //         if (!promotorId) {
-    //           res.status(400).json({ error: "Invalid promotor ID" });
-    //           return;
-    //         }
-    //   const paidRevenue = await prisma.order.findMany({
-    //       where: {
-    //           status_order: "SUCCESS",
-    //       },
-    //       include: {
-    //           orderDetails: true, // Include the related orderDetails for the response
-    //         },
-    //   })
-    //         const totalRevenue = await prisma.orderDetails.aggregate({
-    //           _sum: {
-    //             subPrice: true,
-    //           },
-    //           where: {
-    //             promotor_id: promotorId,
-    //           },
-    //         });
-    //         res.status(200).json({ totalRevenue: totalRevenue._sum.final_price || 0 });
-    //       } catch (error) {
-    //         console.error("Error fetching total revenue:", error);
-    //         res.status(500).json({ error: "Failed to fetch total revenue" });
-    //       }
-    //     }
     getOrderPromotor(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
