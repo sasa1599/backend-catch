@@ -7,7 +7,7 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", ""); //gadipake soalnya udh pake cookie
+    const token = req.header("Authorization")?.replace("Bearer ", ""); 
     // const token = req.cookies?.token;
     // console.log("Cookies:", req.cookies);
 
