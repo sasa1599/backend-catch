@@ -23,7 +23,7 @@ export class OrderController {
           });
           await prisma.userCoupon.update({
             where: { id: coupon?.id },
-            data: { is_redeem: false },
+            data: { is_redeem: true },
           });
         }
   
@@ -265,13 +265,14 @@ export class OrderController {
           duration: new Date(resMinutes).getMinutes(),
         },
       };
-
+      console.log("item",item_details);
       const transaction = await snap.createTransaction(parameters);
       res.status(200).send({ result: transaction.token });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
     }
+    
   }
   
   async updateOrderHook(req: Request, res: Response) {
@@ -292,6 +293,24 @@ export class OrderController {
             ticket_id: true,
           },
         });
+        
+
+        for (const item of tickets) {
+          await prisma.ticket.update({
+            where: { id: item.ticket_id },
+            data: { seats: { increment: item.quantity } },
+          });
+        }
+      }
+      if (statusTransaction === "CANCELLED") {
+        const tickets = await prisma.orderDetails.findMany({
+          where: { order_id: +order_id },
+          select: {
+            quantity: true,
+            ticket_id: true,
+          },
+        });
+        
 
         for (const item of tickets) {
           await prisma.ticket.update({

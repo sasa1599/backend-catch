@@ -14,7 +14,7 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.replace("Bearer ", ""); //gadipake soalnya udh pake cookie
+        const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.replace("Bearer ", "");
         // const token = req.cookies?.token;
         // console.log("Cookies:", req.cookies);
         if (!token) {
