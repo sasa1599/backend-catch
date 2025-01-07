@@ -34,7 +34,7 @@ class OrderController {
                         });
                         yield prisma.userCoupon.update({
                             where: { id: coupon === null || coupon === void 0 ? void 0 : coupon.id },
-                            data: { is_redeem: false },
+                            data: { is_redeem: true },
                         });
                     }
                     // Proses redeem point jika ada
@@ -261,6 +261,7 @@ class OrderController {
                         duration: new Date(resMinutes).getMinutes(),
                     },
                 };
+                console.log("item", item_details);
                 const transaction = yield snap.createTransaction(parameters);
                 res.status(200).send({ result: transaction.token });
             }
@@ -279,6 +280,21 @@ class OrderController {
                     : transaction_status === "pending"
                         ? "PENDING"
                         : "CANCELLED";
+                if (statusTransaction === "CANCELLED") {
+                    const tickets = yield prisma_1.default.orderDetails.findMany({
+                        where: { order_id: +order_id },
+                        select: {
+                            quantity: true,
+                            ticket_id: true,
+                        },
+                    });
+                    for (const item of tickets) {
+                        yield prisma_1.default.ticket.update({
+                            where: { id: item.ticket_id },
+                            data: { seats: { increment: item.quantity } },
+                        });
+                    }
+                }
                 if (statusTransaction === "CANCELLED") {
                     const tickets = yield prisma_1.default.orderDetails.findMany({
                         where: { order_id: +order_id },
