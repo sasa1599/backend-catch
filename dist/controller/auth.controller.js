@@ -198,16 +198,6 @@ class AuthController {
                         ref_code: `${customer.id}${customer.username.substring(0, 3)}`,
                     },
                 });
-                // If referred_code is provided, add points to the referrer
-                // if (referred_code) {
-                //   const referralUser = await findReferralCode(referred_code);
-                //   if (referralUser) {
-                //     await addPoint(referralUser.id);
-                //     await addCoupon(customer.id);
-                //   } else {
-                //     console.error("Invalid referral code provided.");
-                //   }
-                // }
                 res.status(201).send({
                     message: "Customer created successfully. Please check your email for verification.",
                     customer,
@@ -330,19 +320,19 @@ class AuthController {
             }
         });
     }
-    //reset password 
+    //reset password
     resetPasswordUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { username, newPassword, confirmPassword } = req.body;
                 // Check if all required fields are provided
                 if (!username || !newPassword || !confirmPassword) {
-                    res.status(400).send({ message: 'All fields are required!' });
+                    res.status(400).send({ message: "All fields are required!" });
                     return;
                 }
                 // Check if the new passwords match
                 if (newPassword !== confirmPassword) {
-                    res.status(400).send({ message: 'Passwords do not match!' });
+                    res.status(400).send({ message: "Passwords do not match!" });
                     return;
                 }
                 // Find the user by username
@@ -350,7 +340,7 @@ class AuthController {
                     where: { username },
                 });
                 if (!user) {
-                    res.status(404).send({ message: 'User not found!' });
+                    res.status(404).send({ message: "User not found!" });
                     return;
                 }
                 // Hash the new password
@@ -360,11 +350,13 @@ class AuthController {
                     where: { username },
                     data: { password: hashedPassword },
                 });
-                res.status(200).send({ message: 'Password has been reset successfully!' });
+                res
+                    .status(200)
+                    .send({ message: "Password has been reset successfully!" });
             }
             catch (err) {
-                console.error('Error resetting password:', err);
-                res.status(500).send({ message: 'An internal server error occurred!' });
+                console.error("Error resetting password:", err);
+                res.status(500).send({ message: "An internal server error occurred!" });
             }
         });
     }
@@ -374,12 +366,12 @@ class AuthController {
                 const { username, newPassword, confirmPassword } = req.body;
                 // Check if all required fields are provided
                 if (!username || !newPassword || !confirmPassword) {
-                    res.status(400).send({ message: 'All fields are required!' });
+                    res.status(400).send({ message: "All fields are required!" });
                     return;
                 }
                 // Check if the new passwords match
                 if (newPassword !== confirmPassword) {
-                    res.status(400).send({ message: 'Passwords do not match!' });
+                    res.status(400).send({ message: "Passwords do not match!" });
                     return;
                 }
                 // Find the promotor by username
@@ -387,7 +379,7 @@ class AuthController {
                     where: { username },
                 });
                 if (!promotor) {
-                    res.status(404).send({ message: 'promotor not found!' });
+                    res.status(404).send({ message: "promotor not found!" });
                     return;
                 }
                 // Hash the new password
@@ -397,104 +389,13 @@ class AuthController {
                     where: { username },
                     data: { password: hashedPassword },
                 });
-                res.status(200).send({ message: 'Password has been reset successfully!' });
+                res
+                    .status(200)
+                    .send({ message: "Password has been reset successfully!" });
             }
             catch (err) {
-                console.error('Error resetting password:', err);
-                res.status(500).send({ message: 'An internal server error occurred!' });
-            }
-        });
-    }
-    // Forgot Password 
-    forgotPasswordCustomer(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { email } = req.body;
-                const customer = yield prisma_1.default.customer.findUnique({
-                    where: { email },
-                });
-                if (!customer) {
-                    res.status(404).send({ message: "Email not found!" });
-                    return;
-                }
-                const payload = {
-                    id: customer.id,
-                    email: customer.email,
-                    role: 'customer'
-                };
-                const resetToken = (0, jsonwebtoken_1.sign)(payload, process.env.JWT_KEY, {
-                    expiresIn: "1h",
-                });
-                const resetLink = `${process.env.BASE_URL_FE}/reset-password/${resetToken}`;
-                const templatePath = path_1.default.join(__dirname, "../templates", "forgotPassword.hbs");
-                const templateSource = fs_1.default.readFileSync(templatePath, "utf-8");
-                const compiledTemplate = handlebars_1.default.compile(templateSource);
-                const html = compiledTemplate({
-                    username: customer.username,
-                    resetLink,
-                    year: new Date().getFullYear()
-                });
-                yield mailer_1.transporter.sendMail({
-                    from: "shnazzhr@gmail.com",
-                    to: email,
-                    subject: "Password Reset Request",
-                    html,
-                });
-                res.status(200).send({
-                    message: "Password reset link sent to your email!"
-                });
-            }
-            catch (err) {
-                console.error("Forgot password error:", err);
-                res.status(500).send({
-                    message: "An error occurred while sending the reset link."
-                });
-            }
-        });
-    }
-    forgotPasswordPromotor(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { email } = req.body;
-                const promotor = yield prisma_1.default.promotor.findUnique({
-                    where: { email },
-                });
-                if (!promotor) {
-                    res.status(404).send({ message: "Email not found!" });
-                    return;
-                }
-                const payload = {
-                    id: promotor.id,
-                    email: promotor.email,
-                    role: 'promotor'
-                };
-                const resetToken = (0, jsonwebtoken_1.sign)(payload, process.env.JWT_KEY, {
-                    expiresIn: "1h",
-                });
-                const resetLink = `${process.env.BASE_URL_FE}/reset-password/${resetToken}`;
-                const templatePath = path_1.default.join(__dirname, "../templates", "forgotPassword.hbs");
-                const templateSource = fs_1.default.readFileSync(templatePath, "utf-8");
-                const compiledTemplate = handlebars_1.default.compile(templateSource);
-                const html = compiledTemplate({
-                    username: promotor.name,
-                    resetLink,
-                    year: new Date().getFullYear()
-                });
-                yield mailer_1.transporter.sendMail({
-                    from: "shnazzhr@gmail.com",
-                    to: email,
-                    subject: "Password Reset Request",
-                    html,
-                });
-                res.status(200).send({
-                    message: "Password reset link sent to your email!"
-                });
-            }
-            catch (err) {
-                console.error("Forgot password error:", err);
-                res.status(500).send({
-                    message: "An error occurred while sending the reset link."
-                });
+                console.error("Error resetting password:", err);
+                res.status(500).send({ message: "An internal server error occurred!" });
             }
         });
     }

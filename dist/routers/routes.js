@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListRouter = void 0;
 const express_1 = require("express");
-// import { checkAdmin, verifyToken } from "../middlewares/verify";
-// import { uploader } from "../services/uploader";
 const customer_controller_1 = require("../controller/customer.controller");
 const auth_controller_1 = require("../controller/auth.controller");
 const promotor_controller_1 = require("../controller/promotor.controller");
@@ -34,7 +32,7 @@ class ListRouter {
     initializeRoutes() {
         //get list customer & promotor
         this.router.get("/customers", this.customerController.list);
-        this.router.get("/promotors", verify_1.verifyToken, this.promotorController.list);
+        this.router.get("/promotors", this.promotorController.list);
         //register customer & promotor
         this.router.post("/customers", this.customerController.registeration);
         this.router.post("/promotors", this.promotorController.registerPromotor);
@@ -49,9 +47,7 @@ class ListRouter {
         this.router.get("/events/:slug", this.eventController.getEventSlug);
         this.router.get("/events/category/:category", this.eventController.getEventCategory);
         //Ticket
-        this.router.get("/tickets/:event_id", 
-        // verifyToken,
-        this.ticketController.getTickets);
+        this.router.get("/tickets/:event_id", this.ticketController.getTickets);
         // Order
         this.router.post("/order", verify_1.verifyToken, this.orderController.createOrder);
         this.router.post("/order/payment", verify_1.verifyToken, this.orderController.getSnapToken);
@@ -61,11 +57,6 @@ class ListRouter {
         this.router.post("/create-order", verify_1.verifyToken, this.orderController.createOrder);
         // update order_status
         this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
-        // this.router.post(
-        //   "/order-payment",
-        //   verifyToken,
-        //   this.orderController.processPayment
-        // );
         this.router.get("/order/user/detail", verify_1.verifyToken, this.orderController.getOrderCustomerId);
         this.router.get("/order/:id", this.orderController.getOrderId);
         // Review
@@ -87,26 +78,13 @@ class ListRouter {
         this.router.patch("/verify/promotors/:token", this.authController.verifyPromotor);
         //cobain reset & forgot password ==================================================================================================
         this.router.post("/resetpassword", this.authController.resetPasswordUser);
-        this.router.post("/forgot-password/customer", this.authController.forgotPasswordCustomer);
         this.router.post("/resetpassword/promotor", this.authController.resetPasswordPromotor);
-        this.router.post("/forgot-password/promotor", this.authController.forgotPasswordPromotor);
         // ================================================================================================================
         // ==========================================================ADMIN COBAIN==================================================
         // Dashboard statistics routes
-        // Route untuk mendapatkan jumlah order berdasarkan promotor_id
         this.router.get("/admin/orders/promotor/:id/count", this.adminController.getOrderCountByPromotor);
         this.router.get("/admin/orders/:id", verify_1.verifyToken, this.adminController.getOrderPromotor);
         this.router.get("/admin/revenue/:id", verify_1.verifyToken, this.adminController.getTotalRevenueByPromotor);
-        // Route untuk mendapatkan total pendapatan berdasarkan promotor_id
-        // this.router.get("/admin/revenue/promotor/:promotor_id", this.adminController.getTotalRevenueByPromotor);
-        // this.router.get('/events/active', this.adminController.getActiveEvents);
-        // this.router.get('/events/inactive', this.adminController.getInactiveEvents);
-        // this.router.get('/events/total', this.adminController.getTotalEvents);
-        // this.router.get('/revenue/total', this.adminController.getTotalRevenue);
-        // Detailed event statistics
-        // this.router.get('/events/:eventId/statistics', this.adminController.getEventStatistics);
-        // Promotor overview
-        // this.router.get('/promotor/:promotorId/events', this.adminController.getPromotorEventOverview)
         // ============================================================================================================================
         //cobain cloudinary
         this.router.patch("/avatarcloud", verify_1.verifyToken, (0, uploader_1.uploader)("memoryStorage", "avatarLogin-").single("file"), this.customerController.editAvatarCloud);

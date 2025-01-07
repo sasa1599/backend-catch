@@ -1,6 +1,4 @@
 import { Request, Response, Router } from "express";
-// import { checkAdmin, verifyToken } from "../middlewares/verify";
-// import { uploader } from "../services/uploader";
 import { CustomerController } from "../controller/customer.controller";
 import { AuthController } from "../controller/auth.controller";
 import { PromotorController } from "../controller/promotor.controller";
@@ -46,7 +44,7 @@ export class ListRouter {
   private initializeRoutes() {
     //get list customer & promotor
     this.router.get("/customers", this.customerController.list);
-    this.router.get("/promotors", verifyToken, this.promotorController.list);
+    this.router.get("/promotors", this.promotorController.list);
     //register customer & promotor
     this.router.post("/customers", this.customerController.registeration);
     this.router.post("/promotors", this.promotorController.registerPromotor);
@@ -80,11 +78,7 @@ export class ListRouter {
     );
 
     //Ticket
-    this.router.get(
-      "/tickets/:event_id",
-      // verifyToken,
-      this.ticketController.getTickets
-    );
+    this.router.get("/tickets/:event_id", this.ticketController.getTickets);
 
     // Order
     this.router.post("/order", verifyToken, this.orderController.createOrder);
@@ -112,11 +106,6 @@ export class ListRouter {
     // update order_status
     this.router.post("/midtrans-webhook", this.orderController.updateOrderHook);
 
-    // this.router.post(
-    //   "/order-payment",
-    //   verifyToken,
-    //   this.orderController.processPayment
-    // );
     this.router.get(
       "/order/user/detail",
       verifyToken,
@@ -172,23 +161,16 @@ export class ListRouter {
 
     //cobain reset & forgot password ==================================================================================================
     this.router.post("/resetpassword", this.authController.resetPasswordUser);
-    this.router.post(
-      "/forgot-password/customer",
-      this.authController.forgotPasswordCustomer
-    );
+
     this.router.post(
       "/resetpassword/promotor",
       this.authController.resetPasswordPromotor
     );
-    this.router.post(
-      "/forgot-password/promotor",
-      this.authController.forgotPasswordPromotor
-    );
+
     // ================================================================================================================
 
     // ==========================================================ADMIN COBAIN==================================================
     // Dashboard statistics routes
-    // Route untuk mendapatkan jumlah order berdasarkan promotor_id
     this.router.get(
       "/admin/orders/promotor/:id/count",
       this.adminController.getOrderCountByPromotor
@@ -204,19 +186,6 @@ export class ListRouter {
       this.adminController.getTotalRevenueByPromotor
     );
 
-    // Route untuk mendapatkan total pendapatan berdasarkan promotor_id
-    // this.router.get("/admin/revenue/promotor/:promotor_id", this.adminController.getTotalRevenueByPromotor);
-
-    // this.router.get('/events/active', this.adminController.getActiveEvents);
-    // this.router.get('/events/inactive', this.adminController.getInactiveEvents);
-    // this.router.get('/events/total', this.adminController.getTotalEvents);
-    // this.router.get('/revenue/total', this.adminController.getTotalRevenue);
-
-    // Detailed event statistics
-    // this.router.get('/events/:eventId/statistics', this.adminController.getEventStatistics);
-
-    // Promotor overview
-    // this.router.get('/promotor/:promotorId/events', this.adminController.getPromotorEventOverview)
     // ============================================================================================================================
     //cobain cloudinary
     this.router.patch(
